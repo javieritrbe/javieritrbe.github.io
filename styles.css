@@ -57,7 +57,7 @@ body::before {
 /* ============ iPhone ============ */
 .iphone {
   /* 20% larger, but never taller than the viewport */
-  width: min(384px, 86vw, calc((100vh - 90px) * 0.45));
+  width: min(368px, 86vw, calc((100vh - 90px) * 0.45));
   padding: 11px;
   border-radius: 67px;
   background: var(--phone-body);
