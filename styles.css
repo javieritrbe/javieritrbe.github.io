@@ -9,7 +9,6 @@
   --phone-edge: #4a4433;
   --serif: "Fraunces", Georgia, serif;
   --sans: "Instrument Sans", -apple-system, sans-serif;
-  /* real San Francisco on Apple devices, closest metrics elsewhere */
   --ios-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
   /* iOS app-icon superellipse (squircle) */
   --squircle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0C11 0 0 11 0 50s11 50 50 50 50-11 50-50S89 0 50 0Z'/%3E%3C/svg%3E");
@@ -57,8 +56,7 @@ body::before {
 
 /* ============ iPhone ============ */
 .iphone {
-  width: min(330px, 82vw);
-  aspect-ratio: 330 / 676;
+  width: min(320px, 82vw);
   padding: 9px;
   border-radius: 56px;
   background: var(--phone-body);
@@ -75,272 +73,104 @@ body::before {
 .screen {
   font-family: var(--ios-font);
   position: relative;
-  height: 100%;
+  aspect-ratio: 1206 / 2622; /* exact screenshot proportions */
   border-radius: 47px;
   overflow: hidden;
-  background: #a0a2a8 url("media/wallpaper.webp") center / cover no-repeat;
+  background: #8e9096;
   isolation: isolate;
 }
 
-/* --- status bar --- */
-.statusbar {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 26px 0;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #fff;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
-}
-
-.sb-time { display: inline-flex; align-items: center; gap: 3px; }
-
-.sb-island {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  translate: -50% 0;
-  width: 34%;
-  height: 25px;
-  border-radius: 999px;
-  background: #000;
-}
-
-.sb-right { display: inline-flex; align-items: center; gap: 5px; }
-
-/* --- home screen --- */
+/* the real home screen, exactly as captured */
 .homescreen {
   position: absolute;
   inset: 0;
   z-index: 1;
-  padding: 58px 20px 0;
   transition: transform 0.34s var(--open-ease), opacity 0.3s ease, filter 0.34s ease;
 }
 
-/* --- weather widget --- */
-.widget-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 20px;
-}
-
-.widget-weather {
+.screenshot {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  border-radius: 22px;
-  padding: 13px 15px 11px;
-  color: #fff;
-  background: linear-gradient(180deg, #5a8ac6 0%, #4674ae 100%);
-  box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.35);
+  height: 100%;
+  display: block;
 }
 
-.ww-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
+/* --- hover spotlight --- */
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(8, 8, 10, 0.55);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
 }
 
-.ww-left { display: flex; flex-direction: column; }
+.screen:has(.hotspot:hover) .dim { opacity: 1; }
 
-.ww-city { font-size: 13px; font-weight: 600; }
-
-.ww-temp { font-size: 34px; font-weight: 300; line-height: 1.1; }
-
-.ww-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1px;
-  font-size: 11px;
-  font-weight: 500;
-  padding-top: 2px;
-}
-
-.ww-glyph { font-size: 13px; }
-
-.ww-hours {
-  display: flex;
-  justify-content: space-between;
-}
-
-.ww-h {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  font-size: 10px;
-  font-weight: 500;
-}
-
-.ww-h b { font-weight: 500; opacity: 0.85; }
-.ww-h i { font-style: normal; font-size: 11px; }
-
-.widget-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: #fff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-}
-
-/* --- app grid: 2 centered columns like the real home screen --- */
-.app-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 86px);
-  justify-content: center;
-  column-gap: 26px;
-  row-gap: 15px;
-}
-
-.app {
+/* each hotspot carries an exact-pixel crop of its own icon+label;
+   normally it sits invisibly on top of the identical screenshot pixels,
+   and during the spotlight only the hovered one stays bright */
+.hotspot {
+  position: absolute;
+  z-index: 3;
   appearance: none;
   border: 0;
   background: none;
   padding: 0;
   margin: 0;
-  font: inherit;
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  display: block;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.25));
 }
 
-.app-icon {
-  width: 52px;
-  height: 52px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  -webkit-mask-image: var(--squircle);
-  mask-image: var(--squircle);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  transition: transform 0.15s ease;
-}
-
-.app-icon img {
+.hotspot img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.25s ease, transform 0.18s ease;
+  /* feather the crop edges so the spotlight blends into the dimmed screen */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 8%, #000 93%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 8%, #000 93%, transparent 100%);
+  mask-composite: intersect;
 }
 
-.app:hover .app-icon { transform: scale(1.06); }
-.app:active .app-icon { transform: scale(0.92); }
+.screen:has(.hotspot:hover) .hotspot:not(:hover) img { opacity: 0; }
 
-.app:focus-visible {
+.hotspot:hover img { transform: scale(1.05); }
+.hotspot:active img { transform: scale(0.95); }
+
+.hotspot:focus-visible {
   outline: 2px solid #fff;
-  outline-offset: 3px;
-  border-radius: 16px;
-}
-
-.app-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: #fff;
-  white-space: nowrap;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-}
-
-/* --- search pill --- */
-.search-pill {
-  position: absolute;
-  bottom: 118px;
-  left: 50%;
-  translate: -50% 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #fff;
-  background: rgba(80, 80, 88, 0.4);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-/* --- dock --- */
-.dock {
-  position: absolute;
-  bottom: 24px;
-  left: 14px;
-  right: 14px;
-  height: 82px;
-  border-radius: 30px;
-  background: rgba(120, 120, 128, 0.28);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 42px;
-}
-
-.dock-icon {
-  appearance: none;
-  border: 0;
-  background: none;
-  padding: 0;
-  width: 52px;
-  height: 52px;
-  display: block;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.25));
-  transition: transform 0.15s ease;
-}
-
-.dock-icon .app-icon { width: 100%; height: 100%; }
-
-.dock-icon:hover { transform: scale(1.06); }
-.dock-icon:active { transform: scale(0.92); }
-.dock-icon:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 3px;
+  outline-offset: 2px;
   border-radius: 14px;
 }
 
-/* --- hover spotlight: dim everything except the hovered icon --- */
-.app, .dock-icon, .search-pill, .sb-time, .sb-right, .widget-wrap {
-  transition: opacity 0.25s ease, transform 0.15s ease, filter 0.25s ease;
-}
-
-.screen:has(.app:hover) :is(.app:not(:hover), .dock-icon, .search-pill, .sb-time, .sb-right, .widget-wrap),
-.screen:has(.dock-icon:hover) :is(.app, .search-pill, .sb-time, .sb-right, .widget-wrap),
-.dock:has(.dock-icon:hover) .dock-icon:not(:hover) {
-  opacity: 0.16;
-}
-
-/* --- home indicator --- */
-.home-indicator {
+/* --- dynamic island (physical cutout, drawn above everything) --- */
+.sb-island {
   position: absolute;
-  bottom: 8px;
+  top: 1.6%;
   left: 50%;
   translate: -50% 0;
-  width: 36%;
-  height: 5px;
+  width: 33%;
+  height: 3.55%;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.75);
-  z-index: 4;
+  background: #000;
+  z-index: 6;
+  pointer-events: none;
 }
 
 /* --- app open view --- */
 .appview {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 4;
   border-radius: 47px;
   overflow: hidden;
   transform: scale(0.15);
@@ -360,7 +190,7 @@ body::before {
 
 .appview-close {
   position: absolute;
-  top: 50px;
+  top: 52px;
   right: 16px;
   z-index: 3;
   width: 30px;
@@ -398,7 +228,21 @@ body::before {
   padding: 24px;
 }
 
-.app-placeholder .app-icon { width: 68px; height: 68px; }
+.app-placeholder .ph-icon {
+  width: 68px;
+  height: 68px;
+  -webkit-mask-image: var(--squircle);
+  mask-image: var(--squircle);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.app-placeholder .ph-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
 
 .app-placeholder p {
   margin: 0;

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="preload" as="image" href="media/wallpaper.webp">
+  <link rel="preload" as="image" href="media/homescreen.webp">
 </head>
 <body>
   <main class="layout">
@@ -19,85 +19,35 @@
       <div class="iphone">
         <div class="screen" id="screen">
 
-          <div class="statusbar">
-            <span class="sb-time">15:26
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 8.5 8.5 0 1 0 21 14.5Z"/></svg>
-            </span>
-            <span class="sb-island" aria-hidden="true"></span>
-            <span class="sb-right" aria-hidden="true">
-              <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity="0.35"/></svg>
-              <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 10.8 4.9 8.2a3.7 3.7 0 0 1 5.2 0l-2.6 2.6ZM3 6.3a6.4 6.4 0 0 1 9 0l-1.5 1.5a4.3 4.3 0 0 0-6 0L3 6.3ZM1 4.3l-1-1a9.7 9.7 0 0 1 15 0l-1 1a8.2 8.2 0 0 0-13 0Z" transform="translate(0 -1.2)"/></svg>
-              <svg width="27" height="12" viewBox="0 0 27 12"><rect x="0.5" y="0.5" width="23" height="11" rx="3.5" stroke="currentColor" fill="currentColor" fill-opacity="0.35" stroke-opacity="0.5"/><text x="12" y="9" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">21</text><path d="M25 4v4a2.2 2.2 0 0 0 0-4Z" fill="currentColor" opacity="0.4"/></svg>
-            </span>
-          </div>
-
           <div class="homescreen" id="homescreen">
+            <img class="screenshot" src="media/homescreen.webp" alt="Javier's iPhone home screen" width="900" height="1957" fetchpriority="high">
 
-            <div class="widget-wrap" aria-hidden="true">
-              <div class="widget-weather">
-                <div class="ww-top">
-                  <div class="ww-left">
-                    <span class="ww-city">San Francisco</span>
-                    <span class="ww-temp">20&deg;</span>
-                  </div>
-                  <div class="ww-right">
-                    <span class="ww-glyph">&#9728;&#65039;</span>
-                    <span class="ww-cond">Sunny</span>
-                    <span class="ww-hilo">H:20&deg; L:14&deg;</span>
-                  </div>
-                </div>
-                <div class="ww-hours">
-                  <span class="ww-h"><b>16</b><i>&#9728;&#65039;</i>19&deg;</span>
-                  <span class="ww-h"><b>17</b><i>&#9728;&#65039;</i>19&deg;</span>
-                  <span class="ww-h"><b>18</b><i>&#9728;&#65039;</i>19&deg;</span>
-                  <span class="ww-h"><b>19</b><i>&#9728;&#65039;</i>18&deg;</span>
-                  <span class="ww-h"><b>19:43</b><i>&#127749;</i>17&deg;</span>
-                  <span class="ww-h"><b>20</b><i>&#127769;</i>17&deg;</span>
-                </div>
-              </div>
-              <div class="widget-label">Weather</div>
-            </div>
+            <div class="dim" aria-hidden="true"></div>
 
-            <div class="app-grid">
-              <button class="app" data-app="bereal">
-                <span class="app-icon"><img src="media/icon-bereal.webp" alt="" width="120" height="120"></span>
-                <span class="app-label">BeReal.</span>
-              </button>
-              <button class="app" data-app="retro">
-                <span class="app-icon"><img src="media/icon-retro.webp" alt="" width="120" height="120"></span>
-                <span class="app-label">Retro</span>
-              </button>
-              <button class="app" data-app="corner">
-                <span class="app-icon"><img src="media/icon-corner.webp" alt="" width="120" height="120"></span>
-                <span class="app-label">corner maps</span>
-              </button>
-              <button class="app" data-app="gold">
-                <span class="app-icon"><img src="media/icon-gold.webp" alt="" width="120" height="120"></span>
-                <span class="app-label">GOLD</span>
-              </button>
-              <a class="app" href="https://www.linkedin.com/in/javieriturbe/" target="_blank" rel="noopener">
-                <span class="app-icon"><img src="media/icon-linkedin.webp" alt="" width="120" height="120"></span>
-                <span class="app-label">LinkedIn</span>
-              </a>
-              <button class="app" data-app="expense">
-                <span class="app-icon"><img src="media/icon-expense.webp" alt="" width="120" height="120"></span>
-                <span class="app-label">ExpenseTracker</span>
-              </button>
-            </div>
-
-            <div class="search-pill" aria-hidden="true">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              Search
-            </div>
-
-            <nav class="dock" aria-label="Dock">
-              <a class="dock-icon" href="mailto:javier.hick1@gmail.com" aria-label="Email">
-                <span class="app-icon"><img src="media/icon-mail.webp" alt="" width="120" height="120"></span>
-              </a>
-              <button class="dock-icon" data-app="camera" aria-label="Camera">
-                <span class="app-icon"><img src="media/icon-camera.webp" alt="" width="120" height="120"></span>
-              </button>
-            </nav>
+            <button class="hotspot" data-app="bereal" aria-label="BeReal" style="left:28.51%; top:32.53%; width:20.24%; height:10.91%">
+              <img src="media/hs-bereal.webp" alt="">
+            </button>
+            <button class="hotspot" data-app="retro" aria-label="Retro" style="left:51.69%; top:32.53%; width:20.13%; height:10.91%">
+              <img src="media/hs-retro.webp" alt="">
+            </button>
+            <button class="hotspot" data-app="corner" aria-label="corner maps" style="left:28.51%; top:44.04%; width:20.24%; height:10.91%">
+              <img src="media/hs-corner.webp" alt="">
+            </button>
+            <button class="hotspot" data-app="gold" aria-label="GOLD" style="left:51.69%; top:44.04%; width:20.13%; height:10.91%">
+              <img src="media/hs-gold.webp" alt="">
+            </button>
+            <a class="hotspot" href="https://www.linkedin.com/in/javieriturbe/" target="_blank" rel="noopener" aria-label="LinkedIn" style="left:28.51%; top:55.56%; width:20.24%; height:10.91%">
+              <img src="media/hs-linkedin.webp" alt="">
+            </a>
+            <button class="hotspot" data-app="expense" aria-label="ExpenseTracker" style="left:49.51%; top:55.56%; width:24.48%; height:10.91%">
+              <img src="media/hs-expense.webp" alt="">
+            </button>
+            <a class="hotspot" href="mailto:javier.hick1@gmail.com" aria-label="Email" style="left:29.60%; top:87.84%; width:18.82%; height:8.66%">
+              <img src="media/hs-mail.webp" alt="">
+            </a>
+            <button class="hotspot" data-app="camera" aria-label="Camera" style="left:51.90%; top:87.84%; width:18.82%; height:8.66%">
+              <img src="media/hs-camera.webp" alt="">
+            </button>
           </div>
 
           <!-- App open view: video slot per app, placeholder until recordings exist -->
@@ -108,7 +58,7 @@
             <div class="appview-body" id="appview-body"></div>
           </div>
 
-          <div class="home-indicator" aria-hidden="true"></div>
+          <span class="sb-island" aria-hidden="true"></span>
         </div>
       </div>
     </section>

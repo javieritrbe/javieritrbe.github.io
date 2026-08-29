@@ -36,7 +36,12 @@ function buildAppScreen(name) {
   }
   const ph = document.createElement("div");
   ph.className = `app-placeholder ${app.placeholderClass}`;
-  const icon = document.querySelector(`[data-app="${name}"] .app-icon`).cloneNode(true);
+  const icon = document.createElement("span");
+  icon.className = "ph-icon";
+  const img = document.createElement("img");
+  img.src = `media/icon-${name}.webp`;
+  img.alt = "";
+  icon.appendChild(img);
   ph.appendChild(icon);
   const note = document.createElement("p");
   note.textContent = "Screen recording coming soon";
@@ -48,8 +53,7 @@ function open(name, btn) {
   openApp = name;
 
   // Grow the app view out of the tapped icon's position
-  const iconEl = btn.querySelector(".app-icon") || btn;
-  const iconRect = iconEl.getBoundingClientRect();
+  const iconRect = btn.getBoundingClientRect();
   const screenRect = screen.getBoundingClientRect();
   const ox = ((iconRect.left + iconRect.width / 2 - screenRect.left) / screenRect.width) * 100;
   const oy = ((iconRect.top + iconRect.height / 2 - screenRect.top) / screenRect.height) * 100;
@@ -88,7 +92,7 @@ function close() {
   );
 }
 
-document.querySelectorAll("button[data-app]").forEach((btn) => {
+document.querySelectorAll(".hotspot[data-app]").forEach((btn) => {
   btn.addEventListener("click", () => {
     const name = btn.dataset.app;
     if (openApp === name) return;
