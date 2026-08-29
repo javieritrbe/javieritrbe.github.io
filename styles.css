@@ -1,89 +1,383 @@
+/* ============ Theme ============ */
 :root {
-  --bg: #ffffff;
-  --text: #1a1a1a;
-  --muted: #666666;
-  --border: #e5e5e5;
-  --accent: #0a66ff;
+  --bg: #35301f;
+  --bg-deep: #2b2718;
+  --text: #ece5d3;
+  --muted: #a99f86;
+  --faint: #7d745d;
+  --phone-body: #17140d;
+  --phone-edge: #4a4433;
+  --wallpaper-a: #241f13;
+  --wallpaper-b: #3a3320;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Instrument Sans", -apple-system, sans-serif;
+  --open-ease: cubic-bezier(0.32, 0.72, 0.22, 1);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+
+html { height: 100%; }
 
 body {
-  margin: 0 auto;
-  max-width: 720px;
-  padding: 0 24px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: var(--text);
-  background: var(--bg);
-  line-height: 1.6;
-}
-
-.hero {
-  padding: 96px 0 48px;
-}
-
-.hero h1 {
   margin: 0;
-  font-size: 2.5rem;
+  min-height: 100%;
+  font-family: var(--sans);
+  color: var(--text);
+  line-height: 1.65;
+  background:
+    radial-gradient(120% 90% at 20% 0%, #3e3823 0%, var(--bg) 45%, var(--bg-deep) 100%);
+  background-attachment: fixed;
 }
 
-.tagline {
-  color: var(--muted);
-  font-size: 1.125rem;
+/* subtle grain so the flat brown has texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-section {
-  margin-bottom: 64px;
-}
-
-h2 {
-  font-size: 1.25rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 8px;
-}
-
-.project-grid {
+/* ============ Layout ============ */
+.layout {
+  min-height: 100vh;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 48px 32px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(40px, 7vw, 96px);
+  align-items: center;
 }
 
-.project-card {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
+.phone-col { display: flex; justify-content: center; }
+
+/* ============ iPhone ============ */
+.iphone {
+  width: min(330px, 82vw);
+  aspect-ratio: 330 / 676;
+  padding: 9px;
+  border-radius: 56px;
+  background: var(--phone-body);
+  box-shadow:
+    inset 0 0 0 1.5px var(--phone-edge),
+    inset 0 0 0 4px #000,
+    0 30px 60px -18px rgba(0, 0, 0, 0.55),
+    0 8px 20px -8px rgba(0, 0, 0, 0.4);
 }
 
-.project-card h3 {
-  margin-top: 0;
+.screen {
+  position: relative;
+  height: 100%;
+  border-radius: 47px;
+  overflow: hidden;
+  background:
+    radial-gradient(140% 100% at 50% 0%, var(--wallpaper-b) 0%, var(--wallpaper-a) 70%);
+  isolation: isolate;
 }
 
-.project-card p {
+/* --- status bar --- */
+.statusbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 26px 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.sb-island {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  translate: -50% 0;
+  width: 34%;
+  height: 25px;
+  border-radius: 999px;
+  background: #000;
+}
+
+.sb-right { display: inline-flex; align-items: center; gap: 5px; }
+
+/* --- home screen --- */
+.homescreen {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 66px 20px 0;
+  transition: transform 0.34s var(--open-ease), opacity 0.3s ease, filter 0.34s ease;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 18px;
+}
+
+.app {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: 0 4px 10px -3px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.15s ease;
+}
+
+.app-icon svg { width: 27px; height: 27px; }
+
+.app:hover .app-icon { transform: scale(1.06); }
+.app:active .app-icon { transform: scale(0.92); }
+
+.app:focus-visible .app-icon {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.app-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(236, 229, 211, 0.9);
+}
+
+.icon-sage       { background: linear-gradient(145deg, #7ea26a, #45663a); }
+.icon-reranker   { background: linear-gradient(145deg, #5f8bb5, #33506f); }
+.icon-playground { background: linear-gradient(145deg, #cf8a4e, #94542a); }
+.icon-gold       { background: linear-gradient(145deg, #d4af5a, #91702d); }
+
+/* --- search pill --- */
+.search-pill {
+  position: absolute;
+  bottom: 118px;
+  left: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(236, 229, 211, 0.75);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* --- dock --- */
+.dock {
+  position: absolute;
+  bottom: 24px;
+  left: 14px;
+  right: 14px;
+  height: 82px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.dock-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: 0 4px 10px -3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.15s ease;
+}
+
+.dock-icon svg { width: 27px; height: 27px; }
+.dock-icon:hover { transform: scale(1.06); }
+.dock-icon:active { transform: scale(0.92); }
+.dock-icon:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+
+.dock-github   { background: linear-gradient(145deg, #4a4a52, #1f1f26); }
+.dock-linkedin { background: linear-gradient(145deg, #2e7bbf, #145087); }
+.dock-mail     { background: linear-gradient(145deg, #58b4e8, #2470ad); }
+
+/* --- home indicator --- */
+.home-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  translate: -50% 0;
+  width: 36%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  z-index: 4;
+}
+
+/* --- app open view --- */
+.appview {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 47px;
+  overflow: hidden;
+  transform: scale(0.15);
+  opacity: 0;
+  transition: transform 0.34s var(--open-ease), opacity 0.26s ease;
+  will-change: transform, opacity;
+}
+
+.appview.is-open { transform: scale(1); opacity: 1; }
+
+/* home screen recedes behind the opening app, iOS-style */
+.screen.app-is-open .homescreen {
+  transform: scale(0.92);
+  opacity: 0.4;
+  filter: blur(2px);
+}
+
+.appview-close {
+  position: absolute;
+  top: 50px;
+  right: 16px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.appview-close:hover { transform: scale(1.1); }
+.appview-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.appview-body { position: absolute; inset: 0; }
+
+.appview-body video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* placeholder "app screen" until real recordings are added */
+.app-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #fff;
+  text-align: center;
+  padding: 24px;
+}
+
+.app-placeholder .app-icon { width: 68px; height: 68px; border-radius: 17px; }
+.app-placeholder .app-icon svg { width: 34px; height: 34px; }
+
+.app-placeholder p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 200px;
+  line-height: 1.5;
+}
+
+.ph-sage       { background: linear-gradient(160deg, #55763f, #2b3d20); }
+.ph-reranker   { background: linear-gradient(160deg, #40628a, #1f314f); }
+.ph-playground { background: linear-gradient(160deg, #a3652f, #5c3517); }
+.ph-gold       { background: linear-gradient(160deg, #a8853c, #59431a); }
+
+/* ============ Text column ============ */
+.panels { display: grid; }
+
+.panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(10px);
+  visibility: hidden;
+  transition: opacity 0.28s ease, transform 0.28s ease, visibility 0s 0.28s;
+}
+
+.panel.is-active {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity 0.3s ease 0.08s, transform 0.3s ease 0.08s, visibility 0s;
+}
+
+.panel h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px;
+}
+
+.panel p {
+  margin: 0 0 18px;
+  font-size: 1.06rem;
   color: var(--muted);
-  margin-bottom: 0;
+  max-width: 46ch;
 }
+
+.panel strong { color: var(--text); font-weight: 600; }
 
 .socials {
-  list-style: none;
-  padding: 0;
   display: flex;
-  gap: 24px;
+  gap: 26px;
+  margin-top: 44px;
 }
 
 .socials a {
-  color: var(--accent);
-  text-decoration: none;
+  color: var(--faint);
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
-.socials a:hover {
-  text-decoration: underline;
+.socials a:hover { color: var(--text); transform: translateY(-2px); }
+.socials a:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 4px; }
+
+/* ============ Responsive ============ */
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 40px 24px 64px;
+    align-items: start;
+  }
+  .text-col { text-align: center; }
+  .panel p { margin-inline: auto; }
+  .socials { justify-content: center; }
 }
 
-footer {
-  padding: 32px 0;
-  color: var(--muted);
-  font-size: 0.875rem;
-  border-top: 1px solid var(--border);
+/* ============ Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
