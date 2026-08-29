@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="preload" as="image" href="media/wallpaper.webp">
 </head>
 <body>
   <main class="layout">
@@ -19,42 +20,68 @@
         <div class="screen" id="screen">
 
           <div class="statusbar">
-            <span class="sb-time">9:41</span>
+            <span class="sb-time">15:26
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 8.5 8.5 0 1 0 21 14.5Z"/></svg>
+            </span>
             <span class="sb-island" aria-hidden="true"></span>
             <span class="sb-right" aria-hidden="true">
-              <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
-              <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/><path d="M23 4v4a2.2 2.2 0 0 0 0-4Z" fill="currentColor" opacity="0.4"/></svg>
+              <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity="0.35"/></svg>
+              <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor"><path d="M7.5 10.8 4.9 8.2a3.7 3.7 0 0 1 5.2 0l-2.6 2.6ZM3 6.3a6.4 6.4 0 0 1 9 0l-1.5 1.5a4.3 4.3 0 0 0-6 0L3 6.3ZM1 4.3l-1-1a9.7 9.7 0 0 1 15 0l-1 1a8.2 8.2 0 0 0-13 0Z" transform="translate(0 -1.2)"/></svg>
+              <svg width="27" height="12" viewBox="0 0 27 12"><rect x="0.5" y="0.5" width="23" height="11" rx="3.5" stroke="currentColor" fill="currentColor" fill-opacity="0.35" stroke-opacity="0.5"/><text x="12" y="9" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">21</text><path d="M25 4v4a2.2 2.2 0 0 0 0-4Z" fill="currentColor" opacity="0.4"/></svg>
             </span>
           </div>
 
           <div class="homescreen" id="homescreen">
+
+            <div class="widget-wrap" aria-hidden="true">
+              <div class="widget-weather">
+                <div class="ww-top">
+                  <div class="ww-left">
+                    <span class="ww-city">San Francisco</span>
+                    <span class="ww-temp">20&deg;</span>
+                  </div>
+                  <div class="ww-right">
+                    <span class="ww-glyph">&#9728;&#65039;</span>
+                    <span class="ww-cond">Sunny</span>
+                    <span class="ww-hilo">H:20&deg; L:14&deg;</span>
+                  </div>
+                </div>
+                <div class="ww-hours">
+                  <span class="ww-h"><b>16</b><i>&#9728;&#65039;</i>19&deg;</span>
+                  <span class="ww-h"><b>17</b><i>&#9728;&#65039;</i>19&deg;</span>
+                  <span class="ww-h"><b>18</b><i>&#9728;&#65039;</i>19&deg;</span>
+                  <span class="ww-h"><b>19</b><i>&#9728;&#65039;</i>18&deg;</span>
+                  <span class="ww-h"><b>19:43</b><i>&#127749;</i>17&deg;</span>
+                  <span class="ww-h"><b>20</b><i>&#127769;</i>17&deg;</span>
+                </div>
+              </div>
+              <div class="widget-label">Weather</div>
+            </div>
+
             <div class="app-grid">
-              <button class="app" data-app="sage">
-                <span class="app-icon icon-sage" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C7 21 4 17.5 4 13 4 7 9 3.5 19 3c.5 10-2.5 18-7 18Z"/><path d="M12 21c0-6 2-10 5-13"/></svg>
-                </span>
-                <span class="app-label">Sage</span>
+              <button class="app" data-app="bereal">
+                <span class="app-icon"><img src="media/icon-bereal.webp" alt="" width="120" height="120"></span>
+                <span class="app-label">BeReal.</span>
               </button>
-
-              <button class="app" data-app="reranker">
-                <span class="app-icon icon-reranker" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 4 4 7m3-3 3 3"/><path d="M17 20V4m0 16 3-3m-3 3-3-3"/></svg>
-                </span>
-                <span class="app-label">Reranker</span>
+              <button class="app" data-app="retro">
+                <span class="app-icon"><img src="media/icon-retro.webp" alt="" width="120" height="120"></span>
+                <span class="app-label">Retro</span>
               </button>
-
-              <button class="app" data-app="playground">
-                <span class="app-icon icon-playground" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 3l7 4v6M12 3 5 7v6m7 8v-3m0 3 7-4v-3m-7 7-7-4v-3m7-1 7-4M12 13 5 9m7 4v4"/></svg>
-                </span>
-                <span class="app-label">Playground</span>
+              <button class="app" data-app="corner">
+                <span class="app-icon"><img src="media/icon-corner.webp" alt="" width="120" height="120"></span>
+                <span class="app-label">corner maps</span>
               </button>
-
               <button class="app" data-app="gold">
-                <span class="app-icon icon-gold" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h6l2 5H4l2-5Z"/><path d="M12 8h6l2 5h-10l2-5Z" opacity=".6"/><path d="M9 13h6l2 5H7l2-5Z"/></svg>
-                </span>
+                <span class="app-icon"><img src="media/icon-gold.webp" alt="" width="120" height="120"></span>
                 <span class="app-label">GOLD</span>
+              </button>
+              <a class="app" href="https://www.linkedin.com/in/javieriturbe/" target="_blank" rel="noopener">
+                <span class="app-icon"><img src="media/icon-linkedin.webp" alt="" width="120" height="120"></span>
+                <span class="app-label">LinkedIn</span>
+              </a>
+              <button class="app" data-app="expense">
+                <span class="app-icon"><img src="media/icon-expense.webp" alt="" width="120" height="120"></span>
+                <span class="app-label">ExpenseTracker</span>
               </button>
             </div>
 
@@ -63,16 +90,13 @@
               Search
             </div>
 
-            <nav class="dock" aria-label="Contact links">
-              <a class="dock-icon dock-github" href="https://github.com/javieritrbe" target="_blank" rel="noopener" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5A10.5 10.5 0 0 0 8.7 21.96c.53.1.72-.23.72-.5v-1.98c-2.92.63-3.54-1.24-3.54-1.24-.48-1.21-1.17-1.54-1.17-1.54-.95-.65.07-.64.07-.64 1.06.08 1.61 1.08 1.61 1.08.94 1.6 2.46 1.14 3.06.87.1-.68.37-1.14.66-1.4-2.33-.27-4.79-1.17-4.79-5.19 0-1.15.41-2.09 1.08-2.82-.11-.27-.47-1.34.1-2.78 0 0 .89-.28 2.9 1.08a10.1 10.1 0 0 1 5.29 0c2-1.36 2.89-1.08 2.89-1.08.58 1.44.22 2.51.11 2.78.67.73 1.08 1.67 1.08 2.82 0 4.03-2.46 4.92-4.8 5.18.38.32.71.96.71 1.94v2.88c0 .28.19.6.73.5A10.5 10.5 0 0 0 12 1.5Z"/></svg>
+            <nav class="dock" aria-label="Dock">
+              <a class="dock-icon" href="mailto:javier.hick1@gmail.com" aria-label="Email">
+                <span class="app-icon"><img src="media/icon-mail.webp" alt="" width="120" height="120"></span>
               </a>
-              <a class="dock-icon dock-linkedin" href="https://www.linkedin.com/in/javieriturbe/" target="_blank" rel="noopener" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.49 2.49 0 1 1 0 4.98 2.49 2.49 0 0 1 0-4.98ZM3 9.75h4v10.75H3V9.75Zm6.5 0h3.83v1.47h.06c.53-1 1.84-2.06 3.78-2.06 4.04 0 4.79 2.66 4.79 6.12v5.22h-4v-4.63c0-1.1-.02-2.52-1.54-2.52-1.54 0-1.77 1.2-1.77 2.44v4.71h-4V9.75Z"/></svg>
-              </a>
-              <a class="dock-icon dock-mail" href="mailto:javier.hick1@gmail.com" aria-label="Email">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
-              </a>
+              <button class="dock-icon" data-app="camera" aria-label="Camera">
+                <span class="app-icon"><img src="media/icon-camera.webp" alt="" width="120" height="120"></span>
+              </button>
             </nav>
           </div>
 
@@ -96,29 +120,38 @@
         <div class="panel is-active" data-panel="default">
           <h1>Javier Iturbe</h1>
           <p>I'm the founder of <strong>Sage Labs</strong> — and I spend most of my time building products and shipping fast.</p>
-          <p>I think what someone builds says a lot about them, so here's my home screen: each app is something I've made.</p>
+          <p>I think our Home Screens say a lot about us, so here's mine — each app is something I've built or worked on.</p>
           <p>Feel free to <strong>tap around</strong> or <strong>get in touch</strong>, and thanks for stopping by.</p>
         </div>
 
-        <div class="panel" data-panel="sage">
-          <h1>Sage</h1>
-          <p>A quick description of Sage Labs goes here — what it does, who it's for, and why you started it.</p>
-          <p>Second paragraph for the interesting details: the tech, the traction, the story.</p>
+        <div class="panel" data-panel="bereal">
+          <h1>BeReal.</h1>
+          <p>A quick description of your BeReal work goes here — what you did, when, and what's interesting about it.</p>
         </div>
 
-        <div class="panel" data-panel="reranker">
-          <h1>Reranker</h1>
-          <p>A quick description of the search reranker goes here — the problem it solves and what's clever about it.</p>
+        <div class="panel" data-panel="retro">
+          <h1>Retro</h1>
+          <p>A quick description of your Retro work goes here — the story, the role, the impact.</p>
         </div>
 
-        <div class="panel" data-panel="playground">
-          <h1>Playground</h1>
-          <p>A quick description of the agent playground goes here — what you can do with it and why it exists.</p>
+        <div class="panel" data-panel="corner">
+          <h1>corner maps</h1>
+          <p>A quick description of corner maps goes here — what it is and what you built.</p>
         </div>
 
         <div class="panel" data-panel="gold">
           <h1>GOLD</h1>
           <p>A quick description of GOLD goes here — what it is and what makes it worth tapping on.</p>
+        </div>
+
+        <div class="panel" data-panel="expense">
+          <h1>ExpenseTracker</h1>
+          <p>A quick description of ExpenseTracker goes here — the problem it solves and how it works.</p>
+        </div>
+
+        <div class="panel" data-panel="camera">
+          <h1>Camera</h1>
+          <p>A fun spot for photos — maybe a mini gallery or a hello. Placeholder for now.</p>
         </div>
 
       </div>

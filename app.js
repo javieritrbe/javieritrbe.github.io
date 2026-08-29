@@ -1,31 +1,13 @@
-// App config — one entry per home-screen app.
-// To add a screen recording: set `video` to the file path (e.g. "media/sage.mp4")
+// App config — one entry per tappable home-screen app.
+// To add a screen recording: set `video` to the file path (e.g. "media/bereal.mp4")
 // and it will play inside the phone instead of the placeholder.
 const APPS = {
-  sage: {
-    video: null,
-    placeholderClass: "ph-sage",
-    iconClass: "icon-sage",
-    note: "Screen recording coming soon",
-  },
-  reranker: {
-    video: null,
-    placeholderClass: "ph-reranker",
-    iconClass: "icon-reranker",
-    note: "Screen recording coming soon",
-  },
-  playground: {
-    video: null,
-    placeholderClass: "ph-playground",
-    iconClass: "icon-playground",
-    note: "Screen recording coming soon",
-  },
-  gold: {
-    video: null,
-    placeholderClass: "ph-gold",
-    iconClass: "icon-gold",
-    note: "Screen recording coming soon",
-  },
+  bereal:  { video: null, placeholderClass: "ph-bereal" },
+  retro:   { video: null, placeholderClass: "ph-retro" },
+  corner:  { video: null, placeholderClass: "ph-corner" },
+  gold:    { video: null, placeholderClass: "ph-gold" },
+  expense: { video: null, placeholderClass: "ph-expense" },
+  camera:  { video: null, placeholderClass: "ph-camera" },
 };
 
 const screen = document.getElementById("screen");
@@ -54,18 +36,19 @@ function buildAppScreen(name) {
   }
   const ph = document.createElement("div");
   ph.className = `app-placeholder ${app.placeholderClass}`;
-  const iconSvg = document.querySelector(`[data-app="${name}"] .app-icon`).cloneNode(true);
-  ph.appendChild(iconSvg);
+  const icon = document.querySelector(`[data-app="${name}"] .app-icon`).cloneNode(true);
+  ph.appendChild(icon);
   const note = document.createElement("p");
-  note.textContent = app.note;
+  note.textContent = "Screen recording coming soon";
   ph.appendChild(note);
   return ph;
 }
 
-function open(name, iconEl) {
+function open(name, btn) {
   openApp = name;
 
   // Grow the app view out of the tapped icon's position
+  const iconEl = btn.querySelector(".app-icon") || btn;
   const iconRect = iconEl.getBoundingClientRect();
   const screenRect = screen.getBoundingClientRect();
   const ox = ((iconRect.left + iconRect.width / 2 - screenRect.left) / screenRect.width) * 100;
@@ -105,11 +88,11 @@ function close() {
   );
 }
 
-document.querySelectorAll(".app").forEach((btn) => {
+document.querySelectorAll("button[data-app]").forEach((btn) => {
   btn.addEventListener("click", () => {
     const name = btn.dataset.app;
     if (openApp === name) return;
-    open(name, btn.querySelector(".app-icon"));
+    open(name, btn);
   });
 });
 

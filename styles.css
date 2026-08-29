@@ -7,8 +7,6 @@
   --faint: #7d745d;
   --phone-body: #17140d;
   --phone-edge: #4a4433;
-  --wallpaper-a: #241f13;
-  --wallpaper-b: #3a3320;
   --serif: "Fraunces", Georgia, serif;
   --sans: "Instrument Sans", -apple-system, sans-serif;
   /* real San Francisco on Apple devices, closest metrics elsewhere */
@@ -80,8 +78,7 @@ body::before {
   height: 100%;
   border-radius: 47px;
   overflow: hidden;
-  background:
-    radial-gradient(140% 100% at 50% 0%, var(--wallpaper-b) 0%, var(--wallpaper-a) 70%);
+  background: #a0a2a8 url("media/wallpaper.webp") center / cover no-repeat;
   isolation: isolate;
 }
 
@@ -95,8 +92,11 @@ body::before {
   padding: 16px 26px 0;
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--text);
+  color: #fff;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
 }
+
+.sb-time { display: inline-flex; align-items: center; gap: 3px; }
 
 .sb-island {
   position: absolute;
@@ -116,14 +116,84 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: 1;
-  padding: 66px 20px 0;
+  padding: 58px 20px 0;
   transition: transform 0.34s var(--open-ease), opacity 0.3s ease, filter 0.34s ease;
 }
 
+/* --- weather widget --- */
+.widget-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.widget-weather {
+  width: 100%;
+  border-radius: 22px;
+  padding: 13px 15px 11px;
+  color: #fff;
+  background: linear-gradient(180deg, #5a8ac6 0%, #4674ae 100%);
+  box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.35);
+}
+
+.ww-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.ww-left { display: flex; flex-direction: column; }
+
+.ww-city { font-size: 13px; font-weight: 600; }
+
+.ww-temp { font-size: 34px; font-weight: 300; line-height: 1.1; }
+
+.ww-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  font-size: 11px;
+  font-weight: 500;
+  padding-top: 2px;
+}
+
+.ww-glyph { font-size: 13px; }
+
+.ww-hours {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ww-h {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.ww-h b { font-weight: 500; opacity: 0.85; }
+.ww-h i { font-style: normal; font-size: 11px; }
+
+.widget-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* --- app grid: 2 centered columns like the real home screen --- */
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  row-gap: 18px;
+  grid-template-columns: repeat(2, 86px);
+  justify-content: center;
+  column-gap: 26px;
+  row-gap: 15px;
 }
 
 .app {
@@ -133,38 +203,42 @@ body::before {
   padding: 0;
   margin: 0;
   font: inherit;
-  color: var(--text);
+  color: #fff;
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.25));
 }
 
 .app-icon {
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
-  color: #fff;
+  overflow: hidden;
   -webkit-mask-image: var(--squircle);
   mask-image: var(--squircle);
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
   transition: transform 0.15s ease;
 }
 
-.app { filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.35)); }
-
-.app-icon svg { width: 27px; height: 27px; }
+.app-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
 
 .app:hover .app-icon { transform: scale(1.06); }
 .app:active .app-icon { transform: scale(0.92); }
 
 .app:focus-visible {
-  outline: 2px solid var(--text);
+  outline: 2px solid #fff;
   outline-offset: 3px;
   border-radius: 16px;
 }
@@ -172,15 +246,11 @@ body::before {
 .app-label {
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  color: rgba(236, 229, 211, 0.92);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.01em;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
-
-.icon-sage       { background: linear-gradient(145deg, #7ea26a, #45663a); }
-.icon-reranker   { background: linear-gradient(145deg, #5f8bb5, #33506f); }
-.icon-playground { background: linear-gradient(145deg, #cf8a4e, #94542a); }
-.icon-gold       { background: linear-gradient(145deg, #d4af5a, #91702d); }
 
 /* --- search pill --- */
 .search-pill {
@@ -195,8 +265,10 @@ body::before {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 500;
-  color: rgba(236, 229, 211, 0.75);
-  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+  background: rgba(80, 80, 88, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /* --- dock --- */
@@ -207,55 +279,49 @@ body::before {
   right: 14px;
   height: 82px;
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(120, 120, 128, 0.28);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 42px;
 }
 
 .dock-icon {
-  width: 54px;
-  height: 54px;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  -webkit-mask-image: var(--squircle);
-  mask-image: var(--squircle);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  width: 52px;
+  height: 52px;
+  display: block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.25));
   transition: transform 0.15s ease;
 }
 
-.dock-icon svg { width: 27px; height: 27px; }
+.dock-icon .app-icon { width: 100%; height: 100%; }
+
 .dock-icon:hover { transform: scale(1.06); }
 .dock-icon:active { transform: scale(0.92); }
 .dock-icon:focus-visible {
-  outline: 2px solid var(--text);
+  outline: 2px solid #fff;
   outline-offset: 3px;
-  -webkit-mask-image: none;
-  mask-image: none;
   border-radius: 14px;
 }
 
-.dock-github   { background: linear-gradient(145deg, #4a4a52, #1f1f26); }
-.dock-linkedin { background: linear-gradient(145deg, #2e7bbf, #145087); }
-.dock-mail     { background: linear-gradient(145deg, #58b4e8, #2470ad); }
-
 /* --- hover spotlight: dim everything except the hovered icon --- */
-.app, .dock-icon, .search-pill, .sb-time, .sb-right {
+.app, .dock-icon, .search-pill, .sb-time, .sb-right, .widget-wrap {
   transition: opacity 0.25s ease, transform 0.15s ease, filter 0.25s ease;
 }
 
-.screen:has(.app:hover) :is(.app:not(:hover), .dock-icon, .search-pill, .sb-time, .sb-right),
-.screen:has(.dock-icon:hover) :is(.app, .search-pill, .sb-time, .sb-right),
+.screen:has(.app:hover) :is(.app:not(:hover), .dock-icon, .search-pill, .sb-time, .sb-right, .widget-wrap),
+.screen:has(.dock-icon:hover) :is(.app, .search-pill, .sb-time, .sb-right, .widget-wrap),
 .dock:has(.dock-icon:hover) .dock-icon:not(:hover) {
-  opacity: 0.28;
+  opacity: 0.16;
 }
-
-.screen:has(.app:hover) .app:not(:hover) { filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0)); }
 
 /* --- home indicator --- */
 .home-indicator {
@@ -266,7 +332,7 @@ body::before {
   width: 36%;
   height: 5px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.75);
   z-index: 4;
 }
 
@@ -332,22 +398,24 @@ body::before {
   padding: 24px;
 }
 
-.app-placeholder .app-icon { width: 68px; height: 68px; border-radius: 17px; }
-.app-placeholder .app-icon svg { width: 34px; height: 34px; }
+.app-placeholder .app-icon { width: 68px; height: 68px; }
 
 .app-placeholder p {
   margin: 0;
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   max-width: 200px;
   line-height: 1.5;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.ph-sage       { background: linear-gradient(160deg, #55763f, #2b3d20); }
-.ph-reranker   { background: linear-gradient(160deg, #40628a, #1f314f); }
-.ph-playground { background: linear-gradient(160deg, #a3652f, #5c3517); }
-.ph-gold       { background: linear-gradient(160deg, #a8853c, #59431a); }
+.ph-bereal  { background: linear-gradient(160deg, #2a2a2e, #000); }
+.ph-retro   { background: linear-gradient(160deg, #b49b5e, #6f5c33); }
+.ph-corner  { background: linear-gradient(160deg, #86b4e6, #4d78ab); }
+.ph-gold    { background: linear-gradient(160deg, #c3d13e, #79851a); }
+.ph-expense { background: linear-gradient(160deg, #7a5cd9, #43309a); }
+.ph-camera  { background: linear-gradient(160deg, #97979e, #4d4d55); }
 
 /* ============ Text column ============ */
 .panels { display: grid; }
