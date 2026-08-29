@@ -56,9 +56,10 @@ body::before {
 
 /* ============ iPhone ============ */
 .iphone {
-  width: min(320px, 82vw);
-  padding: 9px;
-  border-radius: 56px;
+  /* 20% larger, but never taller than the viewport */
+  width: min(384px, 86vw, calc((100vh - 90px) * 0.45));
+  padding: 11px;
+  border-radius: 67px;
   background: var(--phone-body);
   transition: transform 0.5s var(--open-ease);
   box-shadow:
@@ -74,7 +75,7 @@ body::before {
   font-family: var(--ios-font);
   position: relative;
   aspect-ratio: 1206 / 2622; /* exact screenshot proportions */
-  border-radius: 47px;
+  border-radius: 56px;
   overflow: hidden;
   background: #8e9096;
   isolation: isolate;
@@ -140,6 +141,8 @@ body::before {
 .hotspot:hover img { opacity: 1; }
 
 .hotspot:active img { transform: scale(0.95); }
+.hotspot--static { cursor: default; }
+.hotspot--static:active img { transform: none; }
 
 .hotspot:focus-visible {
   outline: 2px solid #fff;
@@ -166,7 +169,7 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: 4;
-  border-radius: 47px;
+  border-radius: 56px;
   overflow: hidden;
   transform: scale(0.15);
   opacity: 0;
