@@ -56,29 +56,45 @@ body::before {
 
 /* ============ iPhone ============ */
 .iphone {
-  /* 20% larger, but never taller than the viewport */
-  width: min(368px, 86vw, calc((100vh - 90px) * 0.45));
-  padding: 11px;
-  border-radius: 67px;
-  background: var(--phone-body);
+  position: relative;
+  width: min(368px, 86vw, calc((100vh - 90px) * 0.489));
+  aspect-ratio: 900 / 1840; /* frame mockup proportions */
   transition: transform 0.5s var(--open-ease);
-  box-shadow:
-    inset 0 0 0 1.5px var(--phone-edge),
-    inset 0 0 0 4px #000,
-    0 34px 70px -24px rgba(62, 50, 28, 0.38),
-    0 12px 28px -14px rgba(62, 50, 28, 0.25);
+  filter:
+    drop-shadow(0 30px 45px rgba(62, 50, 28, 0.32))
+    drop-shadow(0 8px 16px rgba(62, 50, 28, 0.2));
 }
 
 .iphone:hover { transform: scale(1.022); }
 
+/* the Figma frame renders on top; the interactive screen sits in its hole */
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
 .screen {
   font-family: var(--ios-font);
-  position: relative;
-  aspect-ratio: 1206 / 2622; /* exact screenshot proportions */
-  border-radius: 56px;
+  position: absolute;
+  left: 5.3333%;
+  top: 2.5%;
+  width: 89.3333%;
+  height: 95%;
   overflow: hidden;
   background: #8e9096;
   isolation: isolate;
+  /* rounded clip catches GPU-composited children (the opening app view),
+     which can escape the image mask; curve mismatch hides under the bezel */
+  border-radius: 15.2% / 7%;
+  /* clip to the exact shape of the frame's screen cutout */
+  -webkit-mask-image: url("media/screen-mask.png");
+  -webkit-mask-size: 100% 100%;
+  mask-image: url("media/screen-mask.png");
+  mask-size: 100% 100%;
 }
 
 /* the real home screen, exactly as captured */
@@ -150,26 +166,11 @@ body::before {
   border-radius: 14px;
 }
 
-/* --- dynamic island (physical cutout, drawn above everything) --- */
-.sb-island {
-  position: absolute;
-  top: 1.6%;
-  left: 50%;
-  translate: -50% 0;
-  width: 33%;
-  height: 3.55%;
-  border-radius: 999px;
-  background: #000;
-  z-index: 6;
-  pointer-events: none;
-}
-
 /* --- app open view --- */
 .appview {
   position: absolute;
   inset: 0;
   z-index: 4;
-  border-radius: 56px;
   overflow: hidden;
   transform: scale(0.15);
   opacity: 0;
