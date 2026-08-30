@@ -73,6 +73,8 @@ body::before {
 /* ============ iPhone ============ */
 .iphone {
   position: relative;
+  -webkit-user-select: none;
+  user-select: none;
   width: min(368px, 86vw, calc((100vh - 90px) * 0.489));
   aspect-ratio: 900 / 1840; /* frame mockup proportions */
   transition: transform 0.5s var(--open-ease);
@@ -82,6 +84,13 @@ body::before {
 }
 
 .iphone:hover { transform: scale(1.022); }
+
+/* images inside the phone can't be dragged or selection-highlighted */
+.iphone img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
 
 /* the Figma frame renders on top; the interactive screen sits in its hole */
 .frame {
