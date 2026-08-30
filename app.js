@@ -60,7 +60,7 @@ document.querySelectorAll(".panel").forEach((panel) => {
 const screen = document.getElementById("screen");
 const appview = document.getElementById("appview");
 const appviewBody = document.getElementById("appview-body");
-const closeBtn = document.getElementById("appview-close");
+const homeBtn = document.getElementById("home-btn");
 const panels = document.querySelectorAll(".panel");
 
 let openApp = null;
@@ -124,7 +124,8 @@ function open(name, btn, fromHistory) {
   });
 
   showPanel(name);
-  closeBtn.focus({ preventScroll: true });
+  document.body.classList.add("app-open");
+  homeBtn.focus({ preventScroll: true });
 }
 
 let clearSuppression = null;
@@ -148,6 +149,7 @@ function suppressDimUntilMouseMoves() {
 function close(fromHistory) {
   if (!openApp) return;
   openApp = null;
+  document.body.classList.remove("app-open");
   if (!fromHistory && location.hash) history.pushState(null, "", location.pathname + location.search);
   suppressDimUntilMouseMoves();
   appview.classList.remove("is-open");
@@ -285,7 +287,7 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
   el.addEventListener("mouseleave", () => peek.classList.remove("show"));
 });
 
-closeBtn.addEventListener("click", () => close());
+homeBtn.addEventListener("click", () => close());
 appview.addEventListener("click", () => close()); // tap anywhere on the open app to dismiss
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") close();

@@ -224,25 +224,6 @@ body::before {
   filter: blur(2px);
 }
 
-.appview-close {
-  position: absolute;
-  top: 52px;
-  right: 16px;
-  z-index: 3;
-  width: 30px;
-  height: 30px;
-  border: 0;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.35);
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-.appview-close:hover { transform: scale(1.1); }
-.appview-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-
 .appview-body { position: absolute; inset: 0; }
 
 .appview-body video {
@@ -298,6 +279,40 @@ body::before {
 .ph-camera  { background: linear-gradient(160deg, #97979e, #4d4d55); }
 
 /* ============ Text column ============ */
+.text-col { position: relative; }
+
+/* minimal way home, floats above the heading while an app is open */
+.home-btn {
+  position: absolute;
+  top: -46px;
+  left: -4px;
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 5px;
+  border-radius: 7px;
+  color: var(--faint);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease,
+    color 0.15s ease, background-color 0.15s ease;
+}
+
+body.app-open .home-btn {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.home-btn:hover {
+  color: var(--text);
+  background-color: rgba(33, 29, 21, 0.08);
+}
+
+.home-btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
 .panels { display: grid; }
 
 .panel {
