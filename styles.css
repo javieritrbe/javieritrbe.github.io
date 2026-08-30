@@ -486,12 +486,12 @@ body::before {
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
+  gap: 6px;
+  padding: 7px 12px;
   border-radius: 999px;
   background: #fffdf8;
   color: var(--text);
-  font-size: 0.85rem;
+  font-size: 0.76rem;
   font-weight: 500;
   box-shadow:
     0 14px 34px -12px rgba(62, 50, 28, 0.4),
