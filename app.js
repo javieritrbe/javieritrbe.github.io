@@ -266,7 +266,8 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
   el.addEventListener("mouseenter", () => {
     peekImg.src = el.dataset.peekImg;
     peekCaption.textContent = el.dataset.peekCaption;
-    const rect = el.getBoundingClientRect();
+    // anchor to the first line segment when the fact wraps across lines
+    const rect = el.getClientRects()[0] || el.getBoundingClientRect();
     const w = 250;
     const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
     peek.style.left = `${x}px`;
