@@ -244,10 +244,13 @@ if (shaker && iphone) {
   });
 }
 
-// email actions copy the address instead of launching a mail app
+// email actions: hover previews the address, click copies it
 const EMAIL = "javier.hick1@gmail.com";
 const toast = document.getElementById("toast");
+const toastCheck = document.getElementById("toast-check");
+const toastText = document.getElementById("toast-text");
 let toastTimer;
+let copiedShowing = false;
 
 function placeToast(anchor) {
   // pill hovers just above whatever was pressed, centered on it
@@ -272,14 +275,36 @@ async function copyEmail(anchor) {
     document.execCommand("copy");
     ta.remove();
   }
+  toastCheck.style.display = "";
+  toastText.innerHTML = "";
+  toastText.append(EMAIL + " ");
+  const b = document.createElement("strong");
+  b.textContent = "copied";
+  toastText.append(b);
   placeToast(anchor);
   toast.classList.add("show");
+  copiedShowing = true;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+    copiedShowing = false;
+  }, 2200);
+}
+
+function previewEmail(anchor) {
+  if (copiedShowing || document.body.classList.contains("revealing")) return;
+  toastCheck.style.display = "none";
+  toastText.textContent = EMAIL;
+  placeToast(anchor);
+  toast.classList.add("show");
 }
 
 document.querySelectorAll("[data-copy-email]").forEach((el) => {
   el.addEventListener("click", () => copyEmail(el));
+  el.addEventListener("mouseenter", () => previewEmail(el));
+  el.addEventListener("mouseleave", () => {
+    if (!copiedShowing) toast.classList.remove("show");
+  });
   el.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();

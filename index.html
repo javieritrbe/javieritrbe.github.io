@@ -72,7 +72,7 @@
           <h1>Hey, I'm Javi</h1>
           <p>I lead Product and Growth at an AI startup in San Francisco, founded by <a class="quiet-link" href="https://en.wikipedia.org/wiki/Sebastian_Thrun" target="_blank" rel="noopener">Sebastian Thrun</a>.</p>
           <p>I joined <span class="tlink" role="button" tabindex="0" data-app="bereal">BeReal</span> and <span class="tlink" role="button" tabindex="0" data-app="retro">Retro</span> in their early days, and that's where I learned what I still obsess over: retention, viral loops, and product experiences people actually come back to. These days I also advise early-stage consumer apps.</p>
-          <p>Everything on this screen is part of my story so far. <span class="tlink" data-shake>Tap around</span>.</p>
+          <p>Everything on this screen is part of my story so far. <span class="tlink" data-shake>Tap around</span> to explore my experience, or <span class="tlink" role="button" tabindex="0" data-copy-email>get in touch</span>.</p>
         </div>
 
         <div class="panel" data-panel="bereal">
@@ -146,10 +146,10 @@
     <p id="peek-caption"></p>
   </div>
 
-  <!-- copy confirmation -->
+  <!-- email pill: shows the address on hover, confirms on copy -->
   <div class="toast" id="toast" role="status">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
-    <span>javier.hick1@gmail.com <strong>copied</strong></span>
+    <svg id="toast-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+    <span id="toast-text"></span>
   </div>
 
   <script src="app.js" defer></script>
