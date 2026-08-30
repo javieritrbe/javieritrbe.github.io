@@ -78,7 +78,7 @@
         <div class="panel" data-panel="bereal">
           <h1>BeReal.</h1>
           <p class="subtitle">Founding Growth Team · 2022–2024</p>
-          <p>I joined BeReal in 2022 on the founding growth team, before the app had really taken off outside France. I led the UK launch, <span class="fact">growing DAUs 19x in two months</span> and taking BeReal to <span class="fact">#1 on the App Store</span>.</p>
+          <p>I joined BeReal in 2022 on the founding growth team, before the app had really taken off outside France. I led the UK launch, <span class="fact fact--peek" data-peek-img="media/peek-bereal.webp" data-peek-caption="My face when we hit #1 on the App Store in the UK">growing DAUs 19x in two months</span> and taking BeReal to <span class="fact">#1 on the App Store</span>.</p>
           <p>From there I moved to international expansion, <span class="fact">building and managing on-the-ground teams</span> across the UK, Australia, Indonesia, and the US, and working closely with the COO.</p>
           <p>I left in 2024, shortly after BeReal was <a class="quiet-link" href="https://techcrunch.com/2024/06/11/bereal-is-being-acquired-by-mobile-apps-and-games-company-voodoo-for-e500m/" target="_blank" rel="noopener">acquired by Voodoo for €500M</a>.</p>
         </div>
@@ -125,6 +125,13 @@
     </section>
 
   </main>
+
+  <!-- hover peek card: a photo-from-the-moment attached to a fact -->
+  <div class="peek" id="peek" aria-hidden="true">
+    <img id="peek-img" alt="">
+    <p id="peek-caption"></p>
+  </div>
+
   <script src="app.js" defer></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 // To add a screen recording: set `video` to the file path (e.g. "media/bereal.mp4")
 // and it will play inside the phone instead of the placeholder.
 const APPS = {
-  bereal:  { video: null, placeholderClass: "ph-bereal" },
+  bereal:  { video: "media/bereal.mp4", placeholderClass: "ph-bereal" },
   retro:   { video: null, placeholderClass: "ph-retro" },
   corner:  { video: null, placeholderClass: "ph-corner" },
   gold:    { video: null, placeholderClass: "ph-gold" },
@@ -199,6 +199,30 @@ if (shaker && iphone) {
     if (e.animationName === "phone-shake") iphone.classList.remove("shaking");
   });
 }
+
+// hover peek: photo-from-the-moment card on facts that carry one
+const peek = document.getElementById("peek");
+const peekImg = document.getElementById("peek-img");
+const peekCaption = document.getElementById("peek-caption");
+
+document.querySelectorAll(".fact--peek").forEach((el) => {
+  el.addEventListener("mouseenter", () => {
+    peekImg.src = el.dataset.peekImg;
+    peekCaption.textContent = el.dataset.peekCaption;
+    const rect = el.getBoundingClientRect();
+    const w = 250;
+    const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
+    peek.style.left = `${x}px`;
+    const place = () => {
+      const h = peek.offsetHeight;
+      peek.style.top = `${rect.top - h - 12 > 12 ? rect.top - h - 12 : rect.bottom + 12}px`;
+    };
+    place();
+    if (!peekImg.complete) peekImg.onload = place;
+    peek.classList.add("show");
+  });
+  el.addEventListener("mouseleave", () => peek.classList.remove("show"));
+});
 
 closeBtn.addEventListener("click", close);
 appview.addEventListener("click", close); // tap anywhere on the open app to dismiss
