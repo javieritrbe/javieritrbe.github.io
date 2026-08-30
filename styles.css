@@ -435,12 +435,21 @@ body.app-open .socials-home {
     visibility 0s;
 }
 
+/* shared media well: every screenshot sits as a panel on the same
+   light ground, so white and dark images frame identically */
+.peek-media {
+  background: rgba(33, 29, 21, 0.06);
+  border-radius: 16px;
+  padding: 9px;
+}
+
 .peek img {
   width: 100%;
   height: 230px; /* fixed height: card size never depends on image load timing */
   object-fit: cover;
   display: block;
-  border-radius: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(33, 29, 21, 0.08);
 }
 
 .peek p {
