@@ -4,7 +4,7 @@
 const APPS = {
   bereal:  { video: "media/bereal.mp4", placeholderClass: "ph-bereal" },
   retro:   { video: "media/retro.mp4", placeholderClass: "ph-retro" },
-  corner:  { video: null, placeholderClass: "ph-corner" },
+  corner:  { video: "media/corner.mp4", placeholderClass: "ph-corner" },
   gold:    { video: null, placeholderClass: "ph-gold" },
   expense: { video: null, placeholderClass: "ph-expense" },
   camera:  { video: null, placeholderClass: "ph-camera" },
