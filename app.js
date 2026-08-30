@@ -112,6 +112,7 @@ document.querySelectorAll(".hotspot[data-app]").forEach((btn) => {
 });
 
 closeBtn.addEventListener("click", close);
+appview.addEventListener("click", close); // tap anywhere on the open app to dismiss
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") close();
 });
