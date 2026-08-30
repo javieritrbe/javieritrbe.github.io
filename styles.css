@@ -355,6 +355,9 @@ body::before {
 
 .panel strong { color: var(--text); font-weight: 600; }
 
+/* second-tier emphasis: key facts in full ink — important, not tappable */
+.fact { color: var(--text); font-weight: 500; }
+
 /* inline text actions: bold means tappable. Hovering draws a soft
    ink-tinted box around the words (box-shadow, so no layout shift) */
 .tlink {
