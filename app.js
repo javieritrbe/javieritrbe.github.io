@@ -214,8 +214,8 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
     const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
     peek.style.left = `${x}px`;
     const place = () => {
-      const h = peek.offsetHeight;
-      peek.style.top = `${rect.top - h - 12 > 12 ? rect.top - h - 12 : rect.bottom + 12}px`;
+      // always above the hovered line so the card never covers the text
+      peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
     };
     place();
     if (!peekImg.complete) peekImg.onload = place;
