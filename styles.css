@@ -308,12 +308,12 @@ body::before {
 
 body.app-open .socials-home {
   margin-right: 0;
-  opacity: 1;
-  filter: blur(0);
   visibility: visible;
   pointer-events: auto;
+  /* same reveal as the text; delay set per-panel in JS so it lands
+     right after the last word */
+  animation: char-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
   transition: margin-right 0.28s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.24s ease 0.06s, filter 0.24s ease 0.06s,
     color 0.15s ease, transform 0.15s ease,
     visibility 0s;
 }

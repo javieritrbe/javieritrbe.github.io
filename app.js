@@ -55,6 +55,7 @@ document.querySelectorAll(".panel").forEach((panel) => {
   panel.querySelectorAll("p").forEach((p) => {
     t = splitReveal(p, "words", t, 0.012) + 0.07;
   });
+  panel.dataset.revealEnd = t.toFixed(2); // when this panel's text finishes
 });
 
 const screen = document.getElementById("screen");
@@ -124,6 +125,9 @@ function open(name, btn, fromHistory) {
   });
 
   showPanel(name);
+  // back arrow blurs in right after the panel's text finishes revealing
+  const panel = document.querySelector(`.panel[data-panel="${name}"]`);
+  homeBtn.style.animationDelay = `${panel?.dataset.revealEnd || 0.3}s`;
   document.body.classList.add("app-open");
   homeBtn.focus({ preventScroll: true });
 }
