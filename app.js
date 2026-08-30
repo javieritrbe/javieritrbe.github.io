@@ -321,12 +321,15 @@ toast.addEventListener("click", () => {
 
 document.querySelectorAll("[data-copy-email]").forEach((el) => {
   el.addEventListener("click", () => copyEmail(el));
-  el.addEventListener("mouseenter", () => {
-    clearTimeout(pillHideTimer);
-    lastEmailAnchor = el;
-    previewEmail(el);
-  });
-  el.addEventListener("mouseleave", schedulePillHide);
+  // hover preview only on the "get in touch" text, not the icons
+  if (el.classList.contains("tlink")) {
+    el.addEventListener("mouseenter", () => {
+      clearTimeout(pillHideTimer);
+      lastEmailAnchor = el;
+      previewEmail(el);
+    });
+    el.addEventListener("mouseleave", schedulePillHide);
+  }
   el.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();

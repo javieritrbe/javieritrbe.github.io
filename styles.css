@@ -565,7 +565,6 @@ body.app-open .socials :is(a, button):not(.socials-home) {
     visibility 0s;
 }
 
-#toast-check { color: #5d7a48; }
 #toast-copy { color: var(--faint); transition: color 0.15s ease; }
 .toast:hover #toast-copy { color: var(--text); }
 
