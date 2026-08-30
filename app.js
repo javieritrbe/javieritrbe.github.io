@@ -3,7 +3,7 @@
 // and it will play inside the phone instead of the placeholder.
 const APPS = {
   bereal:  { video: "media/bereal.mp4", placeholderClass: "ph-bereal" },
-  retro:   { video: null, placeholderClass: "ph-retro" },
+  retro:   { video: "media/retro.mp4", placeholderClass: "ph-retro" },
   corner:  { video: null, placeholderClass: "ph-corner" },
   gold:    { video: null, placeholderClass: "ph-gold" },
   expense: { video: null, placeholderClass: "ph-expense" },
