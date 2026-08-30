@@ -281,41 +281,45 @@ body::before {
 /* ============ Text column ============ */
 .text-col { position: relative; }
 
-/* way home: grey tile above the heading while an app is open,
-   arriving with the same blur reveal as the text */
-.home-btn {
-  position: absolute;
-  top: -64px;
-  left: -2px;
+.panels { display: grid; }
+
+/* back arrow joins the socials row while an app is open; the other
+   icons slide right to make room as it blurs in */
+.socials-home {
   appearance: none;
   border: 0;
-  padding: 10px;
-  border-radius: 11px;
-  background-color: rgba(33, 29, 21, 0.07);
-  color: var(--muted);
+  background: none;
+  padding: 0;
+  color: var(--faint);
   cursor: pointer;
+  width: 22px;
+  margin-right: -48px; /* collapse own width + row gap while hidden */
   opacity: 0;
+  filter: blur(5px);
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.18s ease, color 0.15s ease, background-color 0.15s ease;
+  transition: margin-right 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease, filter 0.24s ease,
+    color 0.15s ease, transform 0.15s ease,
+    visibility 0s 0.28s;
 }
 
-.home-btn svg { display: block; width: 22px; height: 22px; }
+.socials-home svg { display: block; }
 
-body.app-open .home-btn {
+body.app-open .socials-home {
+  margin-right: 0;
   opacity: 1;
+  filter: blur(0);
+  visibility: visible;
   pointer-events: auto;
-  animation: char-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 0.05s;
+  transition: margin-right 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease 0.06s, filter 0.24s ease 0.06s,
+    color 0.15s ease, transform 0.15s ease,
+    visibility 0s;
 }
 
-.home-btn:hover {
-  color: var(--text);
-  background-color: rgba(33, 29, 21, 0.12);
-}
-
-.home-btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
-
-.panels { display: grid; }
+.socials-home:hover { color: var(--text); transform: translateY(-2px); }
+.socials-home:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 4px; }
 
 .panel {
   grid-area: 1 / 1;
@@ -490,7 +494,18 @@ body.app-open .home-btn {
   padding: 0;
   cursor: pointer;
   color: var(--faint);
-  transition: color 0.15s ease, transform 0.15s ease;
+  transition: color 0.15s ease, transform 0.15s ease,
+    opacity 0.2s ease, filter 0.2s ease, visibility 0s;
+}
+
+/* in app detail view the social links give way to the back arrow */
+body.app-open .socials :is(a, button):not(.socials-home) {
+  opacity: 0;
+  filter: blur(5px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: color 0.15s ease, transform 0.15s ease,
+    opacity 0.2s ease, filter 0.2s ease, visibility 0s 0.2s;
 }
 
 .socials a:hover, .socials button:hover { color: var(--text); transform: translateY(-2px); }
