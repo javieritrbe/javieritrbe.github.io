@@ -7,9 +7,9 @@
   --faint: #b3aa97;
   --phone-body: #17140d;
   --phone-edge: #4a4433;
-  --serif: "Fraunces", Georgia, serif;
-  --sans: "Instrument Sans", -apple-system, sans-serif;
-  --ios-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  /* San Francisco on Apple devices, closest system equivalent elsewhere */
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  --ios-font: var(--sans);
   /* iOS app-icon superellipse (squircle) */
   --squircle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0C11 0 0 11 0 50s11 50 50 50 50-11 50-50S89 0 50 0Z'/%3E%3C/svg%3E");
   --open-ease: cubic-bezier(0.32, 0.72, 0.22, 1);
@@ -299,23 +299,36 @@ body::before {
 .panel {
   grid-area: 1 / 1;
   opacity: 0;
-  transform: translateY(10px);
   visibility: hidden;
-  transition: opacity 0.28s ease, transform 0.28s ease, visibility 0s 0.28s;
+  transition: opacity 0.24s ease, visibility 0s 0.24s;
 }
 
 .panel.is-active {
   opacity: 1;
-  transform: none;
   visibility: visible;
-  transition: opacity 0.3s ease 0.08s, transform 0.3s ease 0.08s, visibility 0s;
+  transition: opacity 0.24s ease, visibility 0s;
 }
 
+/* staggered rise: heading first, then each line in order */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.panel.is-active :is(h1, p) {
+  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.panel.is-active :is(h1, p):nth-child(1) { animation-delay: 0.05s; }
+.panel.is-active :is(h1, p):nth-child(2) { animation-delay: 0.15s; }
+.panel.is-active :is(h1, p):nth-child(3) { animation-delay: 0.25s; }
+.panel.is-active :is(h1, p):nth-child(4) { animation-delay: 0.35s; }
+
 .panel h1 {
-  font-family: var(--serif);
-  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-family: var(--sans);
+  font-size: clamp(1.9rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
   margin: 0 0 20px;
 }
 
