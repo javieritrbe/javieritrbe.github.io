@@ -344,12 +344,6 @@ body::before {
 /* inline text actions: bold means tappable. Hovering draws a soft
    ink-tinted box around the words (box-shadow, so no layout shift) */
 .tlink {
-  appearance: none;
-  border: 0;
-  background: none;
-  padding: 0;
-  margin: 0;
-  font: inherit;
   font-weight: 600;
   color: var(--text);
   cursor: pointer;
@@ -357,6 +351,21 @@ body::before {
   border-radius: 3px;
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
+
+/* hover-only action (shakes the phone) — boxed like the rest, not tappable */
+.tlink[data-shake] { cursor: default; }
+
+@keyframes phone-shake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  12% { transform: translateX(-5px) rotate(-0.5deg); }
+  28% { transform: translateX(4px) rotate(0.45deg); }
+  44% { transform: translateX(-3px) rotate(-0.35deg); }
+  60% { transform: translateX(2.5px) rotate(0.25deg); }
+  76% { transform: translateX(-1.5px) rotate(-0.15deg); }
+  90% { transform: translateX(1px) rotate(0.05deg); }
+}
+
+.iphone.shaking { animation: phone-shake 1.4s ease-in-out; }
 
 .tlink:hover, .quiet-link:hover {
   background-color: rgba(33, 29, 21, 0.08);

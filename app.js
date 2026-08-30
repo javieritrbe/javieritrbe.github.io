@@ -154,16 +154,32 @@ document.querySelectorAll(".hotspot[data-app]").forEach((btn) => {
 
 // bold text actions in the panels mirror tapping the icons
 document.querySelectorAll(".tlink[data-app]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    let name = btn.dataset.app;
-    if (name === "random") {
-      const keys = Object.keys(APPS).filter((k) => k !== openApp);
-      name = keys[Math.floor(Math.random() * keys.length)];
-    }
+  const activate = () => {
+    const name = btn.dataset.app;
     if (openApp === name) return;
     open(name, btn);
+  };
+  btn.addEventListener("click", activate);
+  btn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      activate();
+    }
   });
 });
+
+// "Tap around": hovering gives the phone a little shake
+const shaker = document.querySelector("[data-shake]");
+const iphone = document.querySelector(".iphone");
+if (shaker && iphone) {
+  shaker.addEventListener("mouseenter", () => {
+    if (iphone.classList.contains("shaking")) return;
+    iphone.classList.add("shaking");
+  });
+  iphone.addEventListener("animationend", (e) => {
+    if (e.animationName === "phone-shake") iphone.classList.remove("shaking");
+  });
+}
 
 closeBtn.addEventListener("click", close);
 appview.addEventListener("click", close); // tap anywhere on the open app to dismiss
