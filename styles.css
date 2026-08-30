@@ -409,9 +409,9 @@ body.app-open .socials-home {
   width: clamp(260px, 24vw, 360px);
   padding: 8px 8px 10px;
   /* frosted glass: text sliding beneath blurs away instead of clashing */
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px) saturate(1.15);
-  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px) saturate(1.3);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
   border-radius: 22px;
   box-shadow:
     0 24px 48px -16px rgba(62, 50, 28, 0.3),
@@ -542,9 +542,9 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   gap: 6px;
   padding: 7px 12px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px) saturate(1.15);
-  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px) saturate(1.3);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
   color: var(--text);
   font-size: 0.76rem;
   font-weight: 500;
