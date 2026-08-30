@@ -395,7 +395,7 @@ body.app-open .socials-home {
 .peek {
   position: fixed;
   z-index: 50;
-  width: 250px;
+  width: clamp(260px, 24vw, 360px);
   padding: 8px 8px 10px;
   background: #fffdf8;
   border-radius: 14px;
