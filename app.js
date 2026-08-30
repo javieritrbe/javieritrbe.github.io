@@ -126,9 +126,28 @@ function open(name, btn) {
   closeBtn.focus({ preventScroll: true });
 }
 
+let clearSuppression = null;
+
+function suppressDimUntilMouseMoves() {
+  if (clearSuppression) clearSuppression();
+  screen.classList.add("dim-suppressed");
+  let ox = null, oy = null;
+  const onMove = (e) => {
+    if (ox === null) { ox = e.clientX; oy = e.clientY; return; }
+    if (Math.hypot(e.clientX - ox, e.clientY - oy) > 14) clearSuppression();
+  };
+  clearSuppression = () => {
+    document.removeEventListener("mousemove", onMove);
+    screen.classList.remove("dim-suppressed");
+    clearSuppression = null;
+  };
+  document.addEventListener("mousemove", onMove);
+}
+
 function close() {
   if (!openApp) return;
   openApp = null;
+  suppressDimUntilMouseMoves();
   appview.classList.remove("is-open");
   screen.classList.remove("app-is-open");
   showPanel("default");

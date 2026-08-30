@@ -152,6 +152,10 @@ body::before {
 .screen:has(.hotspot:hover) .dim,
 .screen:has(.hover-zone:hover) .dim { opacity: 1; }
 
+/* right after closing an app the cursor is still parked over the icons —
+   keep the screen light until the user actually moves the mouse */
+.screen.dim-suppressed .dim { opacity: 0 !important; }
+
 /* invisible zones under the hotspots — hovering the gaps between apps
    keeps the dim engaged instead of flickering bright and dark */
 .hover-zone {
