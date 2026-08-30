@@ -189,6 +189,17 @@ document.querySelectorAll(".tlink[data-app]").forEach((btn) => {
   });
 });
 
+// spotlight state: an actual icon arms the dim; the zones between apps only
+// sustain it; empty screen areas (or leaving the phone) release it
+screen.addEventListener("mouseover", (e) => {
+  if (e.target.closest(".hotspot")) {
+    screen.classList.add("dim-on");
+  } else if (!e.target.closest(".hover-zone")) {
+    screen.classList.remove("dim-on");
+  }
+});
+screen.addEventListener("mouseleave", () => screen.classList.remove("dim-on"));
+
 // "Tap around": hovering gives the phone a little shake
 const shaker = document.querySelector("[data-shake]");
 const iphone = document.querySelector(".iphone");

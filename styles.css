@@ -149,8 +149,8 @@ body::before {
   pointer-events: none;
 }
 
-.screen:has(.hotspot:hover) .dim,
-.screen:has(.hover-zone:hover) .dim { opacity: 1; }
+/* dim is armed by hovering a real icon (JS), sustained across the gaps */
+.screen.dim-on .dim { opacity: 1; }
 
 /* right after closing an app the cursor is still parked over the icons —
    keep the screen light until the user actually moves the mouse */
