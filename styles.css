@@ -341,7 +341,34 @@ body::before {
 
 .panel strong { color: var(--text); font-weight: 600; }
 
-/* understated inline link — ink-colored, whisper of an underline */
+/* inline text actions: bold means tappable. Hovering draws a soft
+   ink-tinted box around the words (box-shadow, so no layout shift) */
+.tlink {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tlink:hover, .quiet-link:hover {
+  background-color: rgba(33, 29, 21, 0.08);
+  box-shadow: 0 0 0 4px rgba(33, 29, 21, 0.08);
+}
+
+.tlink:focus-visible, .quiet-link:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+/* external link variant keeps a whisper of an underline */
 .quiet-link {
   color: var(--text);
   font-weight: 600;
@@ -349,10 +376,11 @@ body::before {
   text-decoration-color: rgba(33, 29, 21, 0.25);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  transition: text-decoration-color 0.15s ease;
+  border-radius: 3px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, text-decoration-color 0.15s ease;
 }
 
-.quiet-link:hover { text-decoration-color: rgba(33, 29, 21, 0.7); }
+.quiet-link:hover { text-decoration-color: rgba(33, 29, 21, 0.6); }
 
 .socials {
   display: flex;

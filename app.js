@@ -99,12 +99,17 @@ function buildAppScreen(name) {
 function open(name, btn) {
   openApp = name;
 
-  // Grow the app view out of the tapped icon's position
-  const iconRect = btn.getBoundingClientRect();
-  const screenRect = screen.getBoundingClientRect();
-  const ox = ((iconRect.left + iconRect.width / 2 - screenRect.left) / screenRect.width) * 100;
-  const oy = ((iconRect.top + iconRect.height / 2 - screenRect.top) / screenRect.height) * 100;
-  appview.style.transformOrigin = `${ox}% ${oy}%`;
+  if (btn && screen.contains(btn)) {
+    // Grow the app view out of the tapped icon's position
+    const iconRect = btn.getBoundingClientRect();
+    const screenRect = screen.getBoundingClientRect();
+    const ox = ((iconRect.left + iconRect.width / 2 - screenRect.left) / screenRect.width) * 100;
+    const oy = ((iconRect.top + iconRect.height / 2 - screenRect.top) / screenRect.height) * 100;
+    appview.style.transformOrigin = `${ox}% ${oy}%`;
+  } else {
+    // opened from a text link — grow from the middle of the screen
+    appview.style.transformOrigin = "50% 42%";
+  }
 
   appviewBody.replaceChildren(buildAppScreen(name));
   appview.hidden = false;
@@ -142,6 +147,19 @@ function close() {
 document.querySelectorAll(".hotspot[data-app]").forEach((btn) => {
   btn.addEventListener("click", () => {
     const name = btn.dataset.app;
+    if (openApp === name) return;
+    open(name, btn);
+  });
+});
+
+// bold text actions in the panels mirror tapping the icons
+document.querySelectorAll(".tlink[data-app]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    let name = btn.dataset.app;
+    if (name === "random") {
+      const keys = Object.keys(APPS).filter((k) => k !== openApp);
+      name = keys[Math.floor(Math.random() * keys.length)];
+    }
     if (openApp === name) return;
     open(name, btn);
   });
