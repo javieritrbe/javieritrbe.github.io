@@ -202,6 +202,39 @@ if (shaker && iphone) {
   });
 }
 
+// email actions copy the address instead of launching a mail app
+const EMAIL = "javier.hick1@gmail.com";
+const toast = document.getElementById("toast");
+let toastTimer;
+
+async function copyEmail() {
+  try {
+    await navigator.clipboard.writeText(EMAIL);
+  } catch {
+    const ta = document.createElement("textarea");
+    ta.value = EMAIL;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+  }
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+
+document.querySelectorAll("[data-copy-email]").forEach((el) => {
+  el.addEventListener("click", copyEmail);
+  el.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      copyEmail();
+    }
+  });
+});
+
 // hover peek: photo-from-the-moment card on facts that carry one
 const peek = document.getElementById("peek");
 const peekImg = document.getElementById("peek-img");

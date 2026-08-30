@@ -43,9 +43,9 @@
             <button class="hotspot" data-app="expense" aria-label="ExpenseTracker" style="left:49.50249%; top:55.56827%; width:24.46103%; height:10.90770%">
               <img src="media/sp-expense.webp" alt="">
             </button>
-            <a class="hotspot" href="mailto:javier.hick1@gmail.com" aria-label="Email" style="left:29.60199%; top:87.83371%; width:18.82255%; height:8.65751%">
+            <button class="hotspot" data-copy-email aria-label="Copy email address" style="left:29.60199%; top:87.83371%; width:18.82255%; height:8.65751%">
               <img src="media/sp-mail.webp" alt="">
-            </a>
+            </button>
             <button class="hotspot" data-app="camera" aria-label="Camera" style="left:51.90713%; top:87.83371%; width:18.82255%; height:8.65751%">
               <img src="media/sp-camera.webp" alt="">
             </button>
@@ -72,7 +72,7 @@
           <h1>Hey, I'm Javi</h1>
           <p>I lead Product and Growth at an AI startup in San Francisco, founded by <a class="quiet-link" href="https://en.wikipedia.org/wiki/Sebastian_Thrun" target="_blank" rel="noopener">Sebastian Thrun</a>.</p>
           <p>Before that: Head of Growth at <span class="tlink" role="button" tabindex="0" data-app="retro">Retro</span> and founding growth team at <span class="tlink" role="button" tabindex="0" data-app="bereal">BeReal</span>. These days I also advise early-stage consumer apps.</p>
-          <p>Each app on this home screen is something I've built, grown, or advised. <span class="tlink" data-shake>Tap around</span> to see the work, or <a class="tlink" href="mailto:javier.hick1@gmail.com">get in touch</a>.</p>
+          <p>Each app on this home screen is something I've built, grown, or advised. <span class="tlink" data-shake>Tap around</span> to see the work, or <span class="tlink" role="button" tabindex="0" data-copy-email>get in touch</span>.</p>
         </div>
 
         <div class="panel" data-panel="bereal">
@@ -118,9 +118,9 @@
         <a href="https://www.linkedin.com/in/javieriturbe/" target="_blank" rel="noopener" aria-label="LinkedIn">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.49 2.49 0 1 1 0 4.98 2.49 2.49 0 0 1 0-4.98ZM3 9.75h4v10.75H3V9.75Zm6.5 0h3.83v1.47h.06c.53-1 1.84-2.06 3.78-2.06 4.04 0 4.79 2.66 4.79 6.12v5.22h-4v-4.63c0-1.1-.02-2.52-1.54-2.52-1.54 0-1.77 1.2-1.77 2.44v4.71h-4V9.75Z"/></svg>
         </a>
-        <a href="mailto:javier.hick1@gmail.com" aria-label="Email">
+        <button data-copy-email aria-label="Copy email address">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
-        </a>
+        </button>
       </div>
     </section>
 
@@ -130,6 +130,12 @@
   <div class="peek" id="peek" aria-hidden="true">
     <img id="peek-img" alt="">
     <p id="peek-caption"></p>
+  </div>
+
+  <!-- copy confirmation -->
+  <div class="toast" id="toast" role="status">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+    <span>javier.hick1@gmail.com copied</span>
   </div>
 
   <script src="app.js" defer></script>
