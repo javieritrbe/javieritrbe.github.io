@@ -479,13 +479,11 @@ body::before {
 .socials a:hover, .socials button:hover { color: var(--text); transform: translateY(-2px); }
 .socials a:focus-visible, .socials button:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 4px; }
 
-/* copy-confirmation toast */
+/* copy-confirmation toast — positioned by JS near whatever was pressed */
 .toast {
   position: fixed;
-  bottom: 30px;
-  left: 50%;
-  translate: -50% 0;
   z-index: 60;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 8px;
