@@ -358,11 +358,16 @@ body::before {
 /* second-tier emphasis: key facts in full ink — important, not tappable */
 .fact { color: var(--text); font-weight: 500; }
 
-/* facts with a photo attached hint at it with a dotted underline */
-.fact--peek .rv {
-  text-decoration: underline dotted rgba(33, 29, 21, 0.35);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+/* facts with a photo attached get the same grey hover box as links */
+.fact--peek {
+  border-radius: 3px;
+  cursor: default;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fact--peek:hover {
+  background-color: rgba(33, 29, 21, 0.08);
+  box-shadow: 0 0 0 3px rgba(33, 29, 21, 0.08);
 }
 
 /* the peek card itself — snappy pop, editorial framing */
