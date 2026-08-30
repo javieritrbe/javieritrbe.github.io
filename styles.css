@@ -70,6 +70,17 @@ body::before {
 
 .phone-col { display: flex; justify-content: center; }
 
+/* the phone arrives like the text does: rising out of a blur, once */
+@keyframes phone-enter {
+  from { opacity: 0; transform: translateY(26px); filter: blur(10px); }
+  60%  { filter: blur(2px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.phone-col {
+  animation: phone-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* ============ iPhone ============ */
 .iphone {
   position: relative;
