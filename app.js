@@ -278,9 +278,10 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
     const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
     peek.style.left = `${x}px`;
     const place = () => {
-      // landscape images show whole (charts); portraits get a cover crop
+      // charts/screenshots (landscape to near-square) show whole;
+      // true portrait photos get a cover crop
       peekImg.style.height =
-        peekImg.naturalWidth >= peekImg.naturalHeight ? "auto" : "230px";
+        peekImg.naturalWidth >= peekImg.naturalHeight * 0.75 ? "auto" : "230px";
       // always above the hovered line so the card never covers the text
       peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
     };
