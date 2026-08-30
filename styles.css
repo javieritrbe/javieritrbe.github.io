@@ -292,8 +292,8 @@ body::before {
   padding: 0;
   color: var(--faint);
   cursor: pointer;
-  width: 22px;
-  margin-right: -48px; /* collapse own width + row gap while hidden */
+  width: 30px;
+  margin-right: -56px; /* collapse own width + row gap while hidden */
   opacity: 0;
   filter: blur(5px);
   visibility: hidden;
