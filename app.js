@@ -218,7 +218,7 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
       peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
     };
     place();
-    if (!peekImg.complete) peekImg.onload = place;
+    peekImg.addEventListener("load", place, { once: true });
     peek.classList.add("show");
   });
   el.addEventListener("mouseleave", () => peek.classList.remove("show"));

@@ -401,7 +401,7 @@ body::before {
 
 .peek img {
   width: 100%;
-  max-height: 230px;
+  height: 230px; /* fixed height: card size never depends on image load timing */
   object-fit: cover;
   display: block;
   border-radius: 8px;
