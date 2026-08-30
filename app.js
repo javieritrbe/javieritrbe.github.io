@@ -96,8 +96,9 @@ function buildAppScreen(name) {
   return ph;
 }
 
-function open(name, btn) {
+function open(name, btn, fromHistory) {
   openApp = name;
+  if (!fromHistory) history.pushState(null, "", `#${name}`);
 
   if (btn && screen.contains(btn)) {
     // Grow the app view out of the tapped icon's position
@@ -144,9 +145,10 @@ function suppressDimUntilMouseMoves() {
   document.addEventListener("mousemove", onMove);
 }
 
-function close() {
+function close(fromHistory) {
   if (!openApp) return;
   openApp = null;
+  if (!fromHistory && location.hash) history.pushState(null, "", location.pathname + location.search);
   suppressDimUntilMouseMoves();
   appview.classList.remove("is-open");
   screen.classList.remove("app-is-open");
@@ -224,8 +226,24 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
   el.addEventListener("mouseleave", () => peek.classList.remove("show"));
 });
 
-closeBtn.addEventListener("click", close);
-appview.addEventListener("click", close); // tap anywhere on the open app to dismiss
+closeBtn.addEventListener("click", () => close());
+appview.addEventListener("click", () => close()); // tap anywhere on the open app to dismiss
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") close();
 });
+
+// deep links: #bereal etc. open the app; back/forward stay in sync
+function syncFromHash() {
+  const name = location.hash.slice(1);
+  if (APPS[name]) {
+    if (openApp !== name) {
+      open(name, document.querySelector(`.hotspot[data-app="${name}"]`), true);
+    }
+  } else if (openApp) {
+    close(true);
+  }
+}
+
+window.addEventListener("hashchange", syncFromHash);
+window.addEventListener("popstate", syncFromHash);
+syncFromHash();
