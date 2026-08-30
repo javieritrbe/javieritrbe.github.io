@@ -466,6 +466,12 @@ body.app-open .socials-home {
   box-shadow: 0 0 0 3px rgba(33, 29, 21, 0.08);
 }
 
+/* no hover boxes while the text cascade is still revealing */
+body.revealing :is(.tlink, .quiet-link, .fact--peek):hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
 .tlink:focus-visible, .quiet-link:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 3px;

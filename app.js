@@ -58,6 +58,18 @@ document.querySelectorAll(".panel").forEach((panel) => {
   panel.dataset.revealEnd = t.toFixed(2); // when this panel's text finishes
 });
 
+// initial page load animates the default panel too
+{
+  const initial = document.querySelector(".panel.is-active");
+  if (initial) {
+    document.body.classList.add("revealing");
+    setTimeout(
+      () => document.body.classList.remove("revealing"),
+      parseFloat(initial.dataset.revealEnd || 0) * 1000
+    );
+  }
+}
+
 const screen = document.getElementById("screen");
 const appview = document.getElementById("appview");
 const appviewBody = document.getElementById("appview-body");
@@ -67,12 +79,20 @@ const panels = document.querySelectorAll(".panel");
 let openApp = null;
 
 let peeksReadyAt = 0;
+let revealTimer;
+
+function gateHoverEffects(seconds) {
+  // while the text cascade runs, suppress peek cards and hover boxes
+  peeksReadyAt = performance.now() + seconds * 1000;
+  document.body.classList.add("revealing");
+  clearTimeout(revealTimer);
+  revealTimer = setTimeout(() => document.body.classList.remove("revealing"), seconds * 1000);
+}
 
 function showPanel(name) {
   panels.forEach((p) => p.classList.toggle("is-active", p.dataset.panel === name));
-  // peek cards stay dormant until this panel's text has finished revealing
   const active = document.querySelector(`.panel[data-panel="${name}"]`);
-  peeksReadyAt = performance.now() + parseFloat(active?.dataset.revealEnd || 0) * 1000;
+  gateHoverEffects(parseFloat(active?.dataset.revealEnd || 0));
 }
 
 function buildAppScreen(name) {
