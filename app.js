@@ -208,20 +208,13 @@ const toast = document.getElementById("toast");
 let toastTimer;
 
 function placeToast(anchor) {
+  // pill hovers just above whatever was pressed, centered on it
   const w = toast.offsetWidth;
   const h = toast.offsetHeight;
-  if (screen.contains(anchor)) {
-    // pressed inside the phone: float the pill over the dimmed screen
-    const s = screen.getBoundingClientRect();
-    toast.style.left = `${s.left + s.width / 2 - w / 2}px`;
-    toast.style.top = `${s.top + s.height * 0.44 - h / 2}px`;
-  } else {
-    // pressed outside: hover the pill just above the trigger, centered on it
-    const r = anchor.getBoundingClientRect();
-    const x = Math.min(Math.max(r.left + r.width / 2 - w / 2, 12), window.innerWidth - w - 12);
-    toast.style.left = `${x}px`;
-    toast.style.top = `${r.top - h - 12}px`;
-  }
+  const r = anchor.getBoundingClientRect();
+  const x = Math.min(Math.max(r.left + r.width / 2 - w / 2, 12), window.innerWidth - w - 12);
+  toast.style.left = `${x}px`;
+  toast.style.top = `${r.top - h - 12}px`;
 }
 
 async function copyEmail(anchor) {
