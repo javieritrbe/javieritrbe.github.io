@@ -309,20 +309,20 @@ body::before {
   transition: opacity 0.24s ease, visibility 0s;
 }
 
-/* staggered rise: heading first, then each line in order */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: none; }
+/* numericText-style reveal: each unit rises in from a blur and snaps sharp */
+@keyframes char-in {
+  from { opacity: 0; transform: translateY(0.35em); filter: blur(7px); }
+  55%  { filter: blur(1.5px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
 }
 
-.panel.is-active :is(h1, p) {
-  animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+.rv { display: inline-block; }
 
-.panel.is-active :is(h1, p):nth-child(1) { animation-delay: 0.05s; }
-.panel.is-active :is(h1, p):nth-child(2) { animation-delay: 0.15s; }
-.panel.is-active :is(h1, p):nth-child(3) { animation-delay: 0.25s; }
-.panel.is-active :is(h1, p):nth-child(4) { animation-delay: 0.35s; }
+.panel .rv { opacity: 0; }
+
+.panel.is-active .rv {
+  animation: char-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
 
 .panel h1 {
   font-family: var(--sans);

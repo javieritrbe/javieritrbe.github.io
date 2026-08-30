@@ -10,6 +10,53 @@ const APPS = {
   camera:  { video: null, placeholderClass: "ph-camera" },
 };
 
+// Split panel text into animatable units: letters for headings, words for
+// body copy. Each span gets a cumulative delay so panels cascade in
+// heading-first, line by line — SwiftUI numericText style.
+function splitReveal(el, mode, start, step) {
+  let t = start;
+  const walk = (node) => {
+    [...node.childNodes].forEach((child) => {
+      if (child.nodeType === Node.ELEMENT_NODE) {
+        walk(child);
+        return;
+      }
+      if (child.nodeType !== Node.TEXT_NODE || !child.textContent.trim()) return;
+      const frag = document.createDocumentFragment();
+      const tokens = mode === "letters"
+        ? child.textContent.split(/(\s+)/)
+        : child.textContent.split(/(\s+)/);
+      tokens.forEach((tok) => {
+        if (!tok.trim()) {
+          frag.appendChild(document.createTextNode(tok));
+          return;
+        }
+        const units = mode === "letters" ? [...tok] : [tok];
+        units.forEach((u) => {
+          const span = document.createElement("span");
+          span.className = "rv";
+          span.textContent = u;
+          span.style.animationDelay = `${t.toFixed(3)}s`;
+          t += step;
+          frag.appendChild(span);
+        });
+      });
+      child.replaceWith(frag);
+    });
+  };
+  walk(el);
+  return t;
+}
+
+document.querySelectorAll(".panel").forEach((panel) => {
+  let t = 0.03;
+  const h1 = panel.querySelector("h1");
+  if (h1) t = splitReveal(h1, "letters", t, 0.022) + 0.09;
+  panel.querySelectorAll("p").forEach((p) => {
+    t = splitReveal(p, "words", t, 0.012) + 0.07;
+  });
+});
+
 const screen = document.getElementById("screen");
 const appview = document.getElementById("appview");
 const appviewBody = document.getElementById("appview-body");
