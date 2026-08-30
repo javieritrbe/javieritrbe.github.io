@@ -180,6 +180,8 @@ body::before {
 
 .hotspot:hover img { opacity: 1; }
 
+.hotspot--static { cursor: default; }
+
 
 .hotspot:focus-visible {
   outline: 2px solid #fff;
@@ -192,6 +194,7 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: 4;
+  cursor: pointer; /* signals that tapping anywhere dismisses the app */
   overflow: hidden;
   transform: scale(0.15);
   opacity: 0;
@@ -280,14 +283,6 @@ body::before {
 .ph-gold    { background: linear-gradient(160deg, #c3d13e, #79851a); }
 .ph-expense { background: linear-gradient(160deg, #7a5cd9, #43309a); }
 .ph-camera  { background: linear-gradient(160deg, #97979e, #4d4d55); }
-.ph-weather { background: linear-gradient(170deg, #6d9bd4 0%, #4674ae 60%, #3a608f 100%); }
-
-.wx-temp {
-  font-size: 64px;
-  font-weight: 200;
-  color: #fff;
-  line-height: 1;
-}
 
 /* ============ Text column ============ */
 .panels { display: grid; }

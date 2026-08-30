@@ -8,7 +8,6 @@ const APPS = {
   gold:    { video: null, placeholderClass: "ph-gold" },
   expense: { video: null, placeholderClass: "ph-expense" },
   camera:  { video: null, placeholderClass: "ph-camera" },
-  weather: { video: null, placeholderClass: "ph-weather" },
 };
 
 const screen = document.getElementById("screen");
@@ -37,16 +36,6 @@ function buildAppScreen(name) {
   }
   const ph = document.createElement("div");
   ph.className = `app-placeholder ${app.placeholderClass}`;
-  if (name === "weather") {
-    const temp = document.createElement("span");
-    temp.className = "wx-temp";
-    temp.textContent = "20°";
-    ph.appendChild(temp);
-    const note = document.createElement("p");
-    note.textContent = "San Francisco · Sunny";
-    ph.appendChild(note);
-    return ph;
-  }
   const icon = document.createElement("span");
   icon.className = "ph-icon";
   const img = document.createElement("img");
