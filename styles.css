@@ -339,6 +339,16 @@ body::before {
   max-width: 46ch;
 }
 
+/* small editorial subtitle under panel headings */
+.panel .subtitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: -12px 0 22px;
+}
+
 .panel strong { color: var(--text); font-weight: 600; }
 
 /* inline text actions: bold means tappable. Hovering draws a soft
