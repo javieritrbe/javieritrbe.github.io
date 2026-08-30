@@ -558,12 +558,16 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   opacity: 1;
   transform: none;
   visibility: visible;
+  pointer-events: auto;
+  cursor: pointer;
   transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
     visibility 0s;
 }
 
-.toast svg { color: #5d7a48; }
+#toast-check { color: #5d7a48; }
+#toast-copy { color: var(--faint); transition: color 0.15s ease; }
+.toast:hover #toast-copy { color: var(--text); }
 
 /* ============ Responsive ============ */
 @media (max-width: 800px) {

@@ -248,6 +248,7 @@ if (shaker && iphone) {
 const EMAIL = "javier.hick1@gmail.com";
 const toast = document.getElementById("toast");
 const toastCheck = document.getElementById("toast-check");
+const toastCopy = document.getElementById("toast-copy");
 const toastText = document.getElementById("toast-text");
 let toastTimer;
 let copiedShowing = false;
@@ -276,6 +277,7 @@ async function copyEmail(anchor) {
     ta.remove();
   }
   toastCheck.style.display = "";
+  toastCopy.style.display = "none";
   toastText.innerHTML = "";
   toastText.append(EMAIL + " ");
   const b = document.createElement("strong");
@@ -294,17 +296,37 @@ async function copyEmail(anchor) {
 function previewEmail(anchor) {
   if (copiedShowing || document.body.classList.contains("revealing")) return;
   toastCheck.style.display = "none";
+  toastCopy.style.display = "";
   toastText.textContent = EMAIL;
   placeToast(anchor);
   toast.classList.add("show");
 }
 
+// the pill survives while the cursor is on the trigger or the pill itself
+let lastEmailAnchor = null;
+let pillHideTimer;
+
+function schedulePillHide() {
+  clearTimeout(pillHideTimer);
+  pillHideTimer = setTimeout(() => {
+    if (!copiedShowing) toast.classList.remove("show");
+  }, 260);
+}
+
+toast.addEventListener("mouseenter", () => clearTimeout(pillHideTimer));
+toast.addEventListener("mouseleave", schedulePillHide);
+toast.addEventListener("click", () => {
+  if (!copiedShowing && lastEmailAnchor) copyEmail(lastEmailAnchor);
+});
+
 document.querySelectorAll("[data-copy-email]").forEach((el) => {
   el.addEventListener("click", () => copyEmail(el));
-  el.addEventListener("mouseenter", () => previewEmail(el));
-  el.addEventListener("mouseleave", () => {
-    if (!copiedShowing) toast.classList.remove("show");
+  el.addEventListener("mouseenter", () => {
+    clearTimeout(pillHideTimer);
+    lastEmailAnchor = el;
+    previewEmail(el);
   });
+  el.addEventListener("mouseleave", schedulePillHide);
   el.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
