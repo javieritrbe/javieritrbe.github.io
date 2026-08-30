@@ -408,11 +408,15 @@ body.app-open .socials-home {
   z-index: 50;
   width: clamp(260px, 24vw, 360px);
   padding: 8px 8px 10px;
-  background: #fffdf8;
+  /* frosted glass: text sliding beneath blurs away instead of clashing */
+  background: rgba(255, 253, 248, 0.86);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
   border-radius: 22px;
   box-shadow:
-    0 18px 44px -14px rgba(62, 50, 28, 0.4),
-    0 4px 14px -6px rgba(62, 50, 28, 0.22);
+    0 24px 48px -16px rgba(62, 50, 28, 0.3),
+    0 6px 16px -8px rgba(62, 50, 28, 0.2),
+    0 0 0 0.5px rgba(62, 50, 28, 0.08);
   opacity: 0;
   transform: translateY(8px) scale(0.94);
   visibility: hidden;
@@ -538,13 +542,16 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   gap: 6px;
   padding: 7px 12px;
   border-radius: 999px;
-  background: #fffdf8;
+  background: rgba(255, 253, 248, 0.86);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
   color: var(--text);
   font-size: 0.76rem;
   font-weight: 500;
   box-shadow:
-    0 14px 34px -12px rgba(62, 50, 28, 0.4),
-    0 4px 12px -6px rgba(62, 50, 28, 0.2);
+    0 18px 38px -14px rgba(62, 50, 28, 0.3),
+    0 5px 14px -7px rgba(62, 50, 28, 0.2),
+    0 0 0 0.5px rgba(62, 50, 28, 0.08);
   opacity: 0;
   transform: translateY(10px) scale(0.96);
   visibility: hidden;
