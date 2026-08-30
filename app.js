@@ -66,8 +66,13 @@ const panels = document.querySelectorAll(".panel");
 
 let openApp = null;
 
+let peeksReadyAt = 0;
+
 function showPanel(name) {
   panels.forEach((p) => p.classList.toggle("is-active", p.dataset.panel === name));
+  // peek cards stay dormant until this panel's text has finished revealing
+  const active = document.querySelector(`.panel[data-panel="${name}"]`);
+  peeksReadyAt = performance.now() + parseFloat(active?.dataset.revealEnd || 0) * 1000;
 }
 
 function buildAppScreen(name) {
@@ -270,6 +275,7 @@ const peekCaption = document.getElementById("peek-caption");
 
 document.querySelectorAll(".fact--peek").forEach((el) => {
   el.addEventListener("mouseenter", () => {
+    if (performance.now() < peeksReadyAt) return;
     peekImg.src = el.dataset.peekImg;
     peekCaption.textContent = el.dataset.peekCaption;
     // anchor to the first line segment when the fact wraps across lines
