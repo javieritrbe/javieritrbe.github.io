@@ -149,7 +149,15 @@ body::before {
   pointer-events: none;
 }
 
-.screen:has(.hotspot:hover) .dim { opacity: 1; }
+.screen:has(.hotspot:hover) .dim,
+.screen:has(.hover-zone:hover) .dim { opacity: 1; }
+
+/* invisible zones under the hotspots — hovering the gaps between apps
+   keeps the dim engaged instead of flickering bright and dark */
+.hover-zone {
+  position: absolute;
+  z-index: 2;
+}
 
 /* each hotspot carries an exact-pixel crop of its own icon+label;
    normally it sits invisibly on top of the identical screenshot pixels,
