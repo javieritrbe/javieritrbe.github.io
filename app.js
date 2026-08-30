@@ -6,7 +6,7 @@ const APPS = {
   retro:   { video: "media/retro.mp4", placeholderClass: "ph-retro" },
   corner:  { video: "media/corner.mp4", placeholderClass: "ph-corner" },
   gold:    { video: "media/gold.mp4", placeholderClass: "ph-gold" },
-  expense: { video: null, placeholderClass: "ph-expense" },
+  expense: { video: "media/expense.mp4", placeholderClass: "ph-expense" },
   camera:  { video: null, placeholderClass: "ph-camera" },
 };
 
