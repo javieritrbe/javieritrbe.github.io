@@ -431,9 +431,8 @@ body.app-open .socials-home {
 .peek p {
   margin: 9px 5px 2px;
   font-size: 1.06rem;
-  font-weight: 600;
   line-height: 1.45;
-  color: var(--muted);
+  color: var(--text);
 }
 
 /* inline text actions: bold means tappable. Hovering draws a soft
