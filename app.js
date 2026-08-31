@@ -71,6 +71,7 @@ document.querySelectorAll(".panel").forEach((panel) => {
 }
 
 const screen = document.getElementById("screen");
+const strip = document.querySelector(".app-strip");
 const appview = document.getElementById("appview");
 const appviewBody = document.getElementById("appview-body");
 const homeBtn = document.getElementById("home-btn");
@@ -150,6 +151,31 @@ function open(name, btn, fromHistory) {
   });
 
   showPanel(name);
+  // mobile: retire the hint after the first tap, snug the arrow to the headline
+  if (strip && getComputedStyle(strip).display !== "none") {
+    const hint = document.querySelector(".strip-hint");
+    if (hint) {
+      hint.style.opacity = "0";
+      setTimeout(() => hint.remove(), 320);
+    }
+    const panelEl = document.querySelector(`.panel[data-panel="${name}"]`);
+    requestAnimationFrame(() => {
+      // anchor to the first letter: the h1 element spans the full column
+      const firstLetter = panelEl?.querySelector("h1 .rv");
+      const h1 = panelEl?.querySelector("h1");
+      const col = document.querySelector(".text-col");
+      if (firstLetter && col) {
+        const lr = firstLetter.getBoundingClientRect();
+        const hr = h1.getBoundingClientRect();
+        const cr = col.getBoundingClientRect();
+        homeBtn.style.left = `${Math.max(lr.left - cr.left - 40, 0)}px`;
+        homeBtn.style.top = `${hr.top - cr.top + hr.height / 2 - 15}px`;
+      }
+    });
+  } else {
+    homeBtn.style.left = "";
+    homeBtn.style.top = "";
+  }
   // mark the selected app in the mobile strip
   document.querySelector(".app-strip")?.classList.add("has-current");
   document.querySelectorAll(".strip-app").forEach((b) =>
@@ -240,7 +266,6 @@ screen.addEventListener("mouseleave", () => screen.classList.remove("dim-on"));
 // "Tap around": shakes the phone on desktop, jiggles the icon strip on mobile
 const shaker = document.querySelector("[data-shake]");
 const iphone = document.querySelector(".iphone");
-const strip = document.querySelector(".app-strip");
 if (shaker && iphone) {
   shaker.addEventListener("mouseenter", () => {
     if (iphone.classList.contains("shaking")) return;
@@ -335,7 +360,15 @@ toast.addEventListener("click", () => {
 });
 
 document.querySelectorAll("[data-copy-email]").forEach((el) => {
-  el.addEventListener("click", () => copyEmail(el));
+  el.addEventListener("click", (e) => {
+    // mailto links follow through on touch devices (opens the mail app);
+    // with a mouse we intercept and copy instead
+    if (el.tagName === "A" && el.href.startsWith("mailto:")) {
+      if (matchMedia("(hover: none)").matches) return;
+      e.preventDefault();
+    }
+    copyEmail(el);
+  });
   // hover preview only on the "get in touch" text, not the icons
   if (el.classList.contains("tlink")) {
     el.addEventListener("mouseenter", () => {
