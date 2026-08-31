@@ -221,6 +221,7 @@ function close(fromHistory) {
   document.querySelectorAll(".strip-app").forEach((b) => b.classList.remove("is-current"));
   if (!fromHistory && location.hash) history.pushState(null, "", location.pathname + location.search);
   suppressDimUntilMouseMoves();
+  window.scrollTo({ top: 0, behavior: "instant" });
   appview.classList.remove("is-open");
   screen.classList.remove("app-is-open");
   showPanel("default");
