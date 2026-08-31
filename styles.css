@@ -786,9 +786,17 @@ body.app-open .socials :is(a, button):not(.socials-home) {
     -webkit-tap-highlight-color: transparent;
   }
 
+  .strip-icon {
+    display: block;
+    /* soft contact shadow that follows the squircle silhouette */
+    filter: drop-shadow(0 3px 5px rgba(62, 50, 28, 0.16))
+      drop-shadow(0 1px 2px rgba(62, 50, 28, 0.1));
+  }
+
   .strip-app img {
     width: 62px;
     height: 62px;
+    display: block;
     -webkit-mask-image: var(--squircle);
     mask-image: var(--squircle);
     -webkit-mask-size: 100% 100%;
