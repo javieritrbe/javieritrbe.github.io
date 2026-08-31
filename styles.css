@@ -584,6 +584,12 @@ body.app-open .socials :is(a, button):not(.socials-home) {
 #toast-copy { color: var(--faint); transition: color 0.15s ease; }
 .toast:hover #toast-copy { color: var(--text); }
 
+/* fixed single view on desktop — no scroll. Small or very short screens
+   (stacked mobile layout) keep scrolling so content is never cut off */
+@media (min-width: 801px) and (min-height: 640px) {
+  html, body { overflow: hidden; height: 100%; }
+}
+
 /* ============ Responsive ============ */
 @media (max-width: 800px) {
   .layout {
