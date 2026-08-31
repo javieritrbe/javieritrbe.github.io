@@ -17,7 +17,10 @@
 
 * { box-sizing: border-box; }
 
-html { height: 100%; }
+html {
+  height: 100%;
+  background: var(--bg-deep); /* what iOS shows on overscroll and around the chrome */
+}
 
 body {
   margin: 0;
@@ -25,6 +28,7 @@ body {
   font-family: var(--sans);
   color: var(--text);
   line-height: 1.65;
+  background-color: var(--bg);
   background:
     /* champagne light falling from the upper left */
     radial-gradient(55% 42% at 12% 6%, rgba(255, 246, 222, 0.95) 0%, rgba(255, 246, 222, 0) 70%),
