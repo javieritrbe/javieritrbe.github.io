@@ -108,8 +108,25 @@ body::before {
   50% { opacity: 1; }
 }
 
-/* attract mode: JS flashes icons on touch devices like a hover would */
-.hotspot.flash img { opacity: 1; }
+/* "Tap around" on mobile: the strip icons jiggle in a quick wave */
+@keyframes icon-jiggle {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-10deg) translateY(-2px); }
+  40% { transform: rotate(9deg); }
+  60% { transform: rotate(-6deg) translateY(-1px); }
+  80% { transform: rotate(3deg); }
+}
+
+.app-strip.shaking .strip-app img {
+  animation: icon-jiggle 0.5s ease-in-out both;
+}
+
+.app-strip.shaking .strip-app:nth-child(1) img { animation-delay: 0s; }
+.app-strip.shaking .strip-app:nth-child(2) img { animation-delay: 0.05s; }
+.app-strip.shaking .strip-app:nth-child(3) img { animation-delay: 0.1s; }
+.app-strip.shaking .strip-app:nth-child(4) img { animation-delay: 0.15s; }
+.app-strip.shaking .strip-app:nth-child(5) img { animation-delay: 0.2s; }
+.app-strip.shaking .strip-app:nth-child(6) img { animation-delay: 0.25s; }
 
 /* the phone arrives like the text does: rising out of a blur, once */
 @keyframes phone-enter {

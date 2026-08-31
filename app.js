@@ -237,9 +237,10 @@ screen.addEventListener("mouseover", (e) => {
 });
 screen.addEventListener("mouseleave", () => screen.classList.remove("dim-on"));
 
-// "Tap around": hovering gives the phone a little shake
+// "Tap around": shakes the phone on desktop, jiggles the icon strip on mobile
 const shaker = document.querySelector("[data-shake]");
 const iphone = document.querySelector(".iphone");
+const strip = document.querySelector(".app-strip");
 if (shaker && iphone) {
   shaker.addEventListener("mouseenter", () => {
     if (iphone.classList.contains("shaking")) return;
@@ -247,6 +248,14 @@ if (shaker && iphone) {
   });
   iphone.addEventListener("animationend", (e) => {
     if (e.animationName === "phone-shake") iphone.classList.remove("shaking");
+  });
+}
+if (shaker && strip) {
+  shaker.addEventListener("click", () => {
+    if (getComputedStyle(strip).display === "none") return;
+    if (strip.classList.contains("shaking")) return;
+    strip.classList.add("shaking");
+    setTimeout(() => strip.classList.remove("shaking"), 850);
   });
 }
 
