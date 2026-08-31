@@ -561,8 +561,14 @@ body.revealing :is(.tlink, .quiet-link, .fact--peek):hover {
   display: flex;
   gap: 26px;
   margin-top: 44px;
-  /* arrives at the tail of the load cascade (delay set in JS) */
+}
+
+/* the links arrive at the tail of the load cascade (delay set in JS).
+   Animated individually: a filled filter animation on the container
+   would hijack the back arrow's absolute positioning */
+.socials > a {
   animation: char-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--socials-delay, 0s);
 }
 
 .socials a,

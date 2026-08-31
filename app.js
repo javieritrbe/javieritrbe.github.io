@@ -70,7 +70,7 @@ document.querySelectorAll(".panel").forEach((panel) => {
     // socials and the tap hint are the last things to arrive on the page
     const end = parseFloat(initial.dataset.revealEnd || 0);
     const socials = document.querySelector(".socials");
-    if (socials) socials.style.animationDelay = `${end}s`;
+    if (socials) socials.style.setProperty("--socials-delay", `${end}s`);
     const hint = document.querySelector(".strip-hint");
     if (hint) hint.style.animationDelay = `${end + 0.15}s`;
   }
