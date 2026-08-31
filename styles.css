@@ -645,10 +645,10 @@ body.app-open .socials :is(a, button):not(.socials-home) {
 
   .app-strip {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px 6px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px 10px;
     width: 100%;
-    max-width: 340px;
+    max-width: 300px;
     margin: 4px auto 2px;
     animation: phone-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
@@ -669,8 +669,8 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   }
 
   .strip-app img {
-    width: 58px;
-    height: 58px;
+    width: 62px;
+    height: 62px;
     -webkit-mask-image: var(--squircle);
     mask-image: var(--squircle);
     -webkit-mask-size: 100% 100%;
