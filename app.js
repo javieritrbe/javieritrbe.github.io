@@ -67,9 +67,12 @@ document.querySelectorAll(".panel").forEach((panel) => {
       () => document.body.classList.remove("revealing"),
       parseFloat(initial.dataset.revealEnd || 0) * 1000
     );
-    // the tap hint is the very last thing to arrive on the page
+    // socials and the tap hint are the last things to arrive on the page
+    const end = parseFloat(initial.dataset.revealEnd || 0);
+    const socials = document.querySelector(".socials");
+    if (socials) socials.style.animationDelay = `${end}s`;
     const hint = document.querySelector(".strip-hint");
-    if (hint) hint.style.animationDelay = `${parseFloat(initial.dataset.revealEnd || 0) + 0.15}s`;
+    if (hint) hint.style.animationDelay = `${end + 0.15}s`;
   }
 }
 
@@ -158,8 +161,10 @@ function open(name, btn, fromHistory) {
   if (strip && getComputedStyle(strip).display !== "none") {
     const hint = document.querySelector(".strip-hint");
     if (hint) {
+      // fade out but keep the space, so every heading sits at the same level
       hint.style.opacity = "0";
-      setTimeout(() => hint.remove(), 320);
+      hint.style.visibility = "hidden";
+      hint.style.animation = "none";
     }
     const panelEl = document.querySelector(`.panel[data-panel="${name}"]`);
     requestAnimationFrame(() => {

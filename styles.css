@@ -561,6 +561,8 @@ body.revealing :is(.tlink, .quiet-link, .fact--peek):hover {
   display: flex;
   gap: 26px;
   margin-top: 44px;
+  /* arrives at the tail of the load cascade (delay set in JS) */
+  animation: char-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .socials a,
