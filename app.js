@@ -100,6 +100,7 @@ function showPanel(name) {
   panels.forEach((p) => p.classList.toggle("is-active", p.dataset.panel === name));
   const active = document.querySelector(`.panel[data-panel="${name}"]`);
   gateHoverEffects(parseFloat(active?.dataset.revealEnd || 0));
+  warmPeeks(name);
   requestAnimationFrame(updateScrollLock);
 }
 
@@ -456,13 +457,17 @@ function showPeek(el) {
   peek.classList.add("show");
 }
 
-// pre-warm every peek image once the page is idle: switches feel instant
-window.addEventListener("load", () => {
-  document.querySelectorAll(".fact--peek").forEach((el) => {
+// pre-warm a panel's peek images the moment it opens — ready by hover time,
+// zero bytes spent on panels nobody visits
+const warmedPanels = new Set();
+function warmPeeks(name) {
+  if (warmedPanels.has(name)) return;
+  warmedPanels.add(name);
+  document.querySelectorAll(`.panel[data-panel="${name}"] .fact--peek`).forEach((el) => {
     const img = new Image();
     img.src = el.dataset.peekImg;
   });
-});
+}
 
 const hidePeek = () => peek.classList.remove("show");
 const touchDevice = matchMedia("(hover: none)").matches;
