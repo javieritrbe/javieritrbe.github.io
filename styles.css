@@ -645,7 +645,9 @@ body.app-open .socials :is(a, button):not(.socials-home) {
     grid-template-columns: 1fr;
     padding: 22px 20px 40px;
     align-items: start;
+    align-content: start; /* never stretch rows apart on tall screens */
     justify-items: center;
+    min-height: 100svh;   /* stable unit: ignores iOS toolbar collapse */
   }
   /* the mockup gives way to a straightforward icon grid */
   .phone-col { display: none; }

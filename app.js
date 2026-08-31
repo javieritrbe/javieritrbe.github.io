@@ -166,20 +166,8 @@ function open(name, btn, fromHistory) {
       hint.style.visibility = "hidden";
       hint.style.animation = "none";
     }
-    const panelEl = document.querySelector(`.panel[data-panel="${name}"]`);
-    requestAnimationFrame(() => {
-      // anchor to the first letter: the h1 element spans the full column
-      const firstLetter = panelEl?.querySelector("h1 .rv");
-      const h1 = panelEl?.querySelector("h1");
-      const col = document.querySelector(".text-col");
-      if (firstLetter && col) {
-        const lr = firstLetter.getBoundingClientRect();
-        const hr = h1.getBoundingClientRect();
-        const cr = col.getBoundingClientRect();
-        homeBtn.style.left = `${Math.max(lr.left - cr.left - 40, 0)}px`;
-        homeBtn.style.top = `${hr.top - cr.top + hr.height / 2 - 15}px`;
-      }
-    });
+    requestAnimationFrame(placeHomeBtn);
+    setTimeout(placeHomeBtn, 450); // again once layout fully settles
   } else {
     homeBtn.style.left = "";
     homeBtn.style.top = "";
@@ -194,6 +182,25 @@ function open(name, btn, fromHistory) {
   document.body.classList.add("app-open");
   homeBtn.focus({ preventScroll: true });
 }
+
+// pin the back arrow just left of the active heading (mobile only);
+// re-run on resize since iOS viewport height shifts as toolbars collapse
+function placeHomeBtn() {
+  if (!openApp) return;
+  if (!strip || getComputedStyle(strip).display === "none") return;
+  const panelEl = document.querySelector(`.panel[data-panel="${openApp}"]`);
+  const firstLetter = panelEl?.querySelector("h1 .rv");
+  const h1 = panelEl?.querySelector("h1");
+  const col = document.querySelector(".text-col");
+  if (!firstLetter || !col) return;
+  const lr = firstLetter.getBoundingClientRect();
+  const hr = h1.getBoundingClientRect();
+  const cr = col.getBoundingClientRect();
+  homeBtn.style.left = `${Math.max(lr.left - cr.left - 40, 0)}px`;
+  homeBtn.style.top = `${hr.top - cr.top + hr.height / 2 - 15}px`;
+}
+
+window.addEventListener("resize", placeHomeBtn);
 
 let clearSuppression = null;
 
