@@ -17,29 +17,28 @@
 
 * { box-sizing: border-box; }
 
-/* deep parchment on the root: matches the gradient's bottom end, so
-   overscroll and the area under Safari's bars blend instead of banding */
+/* the page's edges, the canvas, and Safari's chrome all share ONE color —
+   uniform edges are the only seam-proof approach on iOS */
 html {
   height: 100%;
-  background: var(--bg-deep);
+  background: var(--bg);
 }
 
 /* the gradient paints the body, which grows with the content —
    no hard edge at one viewport height on scrolling screens */
 body {
   margin: 0;
-  min-height: 100svh;
+  min-height: 100%;
   font-family: var(--sans);
   color: var(--text);
   line-height: 1.65;
+  /* all washes fade out before the edges: top and bottom rows of the page
+     are pure --bg, identical to the canvas and Safari's bars */
   background:
-    /* champagne light falling from the upper left */
-    radial-gradient(55% 42% at 12% 6%, rgba(255, 246, 222, 0.95) 0%, rgba(255, 246, 222, 0) 70%),
-    /* blush wash on the right shoulder */
-    radial-gradient(46% 38% at 90% 18%, rgba(243, 219, 205, 0.5) 0%, rgba(243, 219, 205, 0) 70%),
-    /* whisper of sage rising from the lower right */
-    radial-gradient(52% 44% at 78% 96%, rgba(221, 226, 205, 0.55) 0%, rgba(221, 226, 205, 0) 70%),
-    linear-gradient(160deg, var(--bg) 30%, var(--bg-deep) 100%);
+    radial-gradient(46% 30% at 14% 26%, rgba(255, 246, 222, 0.85) 0%, rgba(255, 246, 222, 0) 68%),
+    radial-gradient(40% 26% at 88% 32%, rgba(243, 219, 205, 0.45) 0%, rgba(243, 219, 205, 0) 68%),
+    radial-gradient(46% 24% at 76% 72%, rgba(221, 226, 205, 0.5) 0%, rgba(221, 226, 205, 0) 68%),
+    linear-gradient(180deg, var(--bg) 0%, #f2ecdf 55%, var(--bg) 100%);
 }
 
 /* soft vignette pulls the eye toward the center of the spread */
@@ -646,11 +645,6 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   html, body { overflow: hidden; height: 100%; }
 }
 
-/* tall phones fit everything — lock scrolling there too
-   (threshold is the visible viewport WITH browser bars showing) */
-@media (max-width: 800px) and (min-height: 760px) {
-  html, body { overflow: hidden; }
-}
 
 /* ============ Responsive ============ */
 @media (max-width: 800px) {
