@@ -757,7 +757,7 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   .panel h1 { font-size: 1.7rem; margin-bottom: 10px; }
   .panel .subtitle { font-size: 0.72rem; margin: -8px 0 18px; }
   .panel p { margin-inline: auto; font-size: 0.98rem; }
-  .socials { justify-content: center; margin-top: 12px; }
+  .socials { justify-content: center; margin-top: 26px; }
 }
 
 /* ============ Reduced motion ============ */
