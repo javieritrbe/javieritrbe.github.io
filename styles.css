@@ -594,13 +594,20 @@ body.app-open .socials :is(a, button):not(.socials-home) {
 @media (max-width: 800px) {
   .layout {
     grid-template-columns: 1fr;
-    gap: 48px;
-    padding: 40px 24px 64px;
+    gap: 30px;
+    padding: 30px 24px 56px;
     align-items: start;
+    justify-items: center;
+  }
+  /* smaller phone up top so the story starts on the first screen */
+  .iphone {
+    width: min(58vw, 235px);
   }
   .text-col { text-align: center; }
-  .panel p { margin-inline: auto; }
-  .socials { justify-content: center; }
+  .panel h1 { font-size: 1.7rem; margin-bottom: 14px; }
+  .panel .subtitle { font-size: 0.72rem; margin: -8px 0 18px; }
+  .panel p { margin-inline: auto; font-size: 0.98rem; }
+  .socials { justify-content: center; margin-top: 30px; }
 }
 
 /* ============ Reduced motion ============ */
