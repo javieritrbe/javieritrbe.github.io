@@ -17,10 +17,20 @@
 
 * { box-sizing: border-box; }
 
-/* the gradient lives on the root so the ENTIRE canvas — page, overscroll,
-   safe areas — is painted with it. No seams, no off-shade bands. */
+/* solid ivory on the root: what overscroll and Safari's chrome show */
 html {
   height: 100%;
+  background: var(--bg);
+}
+
+/* the gradient paints the body, which grows with the content —
+   no hard edge at one viewport height on scrolling screens */
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--sans);
+  color: var(--text);
+  line-height: 1.65;
   background:
     /* champagne light falling from the upper left */
     radial-gradient(55% 42% at 12% 6%, rgba(255, 246, 222, 0.95) 0%, rgba(255, 246, 222, 0) 70%),
@@ -28,15 +38,7 @@ html {
     radial-gradient(46% 38% at 90% 18%, rgba(243, 219, 205, 0.5) 0%, rgba(243, 219, 205, 0) 70%),
     /* whisper of sage rising from the lower right */
     radial-gradient(52% 44% at 78% 96%, rgba(221, 226, 205, 0.55) 0%, rgba(221, 226, 205, 0) 70%),
-    linear-gradient(160deg, var(--bg) 30%, var(--bg-deep) 100%) var(--bg);
-}
-
-body {
-  margin: 0;
-  min-height: 100%;
-  font-family: var(--sans);
-  color: var(--text);
-  line-height: 1.65;
+    linear-gradient(160deg, var(--bg) 30%, var(--bg-deep) 100%);
 }
 
 /* soft vignette pulls the eye toward the center of the spread */
