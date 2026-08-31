@@ -391,3 +391,18 @@ function syncFromHash() {
 window.addEventListener("hashchange", syncFromHash);
 window.addEventListener("popstate", syncFromHash);
 syncFromHash();
+
+// touch devices get no hover spotlight, so play it once as a teaser:
+// the screen dims and three icons light up in sequence
+if (matchMedia("(hover: none)").matches && !openApp) {
+  setTimeout(() => {
+    if (openApp) return;
+    screen.classList.add("dim-on");
+    ["bereal", "gold", "expense"].forEach((name, i) => {
+      const el = document.querySelector(`.hotspot[data-app="${name}"]`);
+      setTimeout(() => el.classList.add("flash"), i * 500);
+      setTimeout(() => el.classList.remove("flash"), i * 500 + 450);
+    });
+    setTimeout(() => screen.classList.remove("dim-on"), 3 * 500 + 250);
+  }, 1600);
+}
