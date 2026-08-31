@@ -17,17 +17,20 @@
 
 * { box-sizing: border-box; }
 
-/* solid ivory on the root: what overscroll and Safari's chrome show */
+/* deep parchment on the root: matches the gradient's bottom end, so
+   overscroll and the area under Safari's bars blend instead of banding */
 html {
   height: 100%;
-  background: var(--bg);
+  background: var(--bg-deep);
 }
 
 /* the gradient paints the body, which grows with the content —
    no hard edge at one viewport height on scrolling screens */
 body {
   margin: 0;
-  min-height: 100%;
+  /* as tall as the LARGEST viewport state, so the gradient still reaches
+     the bottom when iOS collapses its toolbar */
+  min-height: 100lvh;
   font-family: var(--sans);
   color: var(--text);
   line-height: 1.65;
@@ -643,6 +646,11 @@ body.app-open .socials :is(a, button):not(.socials-home) {
    (stacked mobile layout) keep scrolling so content is never cut off */
 @media (min-width: 801px) and (min-height: 640px) {
   html, body { overflow: hidden; height: 100%; }
+}
+
+/* tall phones fit everything — lock scrolling there too */
+@media (max-width: 800px) and (min-height: 850px) {
+  html, body { overflow: hidden; }
 }
 
 /* ============ Responsive ============ */
