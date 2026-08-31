@@ -86,12 +86,10 @@ body::before {
 @media (hover: none) {
   .tap-hint {
     display: block;
-    margin: 18px 0 0;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--faint);
+    margin: 6px 0 0; /* sits within the phone's cast shadow */
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--muted);
     animation: hint-pulse 2.6s ease-in-out infinite;
   }
   /* invisible hit-area expansion — icons stay visually identical */
@@ -639,10 +637,15 @@ body.app-open .socials :is(a, button):not(.socials-home) {
     align-items: start;
     justify-items: center;
   }
-  /* smaller phone up top so the story starts on the first screen */
+  /* bigger phone, pulled past the top edge — its upper portion
+     dissolves out so the fold still reaches the story below */
   .iphone {
-    width: min(58vw, 235px);
+    width: min(80vw, 310px);
+    margin-top: -78px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 6px, #000 92px);
+    mask-image: linear-gradient(to bottom, transparent 6px, #000 92px);
   }
+  .iphone:hover { transform: none; }
   .text-col { text-align: center; }
   .panel h1 { font-size: 1.7rem; margin-bottom: 14px; }
   .panel .subtitle { font-size: 0.72rem; margin: -8px 0 18px; }
