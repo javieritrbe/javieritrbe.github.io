@@ -725,10 +725,10 @@ body.app-open .socials :is(a, button):not(.socials-home) {
     margin: 4px 0 8px;
     text-align: center;
     transition: opacity 0.3s ease;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 300; /* SF Pro Light — sleeker than italic */
-    letter-spacing: 0.035em;
-    color: var(--muted);
+    letter-spacing: 0.045em;
+    color: var(--faint); /* quieter than the labels above it: UI, not content */
     animation: char-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: 0.6s;
   }
