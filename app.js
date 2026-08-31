@@ -100,6 +100,7 @@ function showPanel(name) {
   panels.forEach((p) => p.classList.toggle("is-active", p.dataset.panel === name));
   const active = document.querySelector(`.panel[data-panel="${name}"]`);
   gateHoverEffects(parseFloat(active?.dataset.revealEnd || 0));
+  requestAnimationFrame(updateScrollLock);
 }
 
 function buildAppScreen(name) {
@@ -182,6 +183,20 @@ function open(name, btn, fromHistory) {
   document.body.classList.add("app-open");
   homeBtn.focus({ preventScroll: true });
 }
+
+// lock scrolling whenever the content genuinely fits the viewport —
+// measured live per device and per panel, not guessed via breakpoints
+function updateScrollLock() {
+  if (!matchMedia("(hover: none) and (max-width: 800px)").matches) return;
+  const root = document.documentElement;
+  root.classList.remove("locked");
+  const fits = root.scrollHeight <= window.innerHeight + 2;
+  root.classList.toggle("locked", fits);
+}
+
+window.addEventListener("resize", updateScrollLock);
+window.addEventListener("load", updateScrollLock);
+setTimeout(updateScrollLock, 100);
 
 // pin the back arrow just left of the active heading (mobile only);
 // re-run on resize since iOS viewport height shifts as toolbars collapse
