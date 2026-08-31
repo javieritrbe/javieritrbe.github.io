@@ -67,6 +67,9 @@ document.querySelectorAll(".panel").forEach((panel) => {
       () => document.body.classList.remove("revealing"),
       parseFloat(initial.dataset.revealEnd || 0) * 1000
     );
+    // the tap hint is the very last thing to arrive on the page
+    const hint = document.querySelector(".strip-hint");
+    if (hint) hint.style.animationDelay = `${parseFloat(initial.dataset.revealEnd || 0) + 0.15}s`;
   }
 }
 
