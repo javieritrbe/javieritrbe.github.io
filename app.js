@@ -7,7 +7,7 @@ const APPS = {
   corner:  { video: "media/corner.mp4", placeholderClass: "ph-corner" },
   gold:    { video: "media/gold.mp4", placeholderClass: "ph-gold" },
   expense: { video: "media/expense.mp4", placeholderClass: "ph-expense" },
-  camera:  { video: null, placeholderClass: "ph-camera" },
+  camera:  { video: "media/camera.mp4", placeholderClass: "ph-camera" },
 };
 
 // Split panel text into animatable units: letters for headings, words for
