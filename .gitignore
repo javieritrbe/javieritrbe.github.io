@@ -1,14 +1,20 @@
 .superpowers/
 .DS_Store
-bereal_pic.JPG
-bereal_video.mov
-bereal_indonesia.jpg
-headshot.png
-Bereal_UK_numbers.jpg
-bereal_uk_topcharts.PNG
-retro_taiwan.jpg
-retro_top_charts.png
-retro_screenrecording.mov
-corner.mov
-gold.mov
-expense_tracker.mov
+
+# raw source media dropped at the repo root never enters the repo —
+# compressed web copies live in media/
+/*.mov
+/*.MOV
+/*.mp4
+/*.jpg
+/*.JPG
+/*.jpeg
+/*.png
+/*.PNG
+/*.heic
+/*.webp
+
+# the favicons are the only root images that ship
+!/favicon-16.png
+!/favicon-32.png
+!/apple-touch-icon.png
