@@ -196,7 +196,7 @@ function close(fromHistory) {
   );
 }
 
-document.querySelectorAll(".hotspot[data-app]").forEach((btn) => {
+document.querySelectorAll(".hotspot[data-app], .strip-app[data-app]").forEach((btn) => {
   btn.addEventListener("click", () => {
     const name = btn.dataset.app;
     if (openApp === name) return;

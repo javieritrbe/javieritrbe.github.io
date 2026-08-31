@@ -83,6 +83,9 @@ body::before {
 /* touch affordances: hidden wherever a mouse exists */
 .tap-hint { display: none; }
 
+/* mobile icon strip: hidden on desktop, replaces the mockup on phones */
+.app-strip { display: none; }
+
 @media (hover: none) {
   .tap-hint {
     display: block;
@@ -637,15 +640,50 @@ body.app-open .socials :is(a, button):not(.socials-home) {
     align-items: start;
     justify-items: center;
   }
-  /* bigger phone, pulled past the top edge — its upper portion
-     dissolves out so the fold still reaches the story below */
-  .iphone {
-    width: min(80vw, 310px);
-    margin-top: -78px;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 6px, #000 92px);
-    mask-image: linear-gradient(to bottom, transparent 6px, #000 92px);
+  /* the mockup gives way to a straightforward icon grid */
+  .phone-col { display: none; }
+
+  .app-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px 6px;
+    width: 100%;
+    max-width: 340px;
+    margin: 4px auto 2px;
+    animation: phone-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  .iphone:hover { transform: none; }
+
+  .strip-app {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    font: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .strip-app img {
+    width: 58px;
+    height: 58px;
+    -webkit-mask-image: var(--squircle);
+    mask-image: var(--squircle);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  .strip-app span {
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .strip-app:active img { transform: scale(0.94); }
   .text-col { text-align: center; }
   .panel h1 { font-size: 1.7rem; margin-bottom: 14px; }
   .panel .subtitle { font-size: 0.72rem; margin: -8px 0 18px; }
