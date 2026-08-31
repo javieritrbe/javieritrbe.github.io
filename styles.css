@@ -80,21 +80,10 @@ body::before {
   justify-content: center;
 }
 
-/* touch affordances: hidden wherever a mouse exists */
-.tap-hint { display: none; }
-
 /* mobile icon strip: hidden on desktop, replaces the mockup on phones */
 .app-strip { display: none; }
 
 @media (hover: none) {
-  .tap-hint {
-    display: block;
-    margin: 6px 0 0; /* sits within the phone's cast shadow */
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--muted);
-    animation: hint-pulse 2.6s ease-in-out infinite;
-  }
   /* invisible hit-area expansion — icons stay visually identical */
   .hotspot::after {
     content: "";
@@ -687,12 +676,33 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   .app-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 22px 10px;
+    gap: 12px 10px;
     width: 100%;
     max-width: 300px;
     margin: 4px auto 2px;
-    animation: phone-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
+
+  /* icons arrive like the letters do: left to right, out of a blur */
+  .strip-app { animation: char-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .strip-app:nth-child(1) { animation-delay: 0.08s; }
+  .strip-app:nth-child(2) { animation-delay: 0.16s; }
+  .strip-app:nth-child(3) { animation-delay: 0.24s; }
+  .strip-app:nth-child(4) { animation-delay: 0.32s; }
+  .strip-app:nth-child(5) { animation-delay: 0.4s; }
+  .strip-app:nth-child(6) { animation-delay: 0.48s; }
+
+  .strip-hint {
+    grid-column: 1 / -1;
+    margin: 6px 0 10px;
+    text-align: center;
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--muted);
+    animation: char-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.6s;
+  }
+
+  .panel p { margin-bottom: 12px; }
 
   .strip-app {
     appearance: none;
