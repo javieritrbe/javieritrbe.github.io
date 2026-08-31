@@ -17,9 +17,18 @@
 
 * { box-sizing: border-box; }
 
+/* the gradient lives on the root so the ENTIRE canvas — page, overscroll,
+   safe areas — is painted with it. No seams, no off-shade bands. */
 html {
   height: 100%;
-  background: var(--bg-deep); /* what iOS shows on overscroll and around the chrome */
+  background:
+    /* champagne light falling from the upper left */
+    radial-gradient(55% 42% at 12% 6%, rgba(255, 246, 222, 0.95) 0%, rgba(255, 246, 222, 0) 70%),
+    /* blush wash on the right shoulder */
+    radial-gradient(46% 38% at 90% 18%, rgba(243, 219, 205, 0.5) 0%, rgba(243, 219, 205, 0) 70%),
+    /* whisper of sage rising from the lower right */
+    radial-gradient(52% 44% at 78% 96%, rgba(221, 226, 205, 0.55) 0%, rgba(221, 226, 205, 0) 70%),
+    linear-gradient(160deg, var(--bg) 30%, var(--bg-deep) 100%) var(--bg);
 }
 
 body {
@@ -28,16 +37,6 @@ body {
   font-family: var(--sans);
   color: var(--text);
   line-height: 1.65;
-  background-color: var(--bg);
-  background:
-    /* champagne light falling from the upper left */
-    radial-gradient(55% 42% at 12% 6%, rgba(255, 246, 222, 0.95) 0%, rgba(255, 246, 222, 0) 70%),
-    /* blush wash on the right shoulder */
-    radial-gradient(46% 38% at 90% 18%, rgba(243, 219, 205, 0.5) 0%, rgba(243, 219, 205, 0) 70%),
-    /* whisper of sage rising from the lower right */
-    radial-gradient(52% 44% at 78% 96%, rgba(221, 226, 205, 0.55) 0%, rgba(221, 226, 205, 0) 70%),
-    linear-gradient(160deg, var(--bg) 30%, var(--bg-deep) 100%);
-  background-attachment: fixed;
 }
 
 /* soft vignette pulls the eye toward the center of the spread */
