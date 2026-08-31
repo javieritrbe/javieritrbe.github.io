@@ -699,12 +699,12 @@ body.app-open .socials :is(a, button):not(.socials-home) {
 
   /* selected app: label chip + the rest recede */
   .strip-app { transition: opacity 0.2s ease; }
-  .strip-app span {
+  .strip-app span:not(.strip-icon) {
     padding: 2px 8px;
     border-radius: 7px;
     transition: background-color 0.2s ease, color 0.2s ease;
   }
-  .strip-app.is-current span {
+  .strip-app.is-current span:not(.strip-icon) {
     background: rgba(33, 29, 21, 0.09);
     color: var(--text);
     font-weight: 600;
