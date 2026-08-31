@@ -407,32 +407,55 @@ const peek = document.getElementById("peek");
 const peekImg = document.getElementById("peek-img");
 const peekCaption = document.getElementById("peek-caption");
 
+function showPeek(el) {
+  if (performance.now() < peeksReadyAt) return;
+  peekImg.src = el.dataset.peekImg;
+  peekCaption.textContent = el.dataset.peekCaption;
+  // anchor to the first line segment when the fact wraps across lines
+  const rect = el.getClientRects()[0] || el.getBoundingClientRect();
+  const w = peek.offsetWidth;
+  const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
+  peek.style.left = `${x}px`;
+  const place = () => {
+    // charts/screenshots (landscape to near-square) show whole;
+    // true portrait photos get a cover crop scaled to the card
+    peekImg.style.height =
+      peekImg.naturalWidth >= peekImg.naturalHeight * 0.75
+        ? "auto"
+        : `${Math.round(peek.offsetWidth * 0.92)}px`;
+    // always above the hovered line so the card never covers the text
+    peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
+  };
+  place();
+  peekImg.addEventListener("load", place, { once: true });
+  peek.classList.add("show");
+}
+
+const hidePeek = () => peek.classList.remove("show");
+const touchDevice = matchMedia("(hover: none)").matches;
+
 document.querySelectorAll(".fact--peek").forEach((el) => {
-  el.addEventListener("mouseenter", () => {
-    if (performance.now() < peeksReadyAt) return;
-    peekImg.src = el.dataset.peekImg;
-    peekCaption.textContent = el.dataset.peekCaption;
-    // anchor to the first line segment when the fact wraps across lines
-    const rect = el.getClientRects()[0] || el.getBoundingClientRect();
-    const w = peek.offsetWidth;
-    const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
-    peek.style.left = `${x}px`;
-    const place = () => {
-      // charts/screenshots (landscape to near-square) show whole;
-      // true portrait photos get a cover crop scaled to the card
-      peekImg.style.height =
-        peekImg.naturalWidth >= peekImg.naturalHeight * 0.75
-          ? "auto"
-          : `${Math.round(peek.offsetWidth * 0.92)}px`;
-      // always above the hovered line so the card never covers the text
-      peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
-    };
-    place();
-    peekImg.addEventListener("load", place, { once: true });
-    peek.classList.add("show");
-  });
-  el.addEventListener("mouseleave", () => peek.classList.remove("show"));
+  if (touchDevice) {
+    // touch: tap opens the card; the X or a tap anywhere else closes it
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showPeek(el);
+    });
+  } else {
+    el.addEventListener("mouseenter", () => showPeek(el));
+    el.addEventListener("mouseleave", hidePeek);
+  }
 });
+
+if (touchDevice) {
+  document.getElementById("peek-close").addEventListener("click", (e) => {
+    e.stopPropagation();
+    hidePeek();
+  });
+  document.addEventListener("click", (e) => {
+    if (peek.classList.contains("show") && !peek.contains(e.target)) hidePeek();
+  });
+}
 
 homeBtn.addEventListener("click", () => close());
 appview.addEventListener("click", () => close()); // tap anywhere on the open app to dismiss
