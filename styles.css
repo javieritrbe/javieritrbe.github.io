@@ -643,6 +643,30 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   /* the mockup gives way to a straightforward icon grid */
   .phone-col { display: none; }
 
+  .layout { gap: 14px; }
+
+  /* selected app: label chip + the rest recede */
+  .strip-app { transition: opacity 0.2s ease; }
+  .strip-app span {
+    padding: 2px 8px;
+    border-radius: 7px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .strip-app.is-current span {
+    background: rgba(33, 29, 21, 0.09);
+    color: var(--text);
+    font-weight: 600;
+  }
+  .app-strip.has-current .strip-app:not(.is-current) { opacity: 0.45; }
+
+  /* back arrow sits to the left of the headline on mobile */
+  .socials-home {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    margin: 0;
+  }
+
   .app-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

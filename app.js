@@ -150,6 +150,10 @@ function open(name, btn, fromHistory) {
   });
 
   showPanel(name);
+  // mark the selected app in the mobile strip
+  document.querySelector(".app-strip")?.classList.add("has-current");
+  document.querySelectorAll(".strip-app").forEach((b) =>
+    b.classList.toggle("is-current", b.dataset.app === name));
   // back arrow blurs in right after the panel's text finishes revealing
   const panel = document.querySelector(`.panel[data-panel="${name}"]`);
   homeBtn.style.animationDelay = `${panel?.dataset.revealEnd || 0.3}s`;
@@ -179,6 +183,8 @@ function close(fromHistory) {
   if (!openApp) return;
   openApp = null;
   document.body.classList.remove("app-open");
+  document.querySelector(".app-strip")?.classList.remove("has-current");
+  document.querySelectorAll(".strip-app").forEach((b) => b.classList.remove("is-current"));
   if (!fromHistory && location.hash) history.pushState(null, "", location.pathname + location.search);
   suppressDimUntilMouseMoves();
   appview.classList.remove("is-open");
