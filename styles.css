@@ -28,9 +28,7 @@ html {
    no hard edge at one viewport height on scrolling screens */
 body {
   margin: 0;
-  /* as tall as the LARGEST viewport state, so the gradient still reaches
-     the bottom when iOS collapses its toolbar */
-  min-height: 100lvh;
+  min-height: 100svh;
   font-family: var(--sans);
   color: var(--text);
   line-height: 1.65;
@@ -648,8 +646,9 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   html, body { overflow: hidden; height: 100%; }
 }
 
-/* tall phones fit everything — lock scrolling there too */
-@media (max-width: 800px) and (min-height: 850px) {
+/* tall phones fit everything — lock scrolling there too
+   (threshold is the visible viewport WITH browser bars showing) */
+@media (max-width: 800px) and (min-height: 760px) {
   html, body { overflow: hidden; }
 }
 
