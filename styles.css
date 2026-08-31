@@ -645,6 +645,18 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   html, body { overflow: hidden; height: 100%; }
 }
 
+/* phones tall enough to fit everything: hard scroll lock.
+   iOS ignores overflow:hidden, so the body itself is fixed in place */
+@media (max-width: 800px) and (min-height: 740px) {
+  html { overflow: hidden; height: 100%; }
+  body {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+}
+
 
 /* ============ Responsive ============ */
 @media (max-width: 800px) {
