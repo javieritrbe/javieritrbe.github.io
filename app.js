@@ -409,7 +409,12 @@ const peekCaption = document.getElementById("peek-caption");
 
 function showPeek(el) {
   if (performance.now() < peeksReadyAt) return;
-  peekImg.src = el.dataset.peekImg;
+  const target = new URL(el.dataset.peekImg, location.href).href;
+  if (peekImg.src !== target) {
+    // never show the previous photo while the new one loads
+    peekImg.style.visibility = "hidden";
+    peekImg.src = target;
+  }
   peekCaption.textContent = el.dataset.peekCaption;
   // anchor to the first line segment when the fact wraps across lines
   const rect = el.getClientRects()[0] || el.getBoundingClientRect();
@@ -426,10 +431,23 @@ function showPeek(el) {
     // always above the hovered line so the card never covers the text
     peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
   };
+  const reveal = () => {
+    place();
+    peekImg.style.visibility = "";
+  };
+  if (peekImg.complete && peekImg.naturalWidth) reveal();
+  else peekImg.addEventListener("load", reveal, { once: true });
   place();
-  peekImg.addEventListener("load", place, { once: true });
   peek.classList.add("show");
 }
+
+// pre-warm every peek image once the page is idle: switches feel instant
+window.addEventListener("load", () => {
+  document.querySelectorAll(".fact--peek").forEach((el) => {
+    const img = new Image();
+    img.src = el.dataset.peekImg;
+  });
+});
 
 const hidePeek = () => peek.classList.remove("show");
 const touchDevice = matchMedia("(hover: none)").matches;
