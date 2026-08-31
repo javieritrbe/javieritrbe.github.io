@@ -452,6 +452,8 @@ if (touchDevice) {
     e.stopPropagation();
     hidePeek();
   });
+  // tapping anywhere — including the card itself — dismisses
+  peek.addEventListener("click", hidePeek);
   document.addEventListener("click", (e) => {
     if (peek.classList.contains("show") && !peek.contains(e.target)) hidePeek();
   });
