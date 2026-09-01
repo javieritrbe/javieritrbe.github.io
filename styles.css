@@ -449,21 +449,26 @@ body.app-open .socials-home {
   box-shadow: 0 0 0 3px rgba(33, 29, 21, 0.08);
 }
 
-/* the peek card itself — snappy pop, editorial framing */
+/* the peek card itself — tinted glass, image first. The tint is dark
+   enough that the page text sliding beneath actually reads as blur,
+   and the photo sits inside a thin glass frame instead of a grey well */
 .peek {
   position: fixed;
   z-index: 50;
   width: clamp(260px, 24vw, 360px);
-  padding: 8px 8px 10px;
-  /* frosted glass: text sliding beneath blurs away instead of clashing */
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(22px) saturate(1.3);
-  -webkit-backdrop-filter: blur(22px) saturate(1.3);
-  border-radius: 22px;
+  padding: 6px 6px 8px;
+  background: rgba(58, 52, 42, 0.28);
+  /* light blur: what's beneath softens into shapes rather than vanishing,
+     so the text the caption strip covers shows through as frost */
+  backdrop-filter: blur(3px) saturate(1.5);
+  -webkit-backdrop-filter: blur(3px) saturate(1.5);
+  border-radius: 24px;
+  overflow: hidden;
   box-shadow:
-    0 24px 48px -16px rgba(62, 50, 28, 0.3),
-    0 6px 16px -8px rgba(62, 50, 28, 0.2),
-    0 0 0 0.5px rgba(62, 50, 28, 0.08);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 28px 56px -18px rgba(40, 32, 18, 0.45),
+    0 8px 20px -10px rgba(40, 32, 18, 0.3);
   opacity: 0;
   transform: translateY(8px) scale(0.94);
   visibility: hidden;
@@ -471,6 +476,18 @@ body.app-open .socials-home {
     transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
     visibility 0s 0.18s;
   pointer-events: none;
+}
+
+/* frost: a faint grain across the whole surface, image included,
+   gives the glass texture over a page that has none of its own */
+.peek::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .peek.show {
@@ -486,8 +503,8 @@ body.app-open .socials-home {
 /* close affordance for touch — pointers dismiss by un-hovering instead */
 .peek-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   z-index: 2;
   width: 28px;
   height: 28px;
@@ -506,12 +523,10 @@ body.app-open .socials-home {
   .peek-close { display: none; }
 }
 
-/* shared media well: every screenshot sits as a panel on the same
-   light ground, so white and dark images frame identically */
+/* the photo is the card: no inner well, just the glass frame around it */
 .peek-media {
-  background: rgba(33, 29, 21, 0.06);
-  border-radius: 16px;
-  padding: 9px;
+  border-radius: 19px;
+  overflow: hidden;
 }
 
 .peek img {
@@ -519,15 +534,19 @@ body.app-open .socials-home {
   height: 230px; /* fixed height: card size never depends on image load timing */
   object-fit: cover;
   display: block;
-  border-radius: 10px;
-  box-shadow: 0 0 0 1px rgba(33, 29, 21, 0.08);
+  border-radius: 19px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
 .peek p {
-  margin: 9px 5px 2px;
+  margin: 9px 8px 2px;
   font-size: 1.06rem;
   line-height: 1.45;
-  color: var(--text);
+  color: #fff;
+  font-weight: 500;
+  /* lighter glass means less contrast behind the caption: a tight dark
+     halo keeps it crisp over whatever text shows through */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /* inline text actions: bold means tappable. Hovering draws a soft
