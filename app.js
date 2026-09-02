@@ -455,6 +455,7 @@ function showPeek(el) {
   else peekImg.addEventListener("load", reveal, { once: true });
   place();
   peek.classList.add("show");
+  if (touchDevice) peekScrim.classList.add("show");
 }
 
 // pre-warm a panel's peek images the moment it opens — ready by hover time,
@@ -469,7 +470,11 @@ function warmPeeks(name) {
   });
 }
 
-const hidePeek = () => peek.classList.remove("show");
+const peekScrim = document.getElementById("peek-scrim");
+const hidePeek = () => {
+  peek.classList.remove("show");
+  peekScrim.classList.remove("show");
+};
 const touchDevice = matchMedia("(hover: none)").matches;
 
 document.querySelectorAll(".fact--peek").forEach((el) => {

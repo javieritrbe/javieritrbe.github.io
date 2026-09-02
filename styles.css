@@ -449,6 +449,33 @@ body.app-open .socials-home {
   box-shadow: 0 0 0 3px rgba(33, 29, 21, 0.08);
 }
 
+/* touch: while a card is open the rest of the page frosts over, so the
+   photo and its caption are the only sharp things on screen — the same
+   read as pressing and holding an image on iPhone. Pointers never see it */
+.peek-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  background: rgba(247, 243, 234, 0.35);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0.28s;
+}
+
+.peek-scrim.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+
+@media (hover: hover) {
+  .peek-scrim { display: none; }
+}
+
 /* the peek card itself — tinted glass, image first. The tint is dark
    enough that the page text sliding beneath actually reads as blur,
    and the photo sits inside a thin glass frame instead of a grey well */
