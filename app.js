@@ -56,6 +56,16 @@ document.querySelectorAll(".panel").forEach((panel) => {
     t = splitReveal(p, "words", t, 0.012) + 0.07;
   });
   panel.dataset.revealEnd = t.toFixed(2); // when this panel's text finishes
+  // link underlines wipe in left-to-right in step with their own words:
+  // start with the first word, finish as the last one lands
+  panel.querySelectorAll(".quiet-link").forEach((a) => {
+    const words = [...a.querySelectorAll(".rv")];
+    if (!words.length) return;
+    const first = parseFloat(words[0].style.animationDelay);
+    const last = parseFloat(words[words.length - 1].style.animationDelay);
+    a.style.setProperty("--ul-delay", `${first.toFixed(3)}s`);
+    a.style.setProperty("--ul-dur", `${(last - first + 0.38).toFixed(3)}s`);
+  });
 });
 
 // initial page load animates the default panel too
@@ -182,7 +192,10 @@ function open(name, btn, fromHistory) {
   const panel = document.querySelector(`.panel[data-panel="${name}"]`);
   homeBtn.style.animationDelay = `${panel?.dataset.revealEnd || 0.3}s`;
   document.body.classList.add("app-open");
-  homeBtn.focus({ preventScroll: true });
+  // move focus into the panel for real interactions only — on a deep-link
+  // reload or back/forward there's been no pointer yet, so browsers would
+  // treat this focus as keyboard-driven and paint a ring on the arrow
+  if (!fromHistory) homeBtn.focus({ preventScroll: true });
 }
 
 // lock scrolling whenever the content genuinely fits the viewport —
@@ -362,7 +375,7 @@ async function copyEmail(anchor) {
   toastTimer = setTimeout(() => {
     toast.classList.remove("show");
     copiedShowing = false;
-  }, 2200);
+  }, 1200); // long enough to register the check, short enough to feel snappy
 }
 
 function previewEmail(anchor) {
@@ -393,16 +406,20 @@ toast.addEventListener("click", () => {
 
 document.querySelectorAll("[data-copy-email]").forEach((el) => {
   el.addEventListener("click", (e) => {
-    // mailto links follow through on touch devices (opens the mail app);
-    // with a mouse we intercept and copy instead
-    if (el.tagName === "A" && el.href.startsWith("mailto:")) {
-      if (matchMedia("(hover: none)").matches) return;
+    // touch: every email trigger opens the sheet, where the choice lives
+    if (matchMedia("(hover: none)").matches) {
       e.preventDefault();
+      e.stopPropagation();
+      openSheet();
+      return;
     }
+    // with a mouse, mailto links are intercepted and copied instead
+    if (el.tagName === "A" && el.href.startsWith("mailto:")) e.preventDefault();
     copyEmail(el);
   });
-  // hover preview only on the "get in touch" text, not the icons
-  if (el.classList.contains("tlink")) {
+  // hover preview only on the "get in touch" text, not the icons — and only
+  // for pointers: a tap fires mouseenter too, which would drag the pill in
+  if (el.classList.contains("tlink") && !matchMedia("(hover: none)").matches) {
     el.addEventListener("mouseenter", () => {
       clearTimeout(pillHideTimer);
       lastEmailAnchor = el;
@@ -434,18 +451,17 @@ function showPeek(el) {
   peekCaption.textContent = el.dataset.peekCaption;
   // anchor to the first line segment when the fact wraps across lines
   const rect = el.getClientRects()[0] || el.getBoundingClientRect();
-  const w = peek.offsetWidth;
-  const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
-  peek.style.left = `${x}px`;
   const place = () => {
-    // charts/screenshots (landscape to near-square) show whole;
-    // true portrait photos get a cover crop scaled to the card
-    peekImg.style.height =
-      peekImg.naturalWidth >= peekImg.naturalHeight * 0.75
-        ? "auto"
-        : `${Math.round(peek.offsetWidth * 0.92)}px`;
-    // always above the hovered line so the card never covers the text
-    peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
+    // the card hugs the picture, so measure after the image is in
+    if (!touchDevice) {
+      const w = peek.offsetWidth;
+      const x = Math.min(Math.max(rect.left + rect.width / 2 - w / 2, 12), window.innerWidth - w - 12);
+      peek.style.left = `${x}px`;
+      // always above the hovered line so the card never covers the text
+      peek.style.top = `${Math.max(rect.top - peek.offsetHeight - 12, 10)}px`;
+    }
+    // touch: the dismiss disc floats a thumb's reach under the centered card
+    else peekClose.style.top = `${Math.round((window.innerHeight + peek.offsetHeight) / 2) + 22}px`;
   };
   const reveal = () => {
     place();
@@ -455,7 +471,10 @@ function showPeek(el) {
   else peekImg.addEventListener("load", reveal, { once: true });
   place();
   peek.classList.add("show");
-  if (touchDevice) peekScrim.classList.add("show");
+  if (touchDevice) {
+    peekScrim.classList.add("show");
+    peekClose.classList.add("show");
+  }
 }
 
 // pre-warm a panel's peek images the moment it opens — ready by hover time,
@@ -471,10 +490,47 @@ function warmPeeks(name) {
 }
 
 const peekScrim = document.getElementById("peek-scrim");
+const peekClose = document.getElementById("peek-close");
+const sheet = document.getElementById("email-sheet");
+const sheetCopy = document.getElementById("sheet-copy");
+const sheetCopyLabel = document.getElementById("sheet-copy-label");
+const sheetCopiedGlyph = document.getElementById("sheet-copied-glyph");
 const hidePeek = () => {
   peek.classList.remove("show");
+  sheet.classList.remove("show");
   peekScrim.classList.remove("show");
+  peekClose.classList.remove("show");
 };
+
+// touch email sheet: same frosted stage as the photos, the X under it
+function openSheet() {
+  hidePeek();
+  sheetCopyLabel.textContent = "Copy email";
+  sheetCopiedGlyph.toggleAttribute("hidden", true);
+  sheet.classList.add("show");
+  peekScrim.classList.add("show");
+  peekClose.classList.add("show");
+  peekClose.style.top = `${Math.round((window.innerHeight + sheet.offsetHeight) / 2) + 22}px`;
+}
+
+sheetCopy.addEventListener("click", async (e) => {
+  e.stopPropagation();
+  try {
+    await navigator.clipboard.writeText(EMAIL);
+  } catch {
+    const ta = document.createElement("textarea");
+    ta.value = EMAIL;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+  }
+  sheetCopyLabel.textContent = "Copied";
+  sheetCopiedGlyph.toggleAttribute("hidden", false);
+});
+sheet.addEventListener("click", (e) => e.stopPropagation());
 const touchDevice = matchMedia("(hover: none)").matches;
 
 document.querySelectorAll(".fact--peek").forEach((el) => {
@@ -491,14 +547,15 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
 });
 
 if (touchDevice) {
-  document.getElementById("peek-close").addEventListener("click", (e) => {
+  peekClose.addEventListener("click", (e) => {
     e.stopPropagation();
     hidePeek();
   });
   // tapping anywhere — including the card itself — dismisses
   peek.addEventListener("click", hidePeek);
   document.addEventListener("click", (e) => {
-    if (peek.classList.contains("show") && !peek.contains(e.target)) hidePeek();
+    const open = peek.classList.contains("show") || sheet.classList.contains("show");
+    if (open && !peek.contains(e.target) && !sheet.contains(e.target)) hidePeek();
   });
 }
 

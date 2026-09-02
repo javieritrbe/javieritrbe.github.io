@@ -40,7 +40,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=48">
+  <link rel="stylesheet" href="styles.css?v=81">
   <link rel="preload" as="image" href="media/homescreen.webp">
   <link rel="preload" as="image" href="media/frame.webp">
   <link rel="preload" as="image" href="media/screen-mask.png">
@@ -115,7 +115,7 @@
 
         <div class="panel is-active" data-panel="default">
           <h1>Hey, I'm Javi</h1>
-          <p>I lead Product and Growth at an AI startup in San Francisco, founded by <a class="quiet-link" href="https://en.wikipedia.org/wiki/Sebastian_Thrun" target="_blank" rel="noopener">Sebastian Thrun</a>.</p>
+          <p>I lead Product and Growth at an AI startup in San Francisco, founded by Sebastian Thrun.</p>
           <p>I joined <span class="tlink" role="button" tabindex="0" data-app="bereal">BeReal</span> and <span class="tlink" role="button" tabindex="0" data-app="retro">Retro</span> in their early days, and that's where I learned what I still obsess over: retention, viral loops, and product experiences people actually come back to. These days I also advise early-stage consumer apps.</p>
           <p>Everything on this screen is part of my story so far. <span class="tlink" data-shake>Tap around</span> to explore my experience, or <a class="tlink" href="mailto:javier.hick1@gmail.com" data-copy-email>get in touch</a>.</p>
         </div>
@@ -132,7 +132,7 @@
           <h1>Retro</h1>
           <p class="subtitle">Head of Growth · 2024–2025</p>
           <p>In 2023 I cold emailed Nathan, Retro's founder, to tell him I loved the product and saw the same early potential I'd seen at BeReal. Six months later I joined as Head of Growth to take it worldwide.</p>
-          <p>I built and led on-the-ground teams across Europe, Asia, and the US, taking Retro to <span class="fact fact--peek" data-peek-img="media/peek-retro-charts.webp" data-peek-caption="Top 10 in the US was by far the hardest challenge I'd tackled">Top Charts in all three regions</span>. The wildest chapter was Taiwan, where Retro <span class="fact fact--peek" data-peek-img="media/peek-taiwan.webp" data-peek-caption="Retro pop-up in Taiwan (I'm the one in red)">went properly viral</span>.</p>
+          <p>I built and led on-the-ground teams across Europe, Asia, and the US, taking Retro to <span class="fact fact--peek" data-peek-img="media/peek-retro-charts-v2.webp" data-peek-caption="Top 10 in the US was by far the hardest challenge I'd tackled">Top Charts in all three regions</span>. The wildest chapter was Taiwan, where Retro <span class="fact fact--peek" data-peek-img="media/peek-taiwan-v2.webp" data-peek-caption="Retro pop-up in Taiwan (I'm the one in red)">went properly viral</span>.</p>
           <p>By the time I left, Retro had gone from a small user base to <a class="quiet-link" href="https://techcrunch.com/2026/08/28/friend-focused-photo-sharing-app-retro-snags-21m/" target="_blank" rel="noopener">7M+ users</a> and was named a <a class="quiet-link" href="https://developer.apple.com/app-store/app-store-awards-2025/developers/" target="_blank" rel="noopener">2025 App Store Awards finalist</a>.</p>
         </div>
 
@@ -146,7 +146,7 @@
         <div class="panel" data-panel="gold">
           <h1>GOLD</h1>
           <p class="subtitle">Product &amp; Growth · 2025–Present</p>
-          <p>I joined Gold in 2025 to lead product and growth, and took the app from pre-launch to Top Charts in the US. Day to day I work across engineering, design, and ML, deciding what we build and shipping it.</p>
+          <p>I joined Gold in 2025 to lead product and growth, and took the app from pre-launch to <span class="fact fact--peek" data-peek-img="media/peek-gold-charts.webp" data-peek-caption="Charting in the shopping category is even harder than social">Top Charts in the US</span>. Day to day I work across engineering, design, and ML, deciding what we build and shipping it.</p>
           <p>The feature I'm proudest of is our newest search, the one playing on the phone. You describe what you're looking for in plain language, and it recommends pieces based on your taste graph. I led the ML engineers and designers who built it, from first prototype to rollout.</p>
         </div>
 
@@ -190,12 +190,27 @@
   <!-- touch only: frosts the whole page behind the card, iPhone press-and-hold style -->
   <div class="peek-scrim" id="peek-scrim" aria-hidden="true"></div>
   <div class="peek" id="peek" aria-hidden="true">
-    <button class="peek-close" id="peek-close" aria-label="Close">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 5l14 14M19 5 5 19"/></svg>
-    </button>
     <div class="peek-media"><img id="peek-img" alt=""></div>
     <p id="peek-caption"></p>
   </div>
+  <!-- touch only: the email sheet — same glass, scrim and X as the photos -->
+  <div class="peek sheet" id="email-sheet" role="dialog" aria-label="Email" aria-hidden="true">
+    <div class="sheet-head">
+      <img class="sheet-icon" src="media/icon-mail.webp" alt="" width="188" height="188">
+      <p class="sheet-email">javier.hick1@gmail.com</p>
+    </div>
+    <div class="sheet-actions">
+      <button class="sheet-row" id="sheet-copy" type="button">
+        <span id="sheet-copy-label">Copy email</span>
+        <svg class="sheet-glyph" id="sheet-copied-glyph" width="17" height="17" viewBox="0 0 24 24" hidden><circle cx="12" cy="12" r="11" fill="#5d7a48"/><path d="M7 12.5 10.7 16 17 8.5" fill="none" stroke="#fffdf8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <a class="sheet-row sheet-row--cta" href="mailto:javier.hick1@gmail.com">Send an email</a>
+    </div>
+  </div>
+  <!-- touch only: a big glass dismiss disc floating under the card -->
+  <button class="peek-close" id="peek-close" aria-label="Close">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 5l14 14M19 5 5 19"/></svg>
+  </button>
 
   <!-- email pill: hover reveals address + copy icon, stays while near, click copies -->
   <div class="toast" id="toast" role="status">
@@ -204,6 +219,6 @@
     <svg id="toast-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></svg>
   </div>
 
-  <script src="app.js?v=39" defer></script>
+  <script src="app.js?v=51" defer></script>
 </body>
 </html>

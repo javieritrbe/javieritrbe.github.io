@@ -476,26 +476,31 @@ body.app-open .socials-home {
   .peek-scrim { display: none; }
 }
 
-/* the peek card itself — tinted glass, image first. The tint is dark
-   enough that the page text sliding beneath actually reads as blur,
-   and the photo sits inside a thin glass frame instead of a grey well */
+/* the peek card itself — liquid glass, image first. Near-clear white
+   glass with a bright specular rim: the page shows through saturated
+   and softened, and the photo sits inside a thin lit frame */
 .peek {
   position: fixed;
   z-index: 50;
-  width: clamp(260px, 24vw, 360px);
-  padding: 6px 6px 8px;
-  background: rgba(58, 52, 42, 0.28);
-  /* light blur: what's beneath softens into shapes rather than vanishing,
-     so the text the caption strip covers shows through as frost */
-  backdrop-filter: blur(3px) saturate(1.5);
-  -webkit-backdrop-filter: blur(3px) saturate(1.5);
-  border-radius: 24px;
+  --peek-w: clamp(240px, 22vw, 330px);
+  /* the card hugs the picture: a tall photo that's capped in height makes
+     a narrower card, so the caption is never wider than the image */
+  width: fit-content;
+  max-width: var(--peek-w);
+  padding: 10px 10px 8px;
+  /* same recipe as the dismiss disc, so card and button read as one
+     material: milky white glass, hard blur, lit rim, soft drop shadow */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.5));
+  backdrop-filter: blur(10px) saturate(1.8);
+  -webkit-backdrop-filter: blur(10px) saturate(1.8);
+  border-radius: 34px;
   overflow: hidden;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 28px 56px -18px rgba(40, 32, 18, 0.45),
-    0 8px 20px -10px rgba(40, 32, 18, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(62, 50, 28, 0.05),
+    0 24px 48px -14px rgba(40, 32, 18, 0.32),
+    0 10px 24px -8px rgba(40, 32, 18, 0.2);
   opacity: 0;
   transform: translateY(8px) scale(0.94);
   visibility: hidden;
@@ -505,15 +510,24 @@ body.app-open .socials-home {
   pointer-events: none;
 }
 
-/* frost: a faint grain across the whole surface, image included,
-   gives the glass texture over a page that has none of its own */
+/* specular sweep: a soft light catching the top-left of the glass */
+.peek::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.2) 100%);
+}
+
+/* whisper of grain so the glass isn't perfectly sterile */
 .peek::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.1;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -527,58 +541,179 @@ body.app-open .socials-home {
     visibility 0s;
 }
 
-/* close affordance for touch — pointers dismiss by un-hovering instead */
+/* close affordance for touch — a big glass disc floating under the card,
+   the lightbox dismiss gesture. Pointers dismiss by un-hovering instead.
+   Position is set by JS from the card's centered bounds */
 .peek-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  z-index: 2;
-  width: 28px;
-  height: 28px;
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  width: 56px;
+  height: 56px;
   border: 0;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  color: #fff;
-  /* same glass as the card, just blurred harder so a small disc still
-     reads as frost over a busy screenshot */
-  background: rgba(58, 52, 42, 0.28);
-  backdrop-filter: blur(10px) saturate(1.5);
-  -webkit-backdrop-filter: blur(10px) saturate(1.5);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px) saturate(1.8);
+  -webkit-backdrop-filter: blur(10px) saturate(1.8);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
-    0 2px 8px rgba(40, 32, 18, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 10px 24px -8px rgba(40, 32, 18, 0.3);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 6px) scale(0.85);
+  /* exit and entrance share the card's curve, duration and zero delay,
+     so disc and card move as one */
+  transition: opacity 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s 0.18s;
 }
+
+.peek-close.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+  /* in step with the card both ways: same curve, duration, no stagger */
+  transition: opacity 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s;
+}
+
+.peek-close:active { transform: translate(-50%, 0) scale(0.92); }
 
 @media (hover: hover) {
   .peek-close { display: none; }
 }
 
-/* the photo is the card: no inner well, just the glass frame around it */
+/* the photo is the card: no inner well, just the lit frame around it */
+/* the frame follows the picture: wide images span the card, tall ones are
+   capped just past square and centered with glass at the sides — same
+   margins everywhere, no dead space above or below */
 .peek-media {
-  border-radius: 19px;
-  overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
 .peek img {
-  width: 100%;
-  height: 230px; /* fixed height: card size never depends on image load timing */
-  object-fit: cover;
+  max-width: calc(var(--peek-w) - 20px);
+  max-height: calc((var(--peek-w) - 20px) * 1.08);
+  width: auto;
+  height: auto;
   display: block;
-  border-radius: 19px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+  /* the box hugs the picture, so the corners round on the picture itself
+     whether it's a wide chart or a tall photo — 24px runs concentric with
+     the card's 34px through the 10px glass margin */
+  border-radius: 24px;
+  box-shadow: 0 0 0 1px rgba(62, 50, 28, 0.08);
 }
 
 .peek p {
-  margin: 9px 8px 2px;
+  position: relative;
+  z-index: 2;
+  /* zero intrinsic width, then stretch: the caption follows the picture's
+     width instead of widening the card to fit on one line */
+  width: 0;
+  min-width: calc(100% - 12px);
+  margin: 9px 6px 2px;
   font-size: 1.06rem;
   line-height: 1.45;
-  color: #fff;
-  font-weight: 500;
-  /* lighter glass means less contrast behind the caption: a tight dark
-     halo keeps it crisp over whatever text shows through */
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* email sheet: an iOS context menu on the peek card's glass — a header
+   with the Mail icon and the address, then full-width rows with hairline
+   separators and a trailing glyph. Touch only; pointers keep the pill */
+.sheet { display: none; }
+
+.sheet-head {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 22px 18px 18px;
+}
+
+.peek .sheet-icon { /* outranks the card's generic image sizing */
+  width: 52px;
+  height: 52px;
+  max-height: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px -6px rgba(40, 32, 18, 0.35);
+}
+
+.sheet-email {
+  margin: 0;
+  font-size: 1.1rem; /* 17pt, the iOS alert title size */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+/* two actions side by side, iOS-alert style: a hairline above, a hairline
+   between, the preferred action in semibold */
+.sheet-actions {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(33, 29, 21, 0.12);
+}
+
+.sheet-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 50px;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 1.02rem;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sheet-row + .sheet-row { border-left: 1px solid rgba(33, 29, 21, 0.12); }
+.sheet-row--cta { font-weight: 600; }
+.sheet-row:active { background: rgba(33, 29, 21, 0.07); }
+
+.sheet-glyph { flex: none; color: var(--text); }
+.sheet-glyph[hidden] { display: none; } /* the hidden attribute alone doesn't hide inline SVG */
+
+/* touch: the card is the whole show — centered, near full width, over
+   the frosted page. The scrim overshoots the viewport so Safari's
+   toolbar zones and the notch never leave an unblurred strip */
+@media (hover: none) {
+  .peek.sheet { /* outranks the card's fit-content width */
+    display: block;
+    padding: 0;
+    width: min(82vw, 400px);
+    border-radius: 34px;
+  }
+  .peek-scrim { inset: -160px 0; }
+  .peek {
+    --peek-w: min(82vw, 400px);
+    width: fit-content;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) translateY(10px) scale(0.92);
+  }
+  .peek.show { transform: translate(-50%, -50%); }
+  .peek p { font-size: 1rem; font-weight: 400; margin: 10px 6px 4px; } /* phone: smaller and regular */
 }
 
 /* inline text actions: bold means tappable. Hovering draws a soft
@@ -612,6 +747,7 @@ body.app-open .socials-home {
   box-shadow: 0 0 0 3px rgba(33, 29, 21, 0.08);
 }
 
+
 /* no hover boxes while the text cascade is still revealing */
 body.revealing :is(.tlink, .quiet-link, .fact--peek):hover {
   background-color: transparent;
@@ -623,13 +759,38 @@ body.revealing :is(.tlink, .quiet-link, .fact--peek):hover {
   outline-offset: 3px;
 }
 
-/* external link variant — same treatment, no underline */
+/* external link variant — bold like the rest, plus a thin muted underline:
+   the one cue that this bold takes you off-site, unlike a photo fact or
+   an in-page action. Drawn as a background line rather than
+   text-decoration: the reveal spans inside are inline-block, which breaks
+   decoration propagation, while a background paints continuously under
+   words and spaces alike */
 .quiet-link {
   color: var(--text);
   font-weight: 600;
   text-decoration: none;
+  background-image: linear-gradient(rgba(33, 29, 21, 0.38), rgba(33, 29, 21, 0.38));
+  background-repeat: no-repeat;
+  background-size: 100% 1.5px;
+  background-position: 0 calc(100% - 0.06em);
   border-radius: 3px;
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quiet-link:hover {
+  background-image: linear-gradient(var(--text), var(--text));
+}
+
+/* the underline is part of the reveal: hidden until its words start
+   arriving, then wiped in across the exact window those words take */
+.panel .quiet-link { background-size: 0% 1.5px; }
+.panel.is-active .quiet-link {
+  animation: underline-in var(--ul-dur, 0.4s) cubic-bezier(0.22, 1, 0.36, 1) var(--ul-delay, 0s) both;
+}
+
+@keyframes underline-in {
+  from { background-size: 0% 1.5px; }
+  to { background-size: 100% 1.5px; }
 }
 
 .socials {
@@ -678,19 +839,21 @@ body.app-open .socials :is(a, button):not(.socials-home) {
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 12px;
+  gap: 9px;
+  padding: 11px 18px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(22px) saturate(1.3);
-  -webkit-backdrop-filter: blur(22px) saturate(1.3);
+  /* same glass as the peek cards */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.5));
+  backdrop-filter: blur(10px) saturate(1.8);
+  -webkit-backdrop-filter: blur(10px) saturate(1.8);
   color: var(--text);
-  font-size: 0.76rem;
+  font-size: 0.98rem;
   font-weight: 500;
   box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
     0 18px 38px -14px rgba(62, 50, 28, 0.3),
-    0 5px 14px -7px rgba(62, 50, 28, 0.2),
-    0 0 0 0.5px rgba(62, 50, 28, 0.08);
+    0 5px 14px -7px rgba(62, 50, 28, 0.2);
   opacity: 0;
   transform: translateY(10px) scale(0.96);
   visibility: hidden;
@@ -711,6 +874,7 @@ body.app-open .socials :is(a, button):not(.socials-home) {
     visibility 0s;
 }
 
+.toast svg { width: 18px; height: 18px; }
 #toast-copy { color: var(--faint); transition: color 0.15s ease; }
 .toast:hover #toast-copy { color: var(--text); }
 
