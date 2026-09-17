@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f3ea">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Spendy Privacy Policy</title>
+  <meta name="description" content="Privacy policy for Spendy, a personal spending, budget and savings tracker.">
+  <link rel="canonical" href="https://javi.fyi/privacy/">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --text: #211d15;
+      --muted: #6f6858;
+      --faint: #b3aa97;
+      --rule: rgba(33, 29, 21, 0.1);
+      --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { height: 100%; background: var(--bg); }
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--sans);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(46% 30% at 14% 26%, rgba(255, 246, 222, 0.85) 0%, rgba(255, 246, 222, 0) 68%),
+        radial-gradient(40% 26% at 88% 32%, rgba(243, 219, 205, 0.45) 0%, rgba(243, 219, 205, 0) 68%),
+        linear-gradient(180deg, var(--bg) 0%, #f2ecdf 55%, var(--bg) 100%);
+    }
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: clamp(40px, 8vw, 96px) 24px 80px;
+    }
+    .back {
+      display: inline-block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 40px;
+    }
+    .back:hover { color: var(--text); }
+    .back:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 4px; }
+    .eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin: 0 0 10px;
+    }
+    h1 {
+      font-size: clamp(1.9rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      line-height: 1.15;
+      margin: 0 0 12px;
+    }
+    .updated { color: var(--muted); font-size: 0.95rem; margin: 0 0 40px; }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 40px 0 10px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+    p, li { font-size: 1.02rem; color: var(--muted); }
+    p { margin: 0 0 16px; }
+    ul { margin: 0 0 16px; padding-left: 22px; }
+    li { margin-bottom: 6px; }
+    strong { color: var(--text); font-weight: 600; }
+    a { color: var(--text); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      font-size: 0.85rem;
+      color: var(--faint);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .page { animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+      @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="back" href="/">← javi.fyi</a>
+
+    <p class="eyebrow">Privacy Policy</p>
+    <h1>Spendy</h1>
+    <p class="updated">Last updated: September 17, 2026</p>
+
+    <p>Spendy helps you understand spending, manage a budget and track savings. It is operated by an independent developer, who you can contact about privacy at <a href="mailto:javier.hick1@gmail.com">javier.hick1@gmail.com</a>.</p>
+
+    <h2>Information used by Spendy</h2>
+    <p>When you sign in, Spendy uses Firebase Authentication and your chosen sign-in provider to identify your account. When you connect a bank through Plaid, Spendy receives account information and transaction data, including amounts, dates, merchants, categories, available account metadata and, where supplied, merchant locations. Spendy also stores the budget settings, savings entries and preferences you provide.</p>
+    <p>Spendy uses this information to show spending, calculate budgets and savings, identify recurring payments, and provide requested features. Spendy does not receive your bank login password directly; bank linking happens through Plaid and your financial institution.</p>
+
+    <h2>Ask</h2>
+    <p>When you use Ask with AI data sharing enabled, your question, relevant conversation context, saved Ask memories and relevant financial information may be sent to Anthropic to generate an answer. You can disable AI data sharing in the app. Avoid including information you do not want processed in a question. AI answers can be inaccurate.</p>
+    <p>Conversation history is stored on your device. Spendy also stores response jobs temporarily to support completing and reconnecting to answers, and stores Ask memories used for future replies. Completed, failed and discarded response jobs are removed after 24 hours by the service's cleanup process. Request-usage metrics are kept for up to 90 days to manage usage and costs; account deletion removes the account's metrics sooner. Anthropic's separate retention rules apply to requests already sent to it.</p>
+
+    <h2>Service providers</h2>
+    <p>Spendy uses Plaid for bank connections, Google Firebase for authentication, Railway for backend hosting, Anthropic for Ask, and Apple services for app features such as notifications and maps. These providers process information needed to perform their roles. They may also retain information under their own privacy policies or legal obligations. Spendy does not sell your financial data or use it for targeted advertising.</p>
+
+    <h2>Disconnecting a bank</h2>
+    <p>Disconnecting a bank removes its transactions and account records from Spendy's active database and stops further imports. It also clears your Ask memories and server response history because those records may contain information from the disconnected bank. Bank-derived savings history and related derived records may also be removed. Manually entered information and app settings can remain until you remove them or delete your Spendy account.</p>
+    <p>Spendy requests revocation of the Plaid connection. If that request fails, Spendy keeps the encrypted connection credential and necessary identifiers while retrying or resolving the failure. Your disconnected bank's transaction history is not retained for this retry. You can also manage connections and request deletion directly through <a href="https://my.plaid.com/" rel="noopener">Plaid Portal</a>.</p>
+
+    <h2>Deleting your account</h2>
+    <p>You can request account deletion in the app. Spendy disables access and removes your active financial records, settings, savings entries, Ask memories and other account content. It requests deletion of your Firebase sign-in identity and revocation of connected banks, retrying provider failures.</p>
+    <p>Spendy retains minimal protected deletion records, including pseudonymous identifiers and deletion instructions, to prevent late requests or restoration of an older backup from bringing deleted information back. These records currently have no fixed expiry and do not contain your transaction history or Ask answers.</p>
+    <p>Connected devices clear affected cached data when they receive the deletion/reset state. An offline device cannot receive that instruction until it reconnects. Copies in device backups are subject to your device and backup settings.</p>
+
+    <h2>Backups and technical logs</h2>
+    <p>Spendy's managed database backups expire after 30 days through a scheduled cleanup process while the service is running. Deleted information may remain in these restricted backups until expiry. Restoring an application database requires applying the current deletion records before making it available again.</p>
+    <p>Hosting providers may retain operational and security logs, such as request times, IP addresses and request paths, under their own retention rules. Deleting your Spendy account does not immediately erase every copy held by a provider, in a backup, or on an offline device.</p>
+
+    <h2>Your choices and requests</h2>
+    <p>You can manage bank connections, AI sharing, notifications and your account in the app. You may request access, correction or deletion of personal information by contacting the privacy address above. Depending on where you live, you may have additional privacy rights and the right to contact your data-protection authority. Providers may process information outside your country.</p>
+
+    <h2>Updates</h2>
+    <p>This policy may change as Spendy changes. The date above shows when this policy was last updated. Material changes will be communicated where required.</p>
+
+    <footer>© 2026 Javier Iturbe</footer>
+  </main>
+</body>
+</html>
