@@ -50,7 +50,7 @@ function splitReveal(el, mode, start, step) {
 
 document.querySelectorAll(".panel").forEach((panel) => {
   let t = 0.03;
-  const h1 = panel.querySelector("h1");
+  const h1 = panel.querySelector("h1, h2");
   if (h1) t = splitReveal(h1, "letters", t, 0.022) + 0.09;
   panel.querySelectorAll("p").forEach((p) => {
     t = splitReveal(p, "words", t, 0.012) + 0.07;
@@ -218,8 +218,8 @@ function placeHomeBtn() {
   if (!openApp) return;
   if (!strip || getComputedStyle(strip).display === "none") return;
   const panelEl = document.querySelector(`.panel[data-panel="${openApp}"]`);
-  const firstLetter = panelEl?.querySelector("h1 .rv");
-  const h1 = panelEl?.querySelector("h1");
+  const firstLetter = panelEl?.querySelector(":is(h1, h2) .rv");
+  const h1 = panelEl?.querySelector("h1, h2");
   const col = document.querySelector(".text-col");
   if (!firstLetter || !col) return;
   const lr = firstLetter.getBoundingClientRect();

@@ -407,7 +407,7 @@ body.app-open .socials-home {
   animation: char-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.panel h1 {
+.panel :is(h1, h2) {
   font-family: var(--sans);
   font-size: clamp(1.9rem, 3.2vw, 2.4rem);
   font-weight: 700;
@@ -1024,7 +1024,7 @@ html.locked body {
 
   .strip-app:active img { transform: scale(0.94); }
   .text-col { text-align: center; }
-  .panel h1 { font-size: 1.7rem; margin-bottom: 10px; }
+  .panel :is(h1, h2) { font-size: 1.7rem; margin-bottom: 10px; }
   .panel .subtitle { font-size: 0.72rem; margin: -8px 0 18px; }
   .panel p { margin-inline: auto; font-size: 0.98rem; }
   .socials { justify-content: center; margin-top: 26px; }
@@ -1036,4 +1036,23 @@ html.locked body {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* colophon: a signature pinned to the bottom edge, painted in the page's
+   own color. Deliberately invisible, an SEO experiment; swap to
+   var(--faint) to make it a readable footer line. Out of the layout flow
+   so it never moves anything; under every overlay */
+.colophon {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  pointer-events: none;
+  user-select: none;
 }
