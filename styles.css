@@ -174,9 +174,9 @@ body::before {
      which can escape the image mask; curve mismatch hides under the bezel */
   border-radius: 15.2% / 7%;
   /* clip to the exact shape of the frame's screen cutout */
-  -webkit-mask-image: url("media/screen-mask.png");
+  -webkit-mask-image: url("/media/screen-mask.png");
   -webkit-mask-size: 100% 100%;
-  mask-image: url("media/screen-mask.png");
+  mask-image: url("/media/screen-mask.png");
   mask-size: 100% 100%;
 }
 
@@ -802,7 +802,7 @@ body.revealing :is(.tlink, .quiet-link, .fact--peek):hover {
 /* the links arrive at the tail of the load cascade (delay set in JS).
    Animated individually: a filled filter animation on the container
    would hijack the back arrow's absolute positioning */
-.socials > a {
+.socials > a:not(.socials-home) {
   animation: char-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: var(--socials-delay, 0s);
 }
@@ -1047,7 +1047,7 @@ html.locked body {
   left: 0;
   right: 0;
   bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  z-index: 0;
+  z-index: -1; /* behind the page, so scrolling copy never crosses it */
   margin: 0;
   text-align: center;
   font-size: 11px;

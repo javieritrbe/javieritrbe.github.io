@@ -1,13 +1,13 @@
 // App config — one entry per tappable home-screen app.
-// To add a screen recording: set `video` to the file path (e.g. "media/bereal.mp4")
+// To add a screen recording: set `video` to the file path (e.g. "/media/bereal.mp4")
 // and it will play inside the phone instead of the placeholder.
 const APPS = {
-  bereal:  { video: "media/bereal.mp4", placeholderClass: "ph-bereal" },
-  retro:   { video: "media/retro.mp4", placeholderClass: "ph-retro" },
-  corner:  { video: "media/corner.mp4", placeholderClass: "ph-corner" },
-  gold:    { video: "media/gold.mp4", placeholderClass: "ph-gold" },
-  expense: { video: "media/expense.mp4", placeholderClass: "ph-expense" },
-  camera:  { video: "media/camera.mp4", placeholderClass: "ph-camera" },
+  bereal:  { video: "/media/bereal.mp4", placeholderClass: "ph-bereal" },
+  retro:   { video: "/media/retro.mp4", placeholderClass: "ph-retro" },
+  corner:  { video: "/media/corner.mp4", placeholderClass: "ph-corner" },
+  gold:    { video: "/media/gold.mp4", placeholderClass: "ph-gold" },
+  expense: { video: "/media/expense.mp4", placeholderClass: "ph-expense" },
+  camera:  { video: "/media/camera.mp4", placeholderClass: "ph-camera" },
 };
 
 // Split panel text into animatable units: letters for headings, words for
@@ -48,7 +48,7 @@ function splitReveal(el, mode, start, step) {
   return t;
 }
 
-document.querySelectorAll(".panel").forEach((panel) => {
+function preparePanel(panel) {
   let t = 0.03;
   const h1 = panel.querySelector("h1, h2");
   if (h1) t = splitReveal(h1, "letters", t, 0.022) + 0.09;
@@ -66,7 +66,9 @@ document.querySelectorAll(".panel").forEach((panel) => {
     a.style.setProperty("--ul-delay", `${first.toFixed(3)}s`);
     a.style.setProperty("--ul-dur", `${(last - first + 0.38).toFixed(3)}s`);
   });
-});
+}
+
+document.querySelectorAll(".panel").forEach(preparePanel);
 
 // initial page load animates the default panel too
 {
@@ -91,9 +93,49 @@ const strip = document.querySelector(".app-strip");
 const appview = document.getElementById("appview");
 const appviewBody = document.getElementById("appview-body");
 const homeBtn = document.getElementById("home-btn");
-const panels = document.querySelectorAll(".panel");
 
 let openApp = null;
+
+// Routing: every app is a real page (/bereal/, /retro/, ...) so each one
+// ranks on its own. The panel carries its path and title; tapping an app
+// swaps the URL and title in place, a direct visit lands with the app open.
+const panelFor = (name) => document.querySelector(`.panel[data-panel="${name}"]`);
+const pathFor = (name) => panelFor(name)?.dataset.path || null;
+const HOME_TITLE = panelFor("default")?.dataset.title || document.title;
+
+function appFromLocation() {
+  const path = location.pathname.replace(/index\.html$/, "");
+  const byPath = [...document.querySelectorAll(".panel[data-path]")]
+    .find((p) => p.dataset.path === path && p.dataset.panel !== "default");
+  if (byPath) return byPath.dataset.panel;
+  const hash = location.hash.slice(1); // legacy #bereal links, and #camera
+  return APPS[hash] ? hash : null;
+}
+
+// Sub-pages ship only their own panel (plus home), so each page reads as
+// its own document. The rest arrive from the home page on demand.
+let panelsPromise = null;
+function ensurePanels() {
+  if (panelsPromise) return panelsPromise;
+  if (Object.keys(APPS).every((n) => panelFor(n))) return (panelsPromise = Promise.resolve());
+  panelsPromise = fetch("/", { credentials: "same-origin" })
+    .then((r) => r.text())
+    .then((html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const host = document.getElementById("panels");
+      doc.querySelectorAll(".panel").forEach((src) => {
+        if (panelFor(src.dataset.panel)) return;
+        const panel = document.adoptNode(src);
+        panel.classList.remove("is-active");
+        preparePanel(panel);
+        bindPeeks(panel);
+        host.appendChild(panel);
+      });
+    })
+    .catch(() => { panelsPromise = null; });
+  return panelsPromise;
+}
+window.addEventListener("load", () => setTimeout(ensurePanels, 800));
 
 let peeksReadyAt = 0;
 let revealTimer;
@@ -107,8 +149,8 @@ function gateHoverEffects(seconds) {
 }
 
 function showPanel(name) {
-  panels.forEach((p) => p.classList.toggle("is-active", p.dataset.panel === name));
-  const active = document.querySelector(`.panel[data-panel="${name}"]`);
+  document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("is-active", p.dataset.panel === name));
+  const active = panelFor(name);
   gateHoverEffects(parseFloat(active?.dataset.revealEnd || 0));
   warmPeeks(name);
   requestAnimationFrame(updateScrollLock);
@@ -131,7 +173,7 @@ function buildAppScreen(name) {
   const icon = document.createElement("span");
   icon.className = "ph-icon";
   const img = document.createElement("img");
-  img.src = `media/icon-${name}.webp`;
+  img.src = `/media/icon-${name}.webp`;
   img.alt = "";
   icon.appendChild(img);
   ph.appendChild(icon);
@@ -141,9 +183,8 @@ function buildAppScreen(name) {
   return ph;
 }
 
-function open(name, btn, fromHistory) {
+async function open(name, btn, fromHistory) {
   openApp = name;
-  if (!fromHistory) history.pushState(null, "", `#${name}`);
 
   if (btn && screen.contains(btn)) {
     // Grow the app view out of the tapped icon's position
@@ -156,6 +197,11 @@ function open(name, btn, fromHistory) {
     // opened from a text link — grow from the middle of the screen
     appview.style.transformOrigin = "50% 42%";
   }
+
+  if (!panelFor(name)) await ensurePanels(); // sub-pages fetch the other panels lazily
+  if (openApp !== name) return; // another tap won while the panels loaded
+  if (!fromHistory) history.pushState(null, "", pathFor(name) || `/#${name}`);
+  document.title = panelFor(name)?.dataset.title || HOME_TITLE;
 
   appviewBody.replaceChildren(buildAppScreen(name));
   appview.hidden = false;
@@ -255,7 +301,8 @@ function close(fromHistory) {
   document.body.classList.remove("app-open");
   document.querySelector(".app-strip")?.classList.remove("has-current");
   document.querySelectorAll(".strip-app").forEach((b) => b.classList.remove("is-current"));
-  if (!fromHistory && location.hash) history.pushState(null, "", location.pathname + location.search);
+  if (!fromHistory && (location.pathname !== "/" || location.hash)) history.pushState(null, "", "/");
+  document.title = HOME_TITLE;
   suppressDimUntilMouseMoves();
   window.scrollTo({ top: 0, behavior: "instant" });
   appview.classList.remove("is-open");
@@ -274,7 +321,8 @@ function close(fromHistory) {
 }
 
 document.querySelectorAll(".hotspot[data-app], .strip-app[data-app]").forEach((btn) => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault(); // real links for crawlers; in-place transition for people
     const name = btn.dataset.app;
     if (openApp === name) return;
     open(name, btn);
@@ -288,12 +336,9 @@ document.querySelectorAll(".tlink[data-app]").forEach((btn) => {
     if (openApp === name) return;
     open(name, btn);
   };
-  btn.addEventListener("click", activate);
-  btn.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      activate();
-    }
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    activate();
   });
 });
 
@@ -533,7 +578,8 @@ sheetCopy.addEventListener("click", async (e) => {
 sheet.addEventListener("click", (e) => e.stopPropagation());
 const touchDevice = matchMedia("(hover: none)").matches;
 
-document.querySelectorAll(".fact--peek").forEach((el) => {
+function bindPeeks(root) {
+  root.querySelectorAll(".fact--peek").forEach((el) => {
   if (touchDevice) {
     // touch: tap opens the card; the X or a tap anywhere else closes it
     el.addEventListener("click", (e) => {
@@ -544,7 +590,9 @@ document.querySelectorAll(".fact--peek").forEach((el) => {
     el.addEventListener("mouseenter", () => showPeek(el));
     el.addEventListener("mouseleave", hidePeek);
   }
-});
+  });
+}
+bindPeeks(document);
 
 if (touchDevice) {
   peekClose.addEventListener("click", (e) => {
@@ -559,25 +607,30 @@ if (touchDevice) {
   });
 }
 
-homeBtn.addEventListener("click", () => close());
+homeBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  close();
+});
 appview.addEventListener("click", () => close()); // tap anywhere on the open app to dismiss
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") close();
 });
 
-// deep links: #bereal etc. open the app; back/forward stay in sync
-function syncFromHash() {
-  const name = location.hash.slice(1);
-  if (APPS[name]) {
+// deep links: /bereal/ (or a legacy #bereal) opens the app; back/forward stay in sync
+function syncFromLocation() {
+  const name = appFromLocation();
+  if (name) {
     if (openApp !== name) {
       open(name, document.querySelector(`.hotspot[data-app="${name}"]`), true);
     }
+    // old-style hash links settle onto the app's real URL
+    if (location.hash && pathFor(name)) history.replaceState(null, "", pathFor(name));
   } else if (openApp) {
     close(true);
   }
 }
 
-window.addEventListener("hashchange", syncFromHash);
-window.addEventListener("popstate", syncFromHash);
-syncFromHash();
+window.addEventListener("hashchange", syncFromLocation);
+window.addEventListener("popstate", syncFromLocation);
+syncFromLocation();
 
