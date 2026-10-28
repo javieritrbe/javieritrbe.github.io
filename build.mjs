@@ -9,7 +9,8 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
 const SITE = "https://javi.fyi";
-const today = new Date().toISOString().slice(0, 10);
+const now = new Date().toISOString().replace(/\.\d+Z$/, "Z"); // Google wants a full datetime
+const today = now.slice(0, 10);
 const src = readFileSync("index.html", "utf8");
 
 // panels hold no nested <div>, so each one runs to its first </div>
@@ -63,7 +64,7 @@ for (const page of pages) {
         name: page.title,
         description: page.description,
         inLanguage: "en",
-        dateModified: today,
+        dateModified: now,
         isPartOf: { "@type": "WebSite", "@id": `${SITE}/#site`, url: `${SITE}/`, name: "Javier Iturbe" },
         about: { "@id": person["@id"] },
       },
