@@ -31,6 +31,10 @@ function splitReveal(el, mode, start, step) {
           frag.appendChild(document.createTextNode(tok));
           return;
         }
+        // letters of one word share a nowrap wrapper so a heading that
+        // wraps onto two lines never breaks mid-word
+        const word = mode === "letters" ? document.createElement("span") : frag;
+        if (word !== frag) word.style.whiteSpace = "nowrap";
         const units = mode === "letters" ? [...tok] : [tok];
         units.forEach((u) => {
           const span = document.createElement("span");
@@ -38,8 +42,9 @@ function splitReveal(el, mode, start, step) {
           span.textContent = u;
           span.style.animationDelay = `${t.toFixed(3)}s`;
           t += step;
-          frag.appendChild(span);
+          word.appendChild(span);
         });
+        if (word !== frag) frag.appendChild(word);
       });
       child.replaceWith(frag);
     });
