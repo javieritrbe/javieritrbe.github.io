@@ -124,8 +124,10 @@ body::before {
   to   { opacity: 1; transform: none; filter: blur(0); }
 }
 
+/* backwards fill only: a filter left applied after the entrance (even
+   blur(0)) makes Safari re-rasterize the whole phone on every hover */
 .phone-col {
-  animation: phone-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: phone-enter 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 /* ============ iPhone ============ */
@@ -136,9 +138,20 @@ body::before {
   width: min(368px, 86vw, calc((100vh - 90px) * 0.489));
   aspect-ratio: 900 / 1840; /* frame mockup proportions */
   transition: transform 0.5s var(--open-ease);
-  filter:
-    drop-shadow(0 30px 45px rgba(62, 50, 28, 0.32))
-    drop-shadow(0 8px 16px rgba(62, 50, 28, 0.2));
+}
+
+/* the phone's shadow is a plain box-shadow on a rounded body-shaped layer,
+   not a drop-shadow filter over the phone: Safari drops and redraws a
+   filter whenever anything inside it changes (hover sprites, the dim,
+   the app view), which made the shadow blink */
+.iphone::before {
+  content: "";
+  position: absolute;
+  inset: 1% 2% 1%;
+  border-radius: 17.5% / 8.6%;
+  box-shadow:
+    0 30px 45px rgba(62, 50, 28, 0.32),
+    0 8px 16px rgba(62, 50, 28, 0.2);
 }
 
 .iphone:hover { transform: scale(1.022); }
@@ -168,7 +181,7 @@ body::before {
   width: 89.3333%;
   height: 95%;
   overflow: hidden;
-  background: #8e9096;
+  background: #000; /* the home screen darkens into this as an app opens */
   isolation: isolate;
   /* rounded clip catches GPU-composited children (the opening app view),
      which can escape the image mask; curve mismatch hides under the bezel */
@@ -185,7 +198,6 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: 1;
-  transition: transform 0.34s var(--open-ease), opacity 0.3s ease, filter 0.34s ease;
 }
 
 .screenshot {
@@ -260,34 +272,60 @@ body::before {
   border-radius: 14px;
 }
 
-/* --- app open view --- */
+/* --- app open view ---
+   the launch is driven from JS (it needs the icon's position): the view's
+   clip is the app window, its body and icon ride one shared transform.
+   At rest this is simply the full-screen app */
 .appview {
   position: absolute;
   inset: 0;
   z-index: 4;
   cursor: pointer; /* signals that tapping anywhere dismisses the app */
   overflow: hidden;
-  transform: scale(0.15);
-  opacity: 0;
-  transition: transform 0.34s var(--open-ease), opacity 0.26s ease;
-  will-change: transform, opacity;
 }
 
-.appview.is-open { transform: scale(1); opacity: 1; }
+/* the app's first frame (poster) on its brand color, so the screen is
+   never empty while the recording loads */
+.appview-body,
+.appview-screen { position: absolute; inset: 0; }
 
-/* home screen recedes behind the opening app, iOS-style */
-.screen.app-is-open .homescreen {
-  transform: scale(0.92);
-  opacity: 0.4;
-  filter: blur(2px);
-}
-
-.appview-body { position: absolute; inset: 0; }
+.appview-body { will-change: transform; }
 
 .appview-body video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* the tapped icon's artwork, over the middle of the window, dissolving
+   into the app. It spans the app's full width, which the launch transform
+   shrinks to exactly icon size */
+.appview-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -50%; /* percentages of the width: centered vertically */
+  width: 100%;
+  aspect-ratio: 1;
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+  overflow: hidden; /* the sprite's label and margins stay outside */
+}
+
+/* sized and placed from JS so it lines up with the screenshot */
+.appview-icon img {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+/* rebuilt wallpaper over the open app's icon, so its slot reads empty */
+.slot-patch {
+  position: absolute;
+  pointer-events: none;
 }
 
 /* placeholder "app screen" until real recordings are added */
@@ -333,7 +371,7 @@ body::before {
 .ph-retro   { background: linear-gradient(160deg, #b49b5e, #6f5c33); }
 .ph-corner  { background: linear-gradient(160deg, #86b4e6, #4d78ab); }
 .ph-gold    { background: linear-gradient(160deg, #c3d13e, #79851a); }
-.ph-expense { background: linear-gradient(160deg, #7a5cd9, #43309a); }
+.ph-spendy  { background: linear-gradient(160deg, #f6f6f6, #e9e9e9); }
 .ph-camera  { background: linear-gradient(160deg, #97979e, #4d4d55); }
 
 /* ============ Text column ============ */
@@ -403,9 +441,22 @@ body.app-open .socials-home {
 
 .panel .rv { opacity: 0; }
 
+/* backwards fill: once a word lands it drops its filter and transform
+   instead of holding hundreds of blur(0) layers for the life of the page */
 .panel.is-active .rv {
-  animation: char-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  opacity: 1;
+  animation: char-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
+
+/* until app.js has split the copy into reveal units, keep it unpainted:
+   otherwise the plain text paints, vanishes, then cascades back in. If the
+   script never runs, the failsafe shows everything after a moment */
+html:not(.ready) :is(.panel > *, .socials, .strip-hint) {
+  visibility: hidden;
+  animation: ready-failsafe 0s 2s forwards;
+}
+
+@keyframes ready-failsafe { to { visibility: visible; } }
 
 .panel :is(h1, h2) {
   font-family: var(--sans);
@@ -802,7 +853,7 @@ body.revealing :is(.tlink, .quiet-link, .fact--peek):hover {
 /* the links arrive at the tail of the load cascade (delay set in JS).
    Animated individually: a filled filter animation on the container
    would hijack the back arrow's absolute positioning */
-.socials > a:not(.socials-home) {
+html.ready .socials > a:not(.socials-home) {
   animation: char-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: var(--socials-delay, 0s);
 }
