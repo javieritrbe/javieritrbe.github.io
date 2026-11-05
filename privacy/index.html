@@ -101,7 +101,7 @@
 
     <p class="eyebrow">Privacy Policy</p>
     <h1>Spendy</h1>
-    <p class="updated">Last updated: September 17, 2026</p>
+    <p class="updated">Last updated: November 5, 2026</p>
 
     <p>Spendy helps you understand spending, manage a budget and track savings. It is operated by an independent developer, who you can contact about privacy at <a href="mailto:javier.hick1@gmail.com">javier.hick1@gmail.com</a>.</p>
 
@@ -110,18 +110,27 @@
     <p>Spendy uses this information to show spending, calculate budgets and savings, identify recurring payments, and provide requested features. Spendy does not receive your bank login password directly; bank linking happens through Plaid and your financial institution.</p>
 
     <h2>Ask</h2>
-    <p>When you use Ask with AI data sharing enabled, your question, relevant conversation context, saved Ask memories and relevant financial information may be sent to Anthropic to generate an answer. You can disable AI data sharing in the app. Avoid including information you do not want processed in a question. AI answers can be inaccurate.</p>
+    <p>Ask is on by default and can be turned off in Settings. When you use Ask with AI data sharing enabled, your question, relevant conversation context, saved Ask memories and relevant financial information may be sent to Anthropic to generate an answer. You can disable AI data sharing in the app. Avoid including information you do not want processed in a question. AI answers can be inaccurate.</p>
     <p>Conversation history is stored on your device. Spendy also stores response jobs temporarily to support completing and reconnecting to answers, and stores Ask memories used for future replies. Completed, failed and discarded response jobs are removed after 24 hours by the service's cleanup process. Request-usage metrics are kept for up to 90 days to manage usage and costs; account deletion removes the account's metrics sooner. Anthropic's separate retention rules apply to requests already sent to it.</p>
+
+    <p>Some Ask requests also use Typesafe to decide whether Spendy can answer from its own reports. This can include recent conversation text, saved Ask facts, merchant and category names, and the date and time zone. Amounts, bank credentials and account details are not sent to Typesafe. Its own retention terms apply.</p>
 
     <h2>Service providers</h2>
     <p>Spendy uses Plaid for bank connections, Google Firebase for authentication, Railway for backend hosting, Anthropic for Ask, and Apple services for app features such as notifications and maps. These providers process information needed to perform their roles. They may also retain information under their own privacy policies or legal obligations. Spendy does not sell your financial data or use it for targeted advertising.</p>
 
+    <h2>Usage and subscription analytics</h2>
+    <p>When usage analytics are enabled, Spendy records app opens, onboarding steps, feature use, bank-connection outcomes, paywall views, subscription plan selections, and purchase or Restore results. Spendy's authenticated server sends these events to PostHog under a random account identifier. PostHog keeps a pseudonymous profile so the events can be grouped and deleted. Spendy does not attach a name, email or custom profile properties.</p>
+    <p>Usage analytics do not include bank names or account identifiers, transaction details, balances, income, personalized plan amounts, Ask messages, advertising identifiers or screen recordings. Events are sent through Spendy's server without forwarding your device's IP address or request headers. Spendy requests that PostHog skip GeoIP enrichment. The current project uses PostHog's US region; PostHog can keep ordinary server-request and security logs under its own terms.</p>
+    <p>The free PostHog plan has a one-year event history window. Expired events may remain until the provider's deletion process runs; this is not a promise of erasure on the exact anniversary. Account deletion starts a separate cleanup of the profile and events, as explained below. See <a href="https://posthog.com/docs/data/events-retention" rel="noopener">PostHog's event retention</a> and <a href="https://posthog.com/privacy" rel="noopener">privacy policy</a>.</p>
+    <p>If subscription analytics are enabled, Spendy forwards verified Apple-signed App Store subscription notifications to Superwall after verifying them and processing access. These can include Apple's purchase, renewal, expiry, cancellation and refund metadata. Bank data, personalized plan figures and Ask messages are not sent. The existing native paywall and Apple purchase flow remain in use. Apple and Superwall retain provider-managed subscription records under their own terms; app-account deletion does not promise immediate erasure of those records.</p>
+
     <h2>Disconnecting a bank</h2>
-    <p>Disconnecting a bank removes its transactions and account records from Spendy's active database and stops further imports. It also clears your Ask memories and server response history because those records may contain information from the disconnected bank. Bank-derived savings history and related derived records may also be removed. Manually entered information and app settings can remain until you remove them or delete your Spendy account.</p>
+    <p>Disconnecting a bank removes its transactions and account records from Spendy's active database and stops further imports. It clears Ask conversations on connected devices, server response jobs, Ask Undo records and the content of alerts not yet sent. Saved Ask facts, your category and budget rules, budget settings, recorded savings and confirmed income stay. Rules tied to a removed account stop applying; previously recorded savings are not recalculated. Your signed-in Spendy account remains until you delete it.</p>
     <p>Spendy requests revocation of the Plaid connection. If that request fails, Spendy keeps the encrypted connection credential and necessary identifiers while retrying or resolving the failure. Your disconnected bank's transaction history is not retained for this retry. You can also manage connections and request deletion directly through <a href="https://my.plaid.com/" rel="noopener">Plaid Portal</a>.</p>
 
     <h2>Deleting your account</h2>
     <p>You can request account deletion in the app. Spendy disables access and removes your active financial records, settings, savings entries, Ask memories and other account content. It requests deletion of your Firebase sign-in identity and revocation of connected banks, retrying provider failures.</p>
+    <p>When usage analytics are enabled, deletion also blocks new analytics requests and starts a separate PostHog cleanup. Erasure is asynchronous: a successful request means the provider has queued cleanup, not that every event has already been erased. Spendy retains protected enrollment and deletion references and retries or checks cleanup until the provider confirms. Turning collection off does not cancel outstanding cleanup. These minimal references have no fixed expiry and contain no financial records or Ask text.</p>
     <p>Spendy retains minimal protected deletion records, including pseudonymous identifiers and deletion instructions, to prevent late requests or restoration of an older backup from bringing deleted information back. These records currently have no fixed expiry and do not contain your transaction history or Ask answers.</p>
     <p>Connected devices clear affected cached data when they receive the deletion/reset state. An offline device cannot receive that instruction until it reconnects. Copies in device backups are subject to your device and backup settings.</p>
 
