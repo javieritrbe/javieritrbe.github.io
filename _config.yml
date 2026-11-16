@@ -1,0 +1,2 @@
+# GitHub Pages skips dot-folders; Spendy's app-link file lives in .well-known.
+include: [".well-known"]

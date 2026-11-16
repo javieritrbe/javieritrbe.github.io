@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["8GNZGW2NSL.com.javieriturbe.ExpenseTracker"],
+        "components": [{ "/": "/plaid-oauth-redirect/oauth.html", "comment": "Spendy: return from a bank sign-in" }]
+      }
+    ]
+  }
+}
