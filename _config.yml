@@ -1,2 +1,4 @@
 # GitHub Pages skips dot-folders; Spendy's app-link file lives in .well-known.
+# Load-bearing for Spendy's bank sign-in: keep .well-known/apple-app-site-association
+# and plaid-oauth-redirect/oauth.html served at javi.fyi with no redirects.
 include: [".well-known"]
