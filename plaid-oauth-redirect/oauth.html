@@ -14,13 +14,17 @@
     body { display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
     h1 { font-size: 22px; font-weight: 600; margin: 0 0 8px; }
-    p { font-size: 17px; color: var(--muted); margin: 0; }
+    p { font-size: 17px; color: var(--muted); margin: 0 0 28px; }
+    a.open { display: inline-block; padding: 15px 34px; border-radius: 999px; background: var(--text); color: var(--bg);
+      font-size: 17px; font-weight: 600; text-decoration: none; }
+    a.open:active { opacity: 0.85; transform: scale(0.96); }
   </style>
 </head>
 <body>
   <main>
     <h1>You're all set</h1>
-    <p>Head back to Spendy to finish</p>
+    <p>You can head back to Spendy now</p>
+    <a class="open" href="spendy://">Open Spendy</a>
   </main>
 </body>
 </html>
